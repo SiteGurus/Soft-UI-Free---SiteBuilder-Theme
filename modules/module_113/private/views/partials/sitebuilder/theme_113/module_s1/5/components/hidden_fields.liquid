@@ -4,5 +4,5 @@
 <input name="{{ form_builder.fields.properties.expiry_date.name }}" value="{{_expiry_date}}" type="hidden">
 <input name="{{ form_builder.fields.properties.release_date.name }}" value="{{_release_date}}" type="hidden">
 <input class="upload_dir" value="{{_upload_dir}}" type="hidden">
-<input name="{{ form_builder.fields.properties.slug.name }}" type="hidden">
+<input name="{{ form_builder.fields.properties.slug.name }}" type="hidden" value="{{ form_builder.fields.properties.slug.value}}">
 {% endraw %}
