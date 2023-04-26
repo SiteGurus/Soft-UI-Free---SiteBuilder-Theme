@@ -1,7 +1,8 @@
 {%- raw -%}<div class="col-12  mb-3 datasource">
   <div class="form-group">
     <label class="form-label" for="{{name}}">{{label}}</label>
-    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" id="{{name}}">
+    {% assign value = value | downcase %}
+   <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" id="{{name}}">
       <option value="">--Please Select--</option>
       {% for option in options -%}
         <option {% if value == option.id %} selected="true" {% endif %} value="{{option.id}}">{{option.properties.name}}</option>
