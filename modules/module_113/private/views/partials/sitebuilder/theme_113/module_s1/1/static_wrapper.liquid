@@ -152,6 +152,13 @@
     function sGFormSubmit(event) {
       sGCheckboxValidation(null, {form});
       form.classList.remove('was-validated');
+      if(typeof tinymce === 'object' && typeof window.sgRichTextConfig) {
+        window.sgRichTextConfig.forEach(
+          function(item) {
+            item.textarea.textContent = item.editor.getContent();
+          }
+        );
+      }
       s_form_submit_v2(event.currentTarget,form_html_id, sGFormCustomErrorBootsrap);
     }
     submitButton.addEventListener('click', sGFormSubmit);
