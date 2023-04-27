@@ -35,8 +35,16 @@
               return stylesheet.getAttribute('href')
             }),
             content_css_cors: true,
-            body_class: 'format dark dark:format-invert',
-            skin: document.querySelector('html').classList.contains('dark') === true ? "oxide-dark" : 'oxide'
+            skin: document.querySelector('html').classList.contains('dark') === true ? "oxide-dark" : 'oxide',
+            init_instance_callback: (editor) => {
+              if(!window.sgRichTextConfig) {
+                window.sgRichTextConfig = [];
+              }
+              window.sgRichTextConfig.push({
+                editor: editor,
+                textarea: textarea
+              })
+            }
 
           });
         }
