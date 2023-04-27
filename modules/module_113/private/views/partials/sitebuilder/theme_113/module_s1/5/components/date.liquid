@@ -1,6 +1,43 @@
-{%- raw -%}<div class="col-12  mb-3">
-  <label for="{{field_id}}_display">{{label}}</label>
-  <input {{attributes}} id="{{field_id}}" name="{{name}}" type="number" style="display:none" value="{{value}}">
-  <input id="{{field_id}}_display" class="form-control  {{validation}} {% if value != blank %} is-valid {% endif %}" {{validation}} type="datetime-local" onchange="document.querySelector('#{{field_id}}').value=new Date(this.value).getTime()/1000">
+{%- raw -%}
+{% if value == blank and field_id == "expiry_date" %}
+  {% comment %} Default for most dates is the beginning of unix epoch (stands in for "past"), but expiry should be end of unix epoch (stands in for "does not expire"). {% endcomment %}
+  {% assign value = 2147483647 %}
+{% endif %}
+<div class="col-12 mb-3">
+  <label for="{{field_id }}_display">{{label}}</label>
+  <div class="relative">
+    <input hidden {{attributes}} id="{{field_id }}" name="{{name}}" type="number"  value="{{value}}">
+    <input  max="2038-01-01T00:00" id="{{field_id }}_display" class="form-control  {{validation}} {% if value != blank %} is-valid {% endif %}" placeholder="Select date" {{validation}} type="datetime-local" onchange="document.querySelector('#{{field_id }}').value=new Date(this.value ).getTime()/1000" onclick="if ('showPicker' in HTMLInputElement.prototype) {this.showPicker()}">
+  </div>
 </div>
+
+<script>
+  (function(){
+    //This script converts the intial unix timestamp value of the field into the browser's local time, then sets the field's value.
+    {% if form_html_id %}
+      const form = document.querySelector('#{{form_html_id}}');
+      const dateElement = form.querySelector("#{{field_id}}_display");
+    {% else %}
+      const dateElement = document.querySelector("#{{field_id}}_display");
+    {% endif %}
+    function dateZeroPadding(val, plus = 0) {
+      var valInt = parseInt(val) + plus;
+      var valStr = (valInt+plus)+'';
+      if(valInt < 10) {
+        return "0"+valInt;
+      } else {
+        return valStr;
+      }
+    }
+    const observer = new MutationObserver(function(mutations) {
+      if (document.contains(dateElement)) {
+
+        const date = new Date({{value | times: 1000 }});
+        dateElement.value = `${date.getFullYear()}-${dateZeroPadding(date.getMonth(),1)}-${dateZeroPadding(date.getDate())}T${dateZeroPadding(date.getHours())}:${dateZeroPadding(date.getMinutes())}`
+        observer.disconnect();
+      }
+    });
+    observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+  })();
+</script>
 {%- endraw -%}

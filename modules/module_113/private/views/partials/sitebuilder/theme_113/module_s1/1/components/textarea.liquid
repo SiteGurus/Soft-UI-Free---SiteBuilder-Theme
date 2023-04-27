@@ -1,6 +1,54 @@
-{%- raw -%}<div class="col-12  mb-3">
-  <div class="form-group">
-    <label class="form-label" for="{{name}}">{{label}}</label>
-    <textarea {{attributes}} id="{{name}}" name="{{name}}" class="form-control {{validation}}" type="text" {{validation}}>{{value}}</textarea>
+{%- raw -%}
+{% if attributes contains 'data-sg-rich-text' %}
+  <div class="col-12 mb-3">
+    <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}</label>
+    <div class="form-control {{validation}}">
+      <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" class="" type="text" {{validation}}>{{value}}</textarea>
+    </div>
   </div>
-</div>{%- endraw -%}
+  {% if attributes contains 'data-sg-rich-text' %}
+    {% if context.exports.sitebuilder.rte == blank %}
+      <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+      {% assign rte = true %}
+      {% export rte, namespace: "sitebuilder" %}
+    {% endif %}
+    <script>
+      (function(){
+        if (
+          document.readyState === 'complete' 
+          || document.readyState === 'loaded' 
+          || document.readyState === 'interactive'
+        ) {
+          init();
+        } else {
+          //Set event listener or timeout.
+          document.addEventListener('DOMContentLoaded', init);
+        }
+        function init() {
+          const textarea = document.querySelector('#{{form_html_id}}_{{field_id}}');
+          tinymce.init({
+            target: textarea,
+            plugins: 'fullscreen table link advlist lists wordcount advtable casechange charmap emoticons anchor codesample code visualblocks image media',
+            toolbar: 'code visualblocks | undo redo | blocks bold italic underline strikethrough | numlist bullist checklist | table | link anchor | alignleft aligncenter alignright alignjustify | fullscreen | insertfile image media | outdent indent | removeformat | charmap emoticons |  codesample',
+            menubar: false,
+            content_css: Array.from(document.querySelectorAll('link[href*=".css"]')).map(function(stylesheet) {
+              return stylesheet.getAttribute('href')
+            }),
+            content_css_cors: true,
+            body_class: 'format dark dark:format-invert',
+            skin: document.querySelector('html').classList.contains('dark') === true ? "oxide-dark" : 'oxide'
+
+          });
+        }
+      })();
+    </script>
+  {% endif %}
+{% else %}
+  <div class="col-12  mb-3">
+    <div class="form-group">
+      <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}</label>
+      <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" class="form-control {{validation}}" type="text" {{validation}}>{{value}}</textarea>
+    </div>
+  </div>
+{% endif %}
+{%- endraw -%}
