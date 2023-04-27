@@ -6,6 +6,10 @@ If you'd like to build your own version of the module entirely, please create a 
 
 ## Changelog
 
+### 1.1.3
+
+- Improvements to forms, adding RTE support and fixes for date fields
+
 ### 1.1.0
 
 - Added support for Sliders Module (you will need to update to version 4.4.0 of SiteBuilder to use this.)
