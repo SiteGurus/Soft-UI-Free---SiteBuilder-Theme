@@ -6,6 +6,10 @@ If you'd like to build your own version of the module entirely, please create a 
 
 ## Changelog
 
+### 1.2.0
+
+- Improvements to forms, adding easier paramter for setting custom redirects.
+
 ### 1.1.3
 
 - Improvements to forms, adding RTE support and fixes for date fields
