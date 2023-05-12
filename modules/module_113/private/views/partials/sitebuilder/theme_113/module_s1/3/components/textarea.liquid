@@ -2,7 +2,7 @@
 {% if attributes contains 'data-sg-rich-text' %}
   <div class="col-12 mb-3">
     <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
-    <div class="form-control {{validation}}">
+    <div data-sg-rich-text-wrapper {{validation}} class="form-control {{validation}}">
       <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} class="" type="text" {{validation}}>{{value}}</textarea>
     </div>
   </div>
