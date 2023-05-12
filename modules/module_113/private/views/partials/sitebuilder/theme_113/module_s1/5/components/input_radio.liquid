@@ -3,8 +3,8 @@
   {% if options.size > 1 %}<legend class="col-form-label">{{label}}</legend>{% endif %}
   {% for option in options %}
     <div {{attributes}} class="form-check mb-6 align-items-center">
-      <input  {% if value == option %}checked{% endif %} class="form-check-input" type="radio" name="{{name}}" id="{{name}}_{{option}}" value="{{option}}">
-      <label class="form-check-label" for="{{name}}_{{option}}">{% if options.size > 1 %}{{option}}{% else %}{{label}}{% endif %}</label>
+      <input  {% if value == option %}checked{% endif %} class="form-check-input" type="radio" name="{{name}}" id="{{field_id}}_{{option}}" value="{{option}}">
+      <label class="form-check-label" for="{{field_id}}_{{option}}">{% if options.size > 1 %}{{option}}{% else %}{{label}}{% endif %}</label>
     </div>
   {% endfor %}
 </fieldset>
