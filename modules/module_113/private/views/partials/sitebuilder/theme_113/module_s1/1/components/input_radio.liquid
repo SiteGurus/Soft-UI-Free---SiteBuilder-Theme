@@ -1,6 +1,6 @@
 {%- raw -%}
 <fieldset class="col-12  mb-3 radio-container {{validation}}">
-  {% if options.size > 1 %}<legend class="col-form-label">{{label}}</legend>{% endif %}
+  {% if options.size > 1 %}<legend class="col-form-label">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</legend>{% endif %}
   {% for option in options %}
     <div {{attributes}} class="form-check mb-6 align-items-center">
       <input  {% if value == option %}checked{% endif %} class="form-check-input" type="radio" name="{{name}}" id="{{field_id}}_{{option}}" value="{{option}}">

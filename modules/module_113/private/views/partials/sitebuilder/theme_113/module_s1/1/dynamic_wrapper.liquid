@@ -31,6 +31,9 @@
 
 #{{form_html_id}}[data-s-form-progress='0'] .progress-bar{
 	width: 0%;
+  will-change: width;
+  transition: width 0.8s;
+  transition-timing-function: ease-out;
 }
 
 #{{form_html_id}}[data-s-form-progress='1'] .progress-bar{

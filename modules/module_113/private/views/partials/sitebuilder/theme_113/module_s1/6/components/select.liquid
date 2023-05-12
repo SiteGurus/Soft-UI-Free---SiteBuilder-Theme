@@ -1,6 +1,6 @@
 {%- raw -%}<div class="col-12  mb-3">
   <div class="form-group">
-    <label class="form-label" for="{{field_id}}">{{label}}</label>
+    <label class="form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
     <select {{attributes}} name="{{name}}" id="{{field_id}}" class="{{validation}} form-select py-4 px-5" {{validation}}>
       <option value="">--Please Select--</option>
       {% for option in options %}

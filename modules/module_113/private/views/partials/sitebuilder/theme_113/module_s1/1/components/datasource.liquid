@@ -1,6 +1,6 @@
 {%- raw -%}<div class="col-12  mb-3 datasource">
   <div class="form-group">
-    <label class="form-label" for="{{field_id}}">{{label}}</label>
+    <label class="form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
     {% assign value = value | downcase %}
    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" id="{{field_id}}">
       <option value="">--Please Select--</option>

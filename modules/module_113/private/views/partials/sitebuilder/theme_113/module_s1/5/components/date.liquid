@@ -4,7 +4,7 @@
   {% assign value = 2147483647 %}
 {% endif %}
 <div class="col-12 mb-3">
-  <label for="{{field_id }}_display">{{label}}</label>
+  <label for="{{field_id }}_display">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
   <div class="relative">
     <input hidden {{attributes}} id="{{field_id }}" name="{{name}}" type="number"  value="{{value}}">
     <input  max="2038-01-01T00:00" id="{{field_id }}_display" class="form-control  {{validation}} {% if value != blank %} is-valid {% endif %}" placeholder="Select date" {{validation}} type="datetime-local" onchange="document.querySelector('#{{field_id }}').value=new Date(this.value ).getTime()/1000" onclick="if ('showPicker' in HTMLInputElement.prototype) {this.showPicker()}">

@@ -1,7 +1,7 @@
 {%- raw -%}
 {% if attributes contains 'data-sg-rich-text' %}
   <div class="col-12 mb-3">
-    <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}</label>
+    <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
     <div class="form-control {{validation}}">
       <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" class="" type="text" {{validation}}>{{value}}</textarea>
     </div>
@@ -54,7 +54,7 @@
 {% else %}
   <div class="col-12  mb-3">
     <div class="form-group">
-      <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}</label>
+      <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
       <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" class="form-control {{validation}}" type="text" {{validation}}>{{value}}</textarea>
     </div>
   </div>
