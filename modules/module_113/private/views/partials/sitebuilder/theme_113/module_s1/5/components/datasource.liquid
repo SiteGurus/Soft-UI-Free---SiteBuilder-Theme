@@ -2,7 +2,7 @@
   <div class="form-group">
     <label class="form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
     {% assign value = value | downcase %}
-    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" id="{{field_id}}">
+    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}">
       <option value="">--Please Select--</option>
       {% for option in options -%}
         <option {% if value == option.id %} selected="true" {% endif %} value="{{option.id}}">{{option.properties.name}}</option>

@@ -3,7 +3,7 @@
   {% if options.size > 1 %}<legend class="col-form-label">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</legend>{% endif %}
   {% for option in options %}
     <div {{attributes}} class=" form-check form-switch mb-6 align-items-center">
-      <input {{validation}}  {% if value contains option %}checked{% endif %} class="form-check-input" type="checkbox" name="{{name}}" id="{{field_id}}_{{option}}" value="{{option}}">
+      <input {{validation}}  {% if value contains option %}checked{% endif %} class="form-check-input" type="checkbox" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}_{{option}}" value="{{option}}">
       <label class="form-check-label" for="{{field_id}}_{{option}}">{% if options.size > 1 %}{{option}}{% else %}{{label}}{% endif %}</label>
     </div>
   {% endfor %}

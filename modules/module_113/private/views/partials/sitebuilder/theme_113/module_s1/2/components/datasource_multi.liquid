@@ -1,7 +1,7 @@
 {%- raw -%}<div class="col-12   mb-3  datasource_multi">
   <div class="form-group">
     <label class="form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
-    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" id="{{field_id}}" multiple>
+    <select {{attributes}} {{validation}} class="form-control {{validation}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}" multiple>
       {% for option in options -%}
         <option {% if value contains option.id %} selected="true" {% endif %} value="{{option.id}}">{{option.properties.name}}</option>
       {% endfor -%}

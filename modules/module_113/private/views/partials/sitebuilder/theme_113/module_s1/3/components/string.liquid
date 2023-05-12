@@ -1,6 +1,6 @@
 {%- raw -%}<div class="col-12  mb-3">
   <div class="form-group">
     <label class="form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
-    <input {{attributes}} {{validation}} id="{{field_id}}" name="{{name}}" class="form-control {{validation}}" type="text" value="{{value}}">
+    <input {{attributes}} {{validation}} id="{{field_id}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} class="form-control {{validation}}" type="text" value="{{value}}">
   </div>
 </div>{%- endraw -%}

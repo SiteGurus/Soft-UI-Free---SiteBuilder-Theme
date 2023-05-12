@@ -1,7 +1,7 @@
 {%- raw -%}<div class="col-12  mb-3 file">
   <div class="form-group">
     <label for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
-    <input {{attributes}} class="form-control" name="{{name}}" id="{{field_id}}" type="hidden" value="{{value}}">
+    <input {{attributes}} class="form-control" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}" type="hidden" value="{{value}}">
     <input class="form-control {{validation}} {% if value != blank %} is-valid {% endif %}" {{validation}} id="{{field_id}}_file" type="file" />
     <img class="img-thumbnail mt-2 w-25 h-auto" {% if value != blank %}src="{{value | asset_url}}"{% endif %} data-file-preview="{{field_id}}_file">
   </div>
