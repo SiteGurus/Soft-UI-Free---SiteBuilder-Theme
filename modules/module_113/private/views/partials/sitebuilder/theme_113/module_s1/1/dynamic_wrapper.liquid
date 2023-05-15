@@ -131,9 +131,7 @@
 </section>
 <script>
   /* The following optional script allows support for Bootstrap validation. If removing it, make sure to return the normal Siteglide submit function to the button. We use a self-executing function here so that variables and functions within are scoped only to this form. This allows each form to have its own editable, self-contained validation function. */
-  console.log('before self-exe');
   (function () {
-    console.log('inside self-exe');
     //Make sure Sitegurus Form API is ready (used for checkboxes).
     if(typeof sGCheckboxValidation == "function") {
       initForm();
@@ -148,7 +146,6 @@
       var form_html_id = "{{form_html_id}}";
       var form = document.querySelector('#'+form_html_id);
       var submitButton = form.querySelector('button[type=submit]');
-      console.log('submitButton', submitButton)
       //Add BS support for checkboxes and radios to change events.
       var checksAndRadios = form.querySelectorAll('.required input[type=checkbox],.required input[type=radio]');
       checksAndRadios.forEach(
@@ -168,22 +165,21 @@
           error = s_error_formatter(error);
         }
         //If main error is for a field that is missing a required value, give a human-friendly name.
-          var fields_for_validation = form.querySelectorAll('[data-sg-validation-label]'), field_validation_map = {}, field_validation_ids = [], required_fields = form.querySelectorAll('[required]');
-          fields_for_validation.forEach(function(field) {
-            field_validation_ids.push(field.id);
-            field_validation_map[field.id] = field.dataset.sgValidationLabel;
-          });
-          if(field_validation_ids.includes(error)) {
-            //error = `Please enter a value for the required fields marked above.`
-            //Use the commented line below instead if you want to print the first field with an error.
-            error = `please enter a value for the following: ${field_validation_map[error]}.`;
-          } else if(error.includes('captcha')) {
-            error = `please confirm you are not a bot by completing the challenge.`;
-          }
-          //Display the errors
+        var fields_for_validation = form.querySelectorAll('[data-sg-validation-label]'), field_validation_map = {}, field_validation_ids = [], required_fields = form.querySelectorAll('[required]');
+        fields_for_validation.forEach(function(field) {
+          field_validation_ids.push(field.dataset.sgValidationId);
+          field_validation_map[field.dataset.sgValidationId] = field.dataset.sgValidationLabel;
+        });
+        if(field_validation_ids.includes(error)) {
+          error = `Please enter a value for the required fields marked above.`
+          //Use the commented line below instead if you want to print the first field with an error.
+          //error = `please enter a value for the following: ${field_validation_map[error]}.`;
+        } else if(error.includes('captcha')) {
+          error = `please confirm you are not a bot by completing the challenge.`;
+        }
+        //Display the errors
         var formErrorContainer = form.querySelector('.form-error');
         if(error && formErrorContainer) {
-          
           console.error(error);
           formErrorContainer.textContent = "Please check you have completed all the required fields. Error: "+error;
           formErrorContainer.style.display = "block";
@@ -209,17 +205,12 @@
               //Apply Bootstrap validation
               var wrapper = item.textarea.closest('[data-sg-rich-text-wrapper]');
               if(wrapper) {
-                
-                console.log(`item.textarea.classList.contains('required') && item.textarea.textContent.length <= 1`, item.textarea.classList.contains('required') && item.textarea.textContent.length <= 1, item.textarea.classList.contains('required'), item.textarea.textContent.length)
                 if(item.textarea.hasAttribute('required') && item.textarea.textContent.length <= 1) {
-                  console.log('true before', wrapper, wrapper.classList)
                   wrapper.classList.add('is-invalid');
                   wrapper.classList.remove('is-valid');
-                  console.log('after wrapper', wrapper, wrapper.classList);
                 } else {
                   wrapper.classList.remove('is-invalid');
                   wrapper.classList.add('is-valid');
-                  console.log('REMOVE after wrapper', wrapper);
                 }
               }
             }
