@@ -1,13 +1,17 @@
 {%- raw -%}
-{% if value == blank and field_id == "expiry_date" %}
+{% if value == blank %}
   {% comment %} Default for most dates is the beginning of unix epoch (stands in for "past"), but expiry should be end of unix epoch (stands in for "does not expire"). {% endcomment %}
-  {% assign value = 2147483647 %}
+  {% if field_id == "expiry_date" %}
+    {% assign value = 2147483647 %}
+  {% else %}
+    {% assign value = 0 %}
+  {% endif %}
 {% endif %}
 <div class="col-12 mb-3">
-  <label for="{{field_id }}_display">{{label}}</label>
+  <label for="{{field_id }}_display">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
   <div class="relative">
-    <input hidden {{attributes}} id="{{field_id }}" name="{{name}}" type="number"  value="{{value}}">
-    <input  max="2038-01-01T00:00" id="{{field_id }}_display" class="form-control  {{validation}} {% if value != blank %} is-valid {% endif %}" placeholder="Select date" {{validation}} type="datetime-local" onchange="document.querySelector('#{{field_id }}').value=new Date(this.value ).getTime()/1000" onclick="if ('showPicker' in HTMLInputElement.prototype) {this.showPicker()}">
+    <input hidden {{attributes}} id="{{field_id }}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} type="number"  value="{{value}}" {% if validation != blank and value == blank %}class="{{validation}}" {{validation}} {% endif %}>
+    <input  max="2038-01-01T00:00" min="1970-01-01-T00:00" id="{{field_id }}_display" class="form-control  {{validation}} {% if value != blank %} is-valid {% endif %}" placeholder="Select date" {{validation}} type="datetime-local" onchange="document.querySelector('#{{field_id }}').value=new Date(this.value ).getTime()/1000" onclick="if ('showPicker' in HTMLInputElement.prototype) {this.showPicker()}">
   </div>
 </div>
 
