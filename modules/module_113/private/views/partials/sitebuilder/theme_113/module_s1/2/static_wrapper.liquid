@@ -150,7 +150,7 @@
           field_validation_ids.push(field.dataset.sgValidationId);
           field_validation_map[field.dataset.sgValidationId] = field.dataset.sgValidationLabel;
         });
-        if(field_validation_ids.includes(error)) {
+        if(field_validation_ids.includes(error) || field_validation_ids.includes((error.replace(/\]\[\]/, '')))) {
           error = `Please enter a value for the required fields marked above.`
           //Use the commented line below instead if you want to print the first field with an error.
           //error = `please enter a value for the following: ${field_validation_map[error]}.`;
@@ -161,11 +161,11 @@
         var formErrorContainer = form.querySelector('.form-error');
         if(error && formErrorContainer) {
           console.error(error);
-          formErrorContainer.textContent = "Please check you have completed all the required fields. Error: "+error;
+          formErrorContainer.textContent = "Error: "+error;
           formErrorContainer.style.display = "block";
         }
         form.classList.add('was-validated');
-        var fieldError = form.querySelector('.form-control:invalid');
+        var fieldError = form.querySelector(':invalid');
         if(fieldError) {
           fieldError.scrollIntoView({
             block: "nearest"
