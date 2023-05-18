@@ -1,4 +1,6 @@
 {%- raw -%}
+{% function sitebuilder_settings = "modules/module_86/front_end/functions/v1/settings" %}
+
 {% if attributes contains 'data-sg-rich-text' %}
   <div class="col-12 mb-3">
     <label class="form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
