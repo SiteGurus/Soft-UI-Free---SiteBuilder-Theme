@@ -6,6 +6,9 @@ If you'd like to build your own version of the module entirely, please create a 
 
 ## Changelog
 
+### 1.4.0
+
+Added dynamic API key fetching for textarea layout components. Requires SiteBuilder 4.7.2
 ### 1.3.0
 
 - Improvements to forms
