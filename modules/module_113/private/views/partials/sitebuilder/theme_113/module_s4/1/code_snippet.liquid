@@ -1,0 +1,96 @@
+{% raw %}
+{% comment %} --- Settings ---{% endcomment %}
+{% comment %} ------Privacy Policy URL------- {% endcomment %}
+{% assign privacy_policy_url = "/privacy-policy" %}
+{% comment %} ------ URLs (comma-separated relative paths) where cookie popup should not display (most likely the cookie preferences page) analytics script will still run if cookies allow ------ {% endcomment %}
+{% assign urls_where_popup_supressed = "/cookie-policy,/privacy-policy" %}
+{% comment %} --- End Settings --- {% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+{% assign hide_popup = false %}
+{% assign urls_where_popup_supressed = urls_where_popup_supressed | split: "," %}
+{% if urls_where_popup_supressed contains context.location.pathname %}
+  {% assign hide_popup = true %}
+{% endif %}
+
+{%- if context.cookies.sg-cookie-policy-settings == blank and hide_popup == false -%}
+  {% if context.exports.sitebuilder.cookie_preferences_js == blank %}
+    <script async src="{{'modules/module_86/js/v1/sitegurus_cookie_settings.js' | asset_url }}"></script>
+    {% assign cookie_preferences_js = true %}
+    {% export cookie_preferences_js, namespace: sitebuilder %}
+  {% endif %}
+  
+  
+
+  <!-- Main modal -->
+  <div id="cookie_modal_{{sitebuilder_uniq_component_id}}" tabindex="-1" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h3 class="modal-title">
+            Cookie Preferences
+          </h3>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="lead">
+            We use cookies to personalize content and analyze traffic to our website. {% if context.exports.company_information.properties.google_analytics_id != blank %} You can choose to accept only cookies that are necessary for the website to function or to also allow tracking cookies.{% else %}We only use cookies which are necessary for the website to function.{% endif %} For more information, please see our <a href="{{privacy_policy_url}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">privacy policy</a>.
+          </p>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          {%- if context.exports.company_information.properties.google_analytics_id != blank %}
+            <button disabled data-sg-cookie="all" data-modal-custom-hide="cookie_modal_{{sitebuilder_uniq_component_id}}" type="button" class="btn btn-lg btn-primary" >Accept all</button>
+          {% endif %}
+          <button disabled data-sg-cookie="essential-only" data-modal-custom-hide="cookie_modal_{{sitebuilder_uniq_component_id}}" type="button" class="btn btn-lg btn-secondary">Accept essential cookies only</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      if (
+        document.readyState === 'complete' 
+        || document.readyState === 'loaded' 
+        || document.readyState === 'interactive'
+      ) {
+        init();
+      } else {
+        //Set event listener or timeout.
+        document.addEventListener('DOMContentLoaded', init);
+      }
+      function init() {
+        var modalTarget = document.querySelector('#cookie_modal_{{sitebuilder_uniq_component_id}}');
+        const modal = new bootstrap.Modal(modalTarget, {
+          backdrop: 'static',
+          keyboard: true,
+          focus: true
+        });
+        modal.show();
+        var closeBtns = modalTarget.querySelectorAll('[data-modal-custom-hide]');
+        closeBtns.forEach(function(i) {
+          i.addEventListener('click', function() {
+            modal.hide();
+          })
+        })
+      }
+    })();
+  </script>
+{% endif %}
+
+{% comment %} Output analytics script of choice if preference is set to all. {% endcomment %}
+{% if context.exports.company_information.properties.google_analytics_id != blank and context.exports.sitebuilder.cookie_preferences_js == 'all' %}
+  <!-- Google analytics - please update your id in company information -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{context.exports.company_information.properties.google_analytics_id}}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', '{{context.exports.company_information.properties.google_analytics_id}}');
+  </script>
+{% endif %}
+{% endraw %}

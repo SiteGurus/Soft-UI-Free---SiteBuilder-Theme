@@ -6,6 +6,10 @@ If you'd like to build your own version of the module entirely, please create a 
 
 ## Changelog
 
+### 1.5.0
+
+Support for cookie preferences layouts.
+
 ### 1.4.0
 
 Added dynamic API key fetching for textarea layout components. Requires SiteBuilder 4.7.2
