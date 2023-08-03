@@ -1,6 +1,6 @@
 {
-  "theme_113": {
-    "title": "Bootstrap 5 Design System",
+  "theme_133": {
+    "title": "Soft UI Free Design System",
     "enabled": true,
     "image": "https://ik.imagekit.io/siteglide/internal/tr:w-700,dpr-2/instances/200/assets/images/admin/module/951901/Bootstrap-open-source-theme.png?updated=1668175403835",
     "thumbnail_logo": "",
@@ -67,7 +67,7 @@
         "title": "Minified CSS",
         "installable_files": [
           {
-            "src": "main",
+            "src": "soft-design-system",
             "ext": ".min.css",
             "link_in_template": true
           },
@@ -75,9 +75,14 @@
             "src": "custom",
             "ext": ".css",
             "link_in_template": true
-          }
+          },
+          {
+            "src": "nucleo-icons",
+            "ext": ".css",
+            "link_in_template": true
+          },
         ],
-        "description": "Creates one minified file containing the framework's CSS code and provides a second unminified custom CSS file which you can use to make custom overrides."
+        "description": "Creates one minified file containing the framework's CSS code and provides a second unminified custom CSS file which you can use to make custom overrides. If you would like to fully customise and build the CSS yourself, we recommend heading to the soft UI docs to read the instructions there and download the src SCSS files. The only modification you'd need to make would be to edit the gulpfile.js line 11 from '  CSS: './assets/css/',' to '  CSS: './marketplace_builder/assets/css/','. Once you push the re-built CSS to this location, the Theme you've built here will use the new CSS."
       }
     }
   }
