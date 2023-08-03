@@ -19,50 +19,6 @@
     "compatible_themes": ["theme_02"],
     "theme_not_installable_alone": false,
     "css_preference_options": {
-      "scss": {
-        "title": "Sass",
-        "default_selected": true,
-        "installable_files": [
-          {
-            "src": "src/%5Fbootstrap%5Ffunctions",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Fbootstrap%5Fvariables",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Fcustom",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Fcustom-variables",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Flayouts",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/main",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Fvariables",
-            "ext": ".scss"
-          },
-          {
-            "src": "src/%5Fstudio",
-            "ext": ".scss"
-          },
-          {
-            "src": "dist/main",
-            "ext": ".min.css",
-            "link_in_template": true
-          }
-        ],
-        "description": "Creates Sass files on your site which you can use via Siteglide CLI."
-      },
       "min_css": {
         "title": "Minified CSS",
         "installable_files": [
@@ -80,7 +36,7 @@
             "src": "nucleo-icons",
             "ext": ".css",
             "link_in_template": true
-          },
+          }
         ],
         "description": "Creates one minified file containing the framework's CSS code and provides a second unminified custom CSS file which you can use to make custom overrides. If you would like to fully customise and build the CSS yourself, we recommend heading to the soft UI docs to read the instructions there and download the src SCSS files. The only modification you'd need to make would be to edit the gulpfile.js line 11 from '  CSS: './assets/css/',' to '  CSS: './marketplace_builder/assets/css/','. Once you push the re-built CSS to this location, the Theme you've built here will use the new CSS."
       }
