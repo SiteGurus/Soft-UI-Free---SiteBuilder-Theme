@@ -1,0 +1,40 @@
+{% raw %}
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------Logo URL------ {% endcomment %}
+{% assign logo_url = "/" %}
+{% comment %} ------But Now URL-------- {% endcomment %}
+{% assign buy_now_url = "/shop" %}
+{% comment %} ---End Settings--- {% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<!-- Navbar Dark -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3">
+  <div class="container">
+    <a class="navbar-brand text-white" href="{{logo_url}}" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
+      {{context.exports.company_information.properties.company_name | default: "Soft UI Design System" }}
+    </a>
+    <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 ms-auto d-lg-none d-block">Buy Now</a>
+    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon mt-2">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
+      <ul class="navbar-nav navbar-nav-hover mx-auto">
+        {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
+      </ul>
+
+      <ul class="navbar-nav d-lg-block d-none">
+        <li class="nav-item">
+          <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" role="button">Buy Now</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- End Navbar -->
+
+{% endraw %}
