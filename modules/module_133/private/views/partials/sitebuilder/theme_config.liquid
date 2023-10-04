@@ -39,7 +39,13 @@
           }
         ],
         "description": "--Getting Started-- Creates one minified file containing the framework's CSS code and provides a second unminified custom CSS file which you can use to make custom overrides. --Advanced-- If you would like to fully customise and build the CSS yourself, we recommend heading to https://www.creative-tim.com/learning-lab/bootstrap/build-tools/soft-ui-design-system for instructions and to download all src files. The main modification you'd need to make to Creative Tim's instructions would be to update the paths for 'CSS', 'SCSS_TOOLKIT_SOURCES' and 'CSS' in gulpfile.js to point within './marketplace_builder/assets'. You'll also need to add the scss files to the same location gulp is pointing at using Siteglide-CLI. Finally you may need to update the Page Template code to link to the new location of the .min.css file, if any."
-      }
+      },
+      "scss": {
+        "title": "Sass",
+        "default_selected": true,
+        "installable_files_github_dir_url": "https://github.com/creativetimofficial/soft-ui-design-system/tree/main/assets/scss",
+        "description": "Creates Sass files on your site which you can use via Siteglide CLI."
+      },
     }
   }
 }
