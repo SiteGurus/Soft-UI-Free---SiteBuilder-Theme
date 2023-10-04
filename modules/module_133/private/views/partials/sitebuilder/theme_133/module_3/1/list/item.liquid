@@ -1,0 +1,71 @@
+{% raw %}
+	{% assign style_index = forloop.index | modulo: 5 %}
+	{% case style_index %}
+	{% when 1 %}
+		<div class="col-lg-4 col-md-6">
+			<a href="{{this['full_slug']}}" class="card card-background align-items-start h-100">
+				<div class="full-background" style="background-image: url({{this.properties.module_field_3_7 | asset_url }})"></div>
+				<div class="card-body z-index-3">
+					
+				</div>
+				<div class="card-footer pb-3 pt-2 z-index-3">
+					<h4 class="text-white mb-1">{{this.properties.module_field_3_1}}</h4>
+					<p class="text-white text-xs font-weight-bolder text-uppercase opacity-7">{{this.properties.module_field_3_2}}</p>
+				</div>
+				<span class="mask bg-gradient-primary border-radius-xl z-index-2 opacity-6"></span>
+			</a>
+		</div>
+	{% when 2 %}
+		<div class="col-lg-4 col-md-6 d-flex flex-column">
+			<a href="{{this['full_slug']}}" class="card h-100 card-background align-items-start">
+				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
+				<div class="card-body z-index-3">
+					
+				</div>
+				<div class="card-footer pb-3 pt-2 z-index-3">
+					<h4 class="text-white mb-1">{{this.properties.module_field_3_1}}</h4>
+					<p class="text-white text-xs font-weight-bolder text-uppercase opacity-7">{{this.properties.module_field_3_2}}</p>
+				</div>
+				<span class="mask bg-gradient-info border-radius-xl z-index-2 opacity-6"></span>
+			</a>
+	{% when 3 %}
+			<a href="{{this['full_slug']}}" class="card h-100 card-background mt-4 align-items-start">
+				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
+				<div class="card-body z-index-3">
+					
+				</div>
+				<div class="card-footer pb-3 pt-2 z-index-3">
+					<h4 class="text-white mb-1">{{this.properties.module_field_3_1}}</h4>
+					<p class="text-white text-xs font-weight-bolder text-uppercase opacity-7">{{this.properties.module_field_3_2}}</p>
+				</div>
+				<span class="mask bg-gradient-primary border-radius-xl z-index-2 opacity-6"></span>
+			</a>
+		</div>
+	{% when 4 %}
+		<div class="col-lg-4 col-md-6 d-flex flex-column">
+			<a href="{{this['full_slug']}}" class="card card-background align-items-start">
+				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
+				<div class="card-body z-index-3">
+					
+				</div>
+				<div class="card-footer pb-3 pt-5 z-index-3">
+					<h4 class="text-white mb-1">{{this.properties.module_field_3_1}}</h4>
+					<p class="text-white text-xs font-weight-bolder text-uppercase opacity-7">{{this.properties.module_field_3_2}}</p>
+				</div>
+				<span class="mask bg-gradient-info border-radius-xl z-index-2 opacity-6"></span>
+			</a>
+	{% when 0 %}
+			<a href="{{this['full_slug']}}" class="card card-background mt-4 align-items-start">
+				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
+				<div class="card-body z-index-3">
+				
+				</div>
+				<div class="card-footer pb-3 pt-2 z-index-3">
+					<h4 class="text-white mb-1">{{this.properties.module_field_3_1}}</h4>
+					<p class="text-white text-xs font-weight-bolder text-uppercase opacity-7">{{this.properties.module_field_3_2}}</p>
+				</div>
+				<span class="mask bg-gradient-primary border-radius-xl z-index-2 opacity-6"></span>
+			</a>
+		</div>
+	{% endcase %}
+{% endraw %}

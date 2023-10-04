@@ -1,0 +1,7 @@
+{%- raw -%}<div {% if context.current_user.id != blank and hide_name_while_logged_in == 'true' %}style="visibility: hidden; height: 0;"{% endif %} class="col-12 col-md-6 mb-3">
+  <div class="form-group">
+    <label class="col-form-label" for="s_name">Name</label>
+    <input required type="text" id="s_name" class="form-control required" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} {% if context.exports.is_logged_in.data -%}readonly value="{{ session.current_user.name }}"{% endif %}>
+  </div>
+</div>
+{%- endraw -%}
