@@ -1,7 +1,55 @@
 {% raw %}
-<section class="sg-ecommerce sg-ecommerce-list-01 sg-bg-light">
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------Display Only Price Settings-------
+Siteglide's Products contain a Display Only Price which can be used flexibily. If your Products use the Display only Price to show original price before a global discount, you could set "show_display_price_crossed_out" to true. If your Display only price shows price before Sales Tax, you could set "show_display_price_as_price_before_tax" to true.{% endcomment %}
+{% assign show_display_price_crossed_out = false %}
+{% assign show_display_price_as_price_before_tax = false %}
+{% comment %} ------Product Category Parent------- 
+Add the ID of a category containing product categories e.g. "11", or leave as null. This helps show only relevant categories in the sidebar.
+{% endcomment %}
+{% assign product_category_parent = null %}
+{% comment %} ------Price Range------ {% endcomment %}
+{% assign min_price = null | default: 1 %}
+{% assign max_price = null | default: 300 %}
+{% comment %}------Set filter default values from URL------
+  Boolean, if true any sidebar filters will set their initial values from the URL on page load. Useful if returning to the list view from a filter in the detail page. Note we wouldn't normally recommend having more than one live update layout on the page with this setting set to true. If you are setting this value, you may remove the if statement, this is just to set a default.{% endcomment %}
+  {% if _use_adv_search == 'true' or _use_search == 'true' %}
+    {% assign filters_values_from_URL = true %}
+  {% endif %}
+{% comment %} ---End Settings--- {% endcomment %}
+{% if params.sitebuilder_uniq_component_id %}
+  {% assign sitebuilder_uniq_component_id = params.sitebuilder_uniq_component_id %}
+{% else %}
+  {% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+{% endif %}
+{% if context.exports.sitebuilder.live_update_JS_loaded == blank %}
+  <script async src="{{'modules/module_86/js/v1-3/sitegurus_live_update_javascript_api.min.js' | asset_url }}"></script>
+  {% assign live_update_JS_loaded = true %}
+  {% export live_update_JS_loaded, namespace: sitebuilder %}
+{% endif %}
+{% comment %} <script>
+	(function () {
+		if(window.sgLiveUpdateInitiated === true) {
+			myFunction();
+		} else {
+			document.addEventListener('live_update_script_ready', myFunction);
+		}
+		function myFunction() {
+			//Target an instance of SitegurusLiveUpdate and use a method.
+			const instance = sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'];
+			instance.setSortHTML({
+				unsorted: `<bold>Sort ASC</bold>`,
+				asc: `<bold>Sort DESC</bold>`,
+				desc: `<bold>Sort ASC</bold>`
+			})
+		}
+	})();
+</script> {% endcomment %}
+{% function public_key = "modules/module_86/front_end/functions/v1/live_update_params_encode", layout: layout, model: _model, model_type: 'ecommerce/products', collection: 'false', creator_id: nil %}
+
+<section class="" id="{{sitebuilder_uniq_component_id}}_products" data-sg-live-update-section="{{sitebuilder_uniq_component_id}}" data-sg-live-update-key="{{public_key}}" {% if filters_values_from_URL == true %}data-sg-live-update-modify-history-enabled="true" data-sg-live-update-modify-history-include-hidden-fields="false" {% endif %}>
 	<div class="container">
-		<div class="row">
+		<div class="row" data-sg-live-update-controls="sidebar">
 			<div class="col-12 col-lg-3">
 				<div class="card mb-4 mb-lg-3 border-0">
 					<div class="card-header bg-transparent">
@@ -23,19 +71,28 @@
 								{% if category[1].parent != products_category %}{% continue %}{% endif %}
 								{% assign category_id = category[1].id %}
 								<li class="mb-2">
-									<a href="{{category_map[category_id].full_slug}}" {% if category_map[category_id].full_slug == path_info %}class="active"{% endif %} title="">{{category_map[category_id].name}}</a>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="category" value="{{category_id}}" {% if params.category contains category_id %}checked{% endif %}>
+										<label class="custom-control-label" for="">{{category_map[category_id].name}}</label>
+									</div>
 									<ul class="list-unstyled mt-2 ms-3">
 									{% for category_child in context.exports.categories.data %}
 										{% if category_child[1].parent != category[0] %}{% continue %}{% endif %}
 										{% assign category_id = category_child[1].id %}
 										<li class="mb-2">
-											<a href="{{category_map[category_id].full_slug }}"{% if category_map[category_id].full_slug == path_info %}class="active"{% endif %} title="">{{category_map[category_id].name }}</a>
+											<div class="form-check">
+												<input type="checkbox" class="form-check-input" name="category" value="{{category_id}}" {% if params.category contains category_id %}checked{% endif %}>
+												<label class="custom-control-label" for="">{{category_map[category_id].name}}</label>
+											</div>
 											<ul class="list-unstyled mt-2 ms-3">
 												{% for category_grandchild in context.exports.categories.data %}
 													{% if category_grandchild[1].parent != category_child[0] %}{% continue %}{% endif %}
 													{% assign category_id = category_grandchild[1].id %}
 													<li class="mb-2">
-														<a href="{{category_map[category_id].full_slug }}" {% if category_map[category_id].full_slug == path_info %}class="active"{% endif %} title="">{{category_map[category_id].name }}</a>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" name="category" value="{{category_id}}" {% if params.category contains category_id %}checked{% endif %}>
+															<label class="custom-control-label" for="">{{category_map[category_id].name}}</label>
+														</div>
 													</li>
 												{% endfor %}
 											</ul>
@@ -44,7 +101,7 @@
 									</ul>
 								</li>
 							{% endfor %}
-							<a href="/product-wishlist" {% if '/product-wishlist' == path_info %}class="active"{% endif %} title="product-wishlist">My Wishlist</a>
+							{% comment %} <a href="/product-wishlist" {% if '/product-wishlist' == path_info %}class="active"{% endif %} title="product-wishlist">My Wishlist</a> {% endcomment %}
 						</ul>
 					</div>
 				</div>
@@ -53,12 +110,17 @@
 						<h5 class="h5 sg-h5 mb-0">Keyword Search</h5>
 					</div>
 					<div class="card-body">
-						<div class="input-group">
-							<input type="text" class="form-control sg-bg-light border-0" id="sg-product-search" placeholder="Product Name">
-							<div class="input-group-append ms-2">
-								<button class="input-group-text btn btn-outline-primary sg-btn sg-btn-outline-primary" onClick="productSearch()">Search</button>
+						<div class="form-group">
+							<div class="input-group mb-4">
+								<span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+								<input name="keyword" class="form-control" placeholder="Search" type="text">
 							</div>
 						</div>
+						{% comment %} <input type="text" class="form-control sg-bg-light border-0" id="sg-product-search" placeholder="Product Name">
+						<div class="input-group-append ms-2">
+							<button class="input-group-text btn btn-outline-primary sg-btn sg-btn-outline-primary" onClick="productSearch()">Search</button>
+						</div> {% endcomment %}
+						
 					</div>
 				</div>
 				<div class="card mb-5 mb-lg-0 border-0">
@@ -66,12 +128,17 @@
 						<h5 class="h5 sg-h5 mb-0">Price Options</h5>
 					</div>
 					<div class="card-body sg-price-control">
-						<h6 class="mb-2">Sort by Price</h6>
-						<select class="mb-4 sg-bg-light border-0" id="sg-sort-price" onChange="controlPrice('sort')">
-							<option value="none" {%- if context.params.sort_order == blank %}selected{%- endif -%}>Select an Option</option>
+						<label class="col-form-label">Sort by Price</label>
+						<button data-sg-live-update-sort-order="unsorted" data-sg-live-update-sort-type="properties.module_field_14/product/price/usd/1" type="button" class="ms-1">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1.5rem; height: 1.5rem;">
+								<path fill-rule="evenodd" d="M2.24 6.8a.75.75 0 001.06-.04l1.95-2.1v8.59a.75.75 0 001.5 0V4.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L2.2 5.74a.75.75 0 00.04 1.06zm8 6.4a.75.75 0 00-.04 1.06l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75a.75.75 0 00-1.5 0v8.59l-1.95-2.1a.75.75 0 00-1.06-.04z" clip-rule="evenodd" />
+							</svg>
+						</button>
+						{% comment %} <select class="mb-4 sg-bg-light border-0" name="sort_order" onChange="controlPrice('sort')">
+							<option value="" {%- if context.params.sort_order == blank %}selected{%- endif -%}>Select an Option</option>
 							<option value="asc" {%- if context.params.sort_order == 'asc' %}selected{%- endif -%}>Lowest to Highest</option>
 							<option value="desc" {%- if context.params.sort_order == 'desc' %}selected{%- endif -%}>Highest to Lowest</option>
-						</select>
+						</select> {% endcomment %}
 						<h6 class="mb-2">Filter by Price</h6>
 						{%- function
 							currency_object = "modules/siteglide_ecommerce/ecommerce/functions/currency_object"
@@ -90,18 +157,47 @@
 				</div>
 			</div>
 			<div class="col-12 col-lg-9">
-				<div class="row row-cols-1 row-cols-md-3">
+				<div class="row mb-n3" data-sg-live-update-component="main_results">
 					{%- include 'modules/siteglide_ecommerce/ecommerce/get/get_products', item_layout: 'item' -%}
 				</div>
-				{%- if _show_pagination == 'false' and pagination_layout != blank and pagination_layout != "default" -%}
-					{%- include 'modules/siteglide_system/get/get_pagination', pagination_layout: _pagination_layout -%}
-				{%- endif -%}
+				<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center p-4" aria-label="Blog pagination">
+          {% comment %} For screenreaders, this section will announce when filters change the number of results. {% endcomment %}
+          <div class="py-5" aria-live="polite">
+            <div data-sg-live-update-component="total_results">
+              {% capture exports_key %}module_3{% endcapture %}
+              {% assign per_page = per_page | default: context.params.per_page | default: 20 %}
+              {% assign total_entries = context.exports[exports_key].data.result.total_entries %}
+              {% assign total_pages = total_entries | plus: 0.0 | divided_by: per_page | ceil %}
+              {% assign current_page = context.params.page | default: 1 %}
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                Showing Page
+                <span class="font-semibold text-gray-900 dark:text-white">{{current_page}}</span>
+                of
+                <span class="font-semibold text-gray-900 dark:text-white">{{total_pages}}</span>
+              </span>
+            </div>
+          </div>
+          <form class="d-flex flex-wrap align-items-center py-5" data-sg-live-update-controls="per_page">
+            <label for="rows" class="col-form-label">
+              Rows per page
+            </label>
+            <select name="per_page" id="rows" class="form-control">
+              <option selected value="{{per_page}}">{{per_page}}</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </form>
+          <div class="-my-8">
+            {% include "modules/module_86/front_end/includes/v1/pagination", live_updates: 'true', lock_per_page: 'false' %}
+          </div>
+        </div>
 			</div>
 		</div>
 	</div>
 </section>
 {%- parse_json currency_object -%}{{context.session.currency_object}}{%- endparse_json -%}
-<script>
+{% comment %} <script>
 	function controlPrice(type) {
 		var location_pathname = location.pathname;
 		if(type == 'filter'){
@@ -122,12 +218,7 @@
 		}
 		window.location.assign(ref);
 	}
-	function productSearch() {
-		event.preventDefault();
-		var keyword = document.getElementById("sg-product-search").value;
-		var url_string = window.location.pathname+"?keyword="+keyword;
-		location.assign(url_string);
-	}
-</script> 
+	
+</script>  {% endcomment %}
 </div>
 {% endraw %}
