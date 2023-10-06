@@ -1,26 +1,44 @@
 {% raw %}
-<div class="col d-flex text-center" data-product-group>
-	<div class="card mb-5">
-		<div class="card-img mb-2">
-			<a href="/{{this['module_slug']}}/{{this['slug']}}" title="{{this.name}}">
-				<img class="w-100 rounded" src="{{this['Image'] | asset_url}}" alt="{{this.name}}">
+<div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3" data-product-group>
+	{% comment %} New {% endcomment %}
+	<div class="card ">
+		<div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+			<a href="{{this['full_slug']}}" class="d-block">
+				<img class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
 			</a>
 		</div>
-		<div class="card-body p-0 px-3">
-			<h4 class="card-title mb-2">
-				<a href="{{ this['full_slug'] }}" title="{{this.name}} details">{{this.name}}</a>
-			</h4>
-			<p class="card-text mb-2">Ut lobortis facilisi eget ac egestas. Donec massa.</p>
-			<h6 class="card-text mb-3">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</h6>
-		</div>
-		<div class="card-footer p-0 border-0 bg-transparent px-3 pb-3">
-			<p class="card-text">
-				{% include 'ecommerce/cart_add', component_layout: 'sg-product-add-02' -%}
-				<i class="fas fa-tags"></i>
-				{% for category in this.category_array %}
-					<a class="px-2 py-1 me-2 mb-2" href="{{context.exports.categories.items[category].full_slug}}" title="{{context.exports.categories.items[category].name}}">{{context.exports.categories.items[category].name}}</a>{% if forloop.last == false %}<p>, </p>{% endif %}
-				{% endfor %}
+
+		<div class="card-body pt-2">
+			{% for category in this.category_array %}
+				<a class="" href="{{context.exports.categories.items[category].full_slug}}" title="{{context.exports.categories.items[category].name}}"> <span class="badge bg-gradient-primary">{{context.exports.categories.items[category].name}}</span></a>
+			{% endfor %}
+			
+			<a href="{{this['full_slug']}}" class="card-title h5 d-block text-darker">
+				{{this.properties.name}}
+			</a>
+			<p class="card-description mb-4">
+				{{this.properties['module_field_14/product_1'] | truncate: 100 }}
 			</p>
+			<div class="d-flex align-items-center">
+				<div class="px-md-3">
+					<h6 class="card-text mb-3">
+						<span class="me-2" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</span>
+						{% assign price_display_int = this.price.price_display | plus: 0 %}
+						{% assign price_charge_int = this.price.price_charge | plus: 0 %}
+						{% if show_display_price_crossed_out == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 %}
+							<span class="small text-secondary text-decoration-line-through" style="font-size: 16px;">{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
+						{% elsif show_display_price_as_price_before_tax == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 and show_display_price_crossed_out == false %}
+							<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }} Before Tax)</span>
+						{% elsif this.price.price_charge_before_tax != blank and show_display_price_crossed_out == false %}
+							<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_charge_before_tax | divided_by: 100.0 | format_number: precision: 2}} Before Tax)</span>
+						{% endif %}
+					</h6>
+					<div class="row">
+					  {% include 'ecommerce/cart_add', component_layout: layout -%}
+					</div>
+				</div>
+				{% comment %} {% include 'user_favourites_toggle', layout: layout -%} {% endcomment %}
+			</div>
 		</div>
 	</div>
 </div>
