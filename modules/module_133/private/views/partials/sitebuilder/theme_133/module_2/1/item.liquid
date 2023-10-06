@@ -1,9 +1,8 @@
 {% raw %}
 {%- if this['is_parent'] -%}
   <li class="nav-item dropdown dropdown-hover mx-2">
-    <a class="nav-link dropdown-toggle ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="#" id="navbarDropdown_{{level}}_{{sitebuilder_uniq_component_id}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="nav-link text-white dropdown-toggle ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="#" id="navbarDropdown_{{level}}_{{sitebuilder_uniq_component_id}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{this['link_name']}}
-      <img src="https://demos.creative-tim.com/soft-ui-design-system/assets/img/down-arrow-white.svg" alt="down-arrow" class="arrow ms-1">
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown_{{level}}_{{sitebuilder_uniq_component_id}}">
 			{%- assign _next_level = _level | plus: 1 -%}
@@ -12,7 +11,7 @@
   </li>
 {%- else -%}
   <li class="{% if level > 1 %}dropdown-item{% else %}nav-item mx-2{% endif %}">
-    <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{{this['link_url']}}" title="{{this['link_name']}}"><span>{{this['link_name']}}</span></a>
+    <a class="nav-link {% unless level > 1 %}text-white{% endunless %} ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{{this['link_url']}}" title="{{this['link_name']}}"><span>{{this['link_name']}}</span></a>
   </li>
 {%- endif -%}
 {% endraw %}
