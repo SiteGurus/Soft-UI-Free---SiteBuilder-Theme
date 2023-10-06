@@ -1,0 +1,19 @@
+{% raw %}
+<div class="container py-6">
+  <div class="row mt-5 text-center">
+    <div class="col-12">
+      <div class="avatar-group">
+        {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- initialization script for tooltips -->
+<script>
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
+{% endraw %}
