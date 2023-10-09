@@ -26,7 +26,6 @@
       <ul class="navbar-nav navbar-nav-hover mx-auto">
         {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
       </ul>
-
       <ul class="navbar-nav d-lg-block d-none">
         <li class="nav-item">
           <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" role="button">Buy Now</a>
@@ -36,5 +35,16 @@
   </div>
 </nav>
 <!-- End Navbar -->
-
+<style>
+  /* Fix font-awesome bug */
+  .dropdown-menu.show::before {
+    content: '' !important;
+  }
+  /* Fix dropdown menu colors */
+  @media only screen and (min-width: 992px) {
+    .text-lg-dark {
+      color: var(--bs-dark) !important;
+    }
+  }
+</style>
 {% endraw %}
