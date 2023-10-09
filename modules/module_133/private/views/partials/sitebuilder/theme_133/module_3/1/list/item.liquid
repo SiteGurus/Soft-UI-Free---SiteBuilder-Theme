@@ -2,8 +2,8 @@
 	{% assign style_index = forloop.index | modulo: 5 %}
 	{% case style_index %}
 	{% when 1 %}
-		<div class="col-lg-4 col-md-6">
-			<a href="{{this['full_slug']}}" class="card card-background align-items-start h-100">
+		<div class="col-lg-4 col-md-6 mb-4">
+			<a style="href="{{this['full_slug']}}" class="card card-background align-items-start h-100">
 				<div class="full-background" style="background-image: url({{this.properties.module_field_3_7 | asset_url }})"></div>
 				<div class="card-body z-index-3">
 					
@@ -16,7 +16,7 @@
 			</a>
 		</div>
 	{% when 2 %}
-		<div class="col-lg-4 col-md-6 d-flex flex-column">
+		<div class="col-lg-4 col-md-6 d-flex flex-column mb-4">
 			<a href="{{this['full_slug']}}" class="card h-100 card-background align-items-start">
 				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
 				<div class="card-body z-index-3">
@@ -42,7 +42,7 @@
 			</a>
 		</div>
 	{% when 4 %}
-		<div class="col-lg-4 col-md-6 d-flex flex-column">
+		<div class="col-lg-4 col-md-6 d-flex flex-column mb-4">
 			<a href="{{this['full_slug']}}" class="card card-background align-items-start">
 				<div class="full-background" style="background-image: url('{{this.properties.module_field_3_7 | asset_url }}')"></div>
 				<div class="card-body z-index-3">
