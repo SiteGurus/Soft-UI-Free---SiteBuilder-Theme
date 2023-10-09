@@ -8,6 +8,6 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
-0.1.0 - Released 9th October
+0.1.3 - Released 9th October
 
 - Initial Beta Release
