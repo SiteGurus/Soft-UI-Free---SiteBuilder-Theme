@@ -76,7 +76,6 @@
           <div class="card-body">
             {% include "modules/module_86/form_layout_fields", collection: 'true', disable_fields: "Name" %}
             <h2 class="mb-5">{{context.exports.module_86.form_properties.form_name.value}}</h2>
-            <h3 class="h4 mb-3">My Details</h3>
             <div class="row">
               {{context.exports.module_86.form_fields | html_safe: raw_text: true }}
               {{context.exports.module_86.form_hidden | html_safe: raw_text: true }}
