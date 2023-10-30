@@ -1,0 +1,50 @@
+{% raw %}
+<div class="col-lg-4 col-sm-6 mb-4">
+  <div class="card card-body">
+    <div class="row">
+      <div class="col-lg-7">
+        <h5 class="mb-2">{{this['name']}}</h5>
+        {% if field_map['Job Title'] != blank %}
+          <span class="badge badge-sm rounded-pill mb-3 text-dark">{{field_map['Job Title']}}</span>
+        {% endif %}
+        <br/>
+        {% if field_map['Facebook URL'] != blank %}
+          <a href="{{field_map['Facebook URL']}}" class="btn btn-facebook btn-simple px-2 mb-0" title="Link to {{this['name']}}'s Facebook account">
+            <i class="fab fa-facebook-f text-lg"></i>
+            <span class="sr-only">{{this['name']}}'s Facebook account</span>
+          </a>
+        {% endif %}
+        {% if field_map['Twitter URL'] != blank %}
+          <a href="{{field_map['Twitter URL']}}" class="btn btn-twitter btn-simple px-2 mb-0" title="Link to {{this['name']}}'s Twitter account">
+            <i class="fab fa-twitter text-lg"></i>
+            <span class="sr-only">{{this['name']}}'s Twitter account</span>
+          </a>
+        {% endif %}
+        {% if field_map['Dribbble URL'] != blank %}
+          <a href="{{field_map['Dribbble URL']}}" class="btn btn-dribbble btn-simple px-2 mb-0" title="Link to {{this['name']}}'s Dribbble account">
+            <i class="fab fa-dribbble text-lg"></i>
+            <span class="sr-only">{{this['name']}}'s Dribbble account</span>
+          </a>
+        {% endif %}
+        {% if field_map['Slack URL'] != blank %}
+          <a href="{{field_map['Slack URL']}}" class="btn btn-slack btn-simple px-2 mb-0" title="Link to {{this['name']}}'s Slack account">
+            <i class="fab fa-slack text-lg"></i>
+            <span class="sr-only">{{this['name']}}'s Slack account</span>
+          </a>
+        {% endif %}
+        {% if field_map['Github URL'] != blank %}
+          <a href="{{field_map['Github URL']}}" class="btn btn-github btn-simple px-2 mb-0" title="Link to {{this['name']}}'s Github account">
+            <i class="fab fa-github text-lg"></i>
+            <span class="sr-only">{{this['name']}}'s Github account</span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="col-lg-5 text-end my-auto">
+        {% if field_map['Image'] != blank %}
+          <img class="avatar avatar-xxl" src="{{field_map['Image'] | asset_url}}">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endraw %}
