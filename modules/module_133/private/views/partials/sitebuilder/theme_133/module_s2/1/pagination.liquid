@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row justify-space-between py-2">
         <div class="col-lg-4 mx-auto">
-          <ul class="pagination pagination-primary m-4">
+          <ul class="pagination pagination-primary mt-4">
             {% assign root_url = root_url | default: context.headers.PATH_INFO %}
             {% if context.device.device_type == "desktop" %}
               {% assign show = 6 %}
