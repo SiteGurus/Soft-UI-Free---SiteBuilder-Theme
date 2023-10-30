@@ -6,11 +6,11 @@
   {% assign next_page = true %}
 {% endif %}
 {%- if total_pages != 1 -%}
-  <section class="py-7">
+  <section class="py-3">
     <div class="container">
       <div class="row justify-space-between py-2">
         <div class="col-lg-4 mx-auto">
-          <ul class="pagination pagination-primary m-4">
+          <ul class="pagination pagination-primary justify-content-center m-4">
             {% assign root_url = root_url | default: context.headers.PATH_INFO %}
             {% if context.device.device_type == "desktop" %}
               {% assign show = 6 %}
