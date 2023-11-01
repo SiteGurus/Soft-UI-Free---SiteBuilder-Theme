@@ -1,4 +1,4 @@
-{%- raw -%}<fieldset class="col-12 col-md-6 mb-3">
+{%- raw -%}<fieldset class="col-12 mb-3">
   <legend class="col-form-label">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</legend>
   <div {{attributes}} class="boolean {{validation}} form-check form-switch mb-3 align-items-center">
     <input {{attributes}} {% if value == true or value == "true" %}checked{% endif %} class="form-check-input {{validation}}" type="checkbox" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}_true" value="true">

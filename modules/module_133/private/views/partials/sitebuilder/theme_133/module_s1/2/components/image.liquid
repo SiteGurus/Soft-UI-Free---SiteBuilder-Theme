@@ -1,4 +1,4 @@
-{%- raw -%}<div class="col-12 col-md-6 mb-3 file">
+{%- raw -%}<div class="col-12 mb-3 file">
   <div class="form-group">
     <label class="col-form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
     <input {{attributes}} class="form-control {% if value == blank and validation == 'required' %}{{validation}}{% endif %}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}" type="hidden" value="{{value}}">

@@ -7,7 +7,7 @@
     {% assign value = 0 %}
   {% endif %}
 {% endif %}
-<div class="col-12 col-md-6 mb-3">
+<div class="col-12 mb-3">
   <label class="col-form-label" for="{{field_id }}_display">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
   <div class="relative">
     <input hidden {{attributes}} id="{{field_id }}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} type="number"  value="{{value}}" {% if validation != blank and value == blank %}class="{{validation}}" {{validation}} {% endif %}>

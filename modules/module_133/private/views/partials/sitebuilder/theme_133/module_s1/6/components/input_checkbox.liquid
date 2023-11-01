@@ -1,5 +1,5 @@
 {%- raw -%}
-<fieldset {{attributes}} class="checkbox-container {{validation}} col-12 col-md-6 mb-3">
+<fieldset {{attributes}} class="checkbox-container {{validation}} col-12 mb-3">
   {% if options.size > 1 %}<legend class="col-form-label">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</legend>{% endif %}
   {% for option in options %}
     <div {{attributes}} class=" form-check form-switch mb-3 align-items-center">
