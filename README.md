@@ -8,6 +8,15 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.2.3 - Released 1st November
+
+- Small improvements to form layouts
+
+0.2.0 - Released 31st October
+
+- Large number of new static layouts added
+- 3 new webapp layouts added
+
 0.1.3 - Released 9th October
 
 - Initial Beta Release
