@@ -1,17 +1,19 @@
 {% raw %}
-<div class="col-md-2 col-6 mb-md-0 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
-  {%- if this['is_parent'] -%}
+{%- if this['is_parent'] -%}
+  <div class="col-md-2 col-6 mb-md-0 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
     <h6 class="text-sm">{{this['link_name']}}</h6>
     <ul class="flex-column ms-n3 nav">
       {%- assign _next_level = _level | plus: 1 -%}
       {%- include 'modules/siteglide_menu/get/get_items', level: _next_level, parent_id: this['forced_id'], item_layout: 'item' -%}
     </ul>
-  {% elsif this['level'] == 1 %}
+  </div>
+{% elsif this['level'] == 1 %}
+  <div class="col-md-2 col-6 mb-md-0 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
     <h6 class="text-sm">{{this['link_name']}}</h6>
-  {% else %}
-    <li class="nav-item">
-      <a class="nav-link text-secondary" href="{{this['link_url']}}">{{this['link_name']}}</a>
-    </li>
-  {% endif %}
-</div>
+  </div>
+{% else %}
+  <li class="nav-item">
+    <a class="nav-link text-secondary" href="{{this['link_url']}}">{{this['link_name']}}</a>
+  </li>
+{% endif %}
 {% endraw %}
