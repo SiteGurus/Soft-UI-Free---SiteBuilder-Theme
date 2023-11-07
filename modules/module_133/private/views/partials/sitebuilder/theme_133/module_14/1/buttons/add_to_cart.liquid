@@ -1,13 +1,6 @@
 {% raw %}
-<div class="col-12">
-	<button class="w-100 btn bg-gradient-success px-4 py-2 me-2 mb-4" onclick="s_e_cart_add('{{this.id}}')">Add to cart</button>
-</div>
-<div class="col-12">
-	<button class="w-100 btn bg-gradient-primary px-4 py-2 mb-4" onclick="s_e_cart_add('{{this.id}}',product_buy_now)">Buy now</button>
-</div>
-<script>
-	function product_buy_now() {
-		window.location.href = "{{cart_url}}";
-	}
-</script>
+<button class="w-100 btn bg-gradient-success px-4 py-2 mb-2" onclick="s_e_cart_add('{{this.id}}')">Add to cart</button>
+<button class="w-100 btn bg-gradient-primary px-4 py-2 mb-0" onclick="s_e_cart_add('{{this.id}}', function() {
+	window.location.href = '{{cart_url | html_safe}}';
+})">Buy now</button>
 {% endraw %}

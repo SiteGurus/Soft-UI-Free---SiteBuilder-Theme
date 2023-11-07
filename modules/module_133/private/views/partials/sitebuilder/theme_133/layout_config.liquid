@@ -434,7 +434,7 @@
     },
     "5": {
       "name": "Default Module create form",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696416173/modules/module_133/layouts/forms/Screenshot_2023-10-04_at_11-37-13_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1698857790/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-55-40_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
       "dest": "layouts/modules",
       "sub_module": 5,
       "files": [
@@ -536,7 +536,7 @@
     },
     "6": {
       "name": "Default Module update form",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696416173/modules/module_133/layouts/forms/Screenshot_2023-10-04_at_11-37-13_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1698857903/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-58-04_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
       "dest": "layouts/modules",
       "sub_module": 6,
       "tags": [
@@ -683,10 +683,24 @@
         }
       ],
       "type": "default"
+    },
+    "2": {
+      "name": "Pagination Simple Compatible with Live-Updating Layouts",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696598830/modules/module_133/layouts/pagination/Screenshot_2023-10-06_at_14.07.00.png",
+      "dest": "layouts/pagination",
+      "files": [
+        {
+          "src": "pagination",
+          "dest": "layouts/pagination",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "live_updates": true
     }
   },
   "module_14": {
-    {% comment %} "1": {
+    "1": {
       "name": "Default Product List",
       "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1668071762/modules/module_86/libraries/studio/ecommerce/Screenshot_2022-11-10_at_09-15-13_https___september-sitebuilder-development-site.staging.oregon.platform-os.com.png",
       "dest": "layouts/modules/module_14/product",
@@ -712,7 +726,34 @@
       ],
       "type": "list",
       "sub_module": 1
-    } {% endcomment %}
+    },
+    "2": {
+      "name": "Default Product Detail",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1668071762/modules/module_86/libraries/studio/ecommerce/Screenshot_2022-11-10_at_09-15-13_https___september-sitebuilder-development-site.staging.oregon.platform-os.com.png",
+      "dest": "layouts/modules/module_14/product",
+      "files": [
+        {
+          "src": "detail/wrapper",
+          "dest": "layouts/modules/module_14/product"
+        },
+        {
+          "src": "detail/item",
+          "dest": "layouts/modules/module_14/product"
+        },
+        {
+          "src": "buttons/add_to_cart",
+          "dest": "layouts/modules/module_14/components/add_to_cart_button",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "favourites/toggle",
+          "dest": "layouts/modules/module_5/user_favourites_toggle",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "detail",
+      "sub_module": 1
+    }
   },
   "module_s4": {
 
