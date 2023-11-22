@@ -1,18 +1,17 @@
 {% raw %}
-<div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3" data-product-group>
+{% comment %} Note the view will load initially visually hidden so that search engines can access without JS then on first live update will apply initial filters and re-render contents visible.  {% endcomment %}
+<div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3 {% if params.public_key == blank %}visually-hidden{% endif %}" data-product-group>
 	{% comment %} New {% endcomment %}
 	<div class="card" >
 		<a href="{{this['full_slug']}}" class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-			<img class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
+			<img loading="lazy" class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
 			<div class="d-flex flex-wrap flex-row-reverse align-items-end pb-1 position-absolute bottom-0 end-0 px-1">
 				{% for category in this.category_array %}
 					<div class="badge bg-dark mr-2 m-1">{{context.exports.categories.items[category].name}}</div>
 				{% endfor %}
 			</div>
 		</a>
-
-		<div class="card-body p-3">
-			
+		<div class="card-body p-3 d-flex flex-column justify-content-end">
 			<a href="{{this['full_slug']}}">
 				<h3 href="{{this['full_slug']}}" class="card-title h5 d-block text-darker">
 					{{this.properties.name}}

@@ -152,14 +152,9 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 						<div class="form-group">
 							<div class="input-group mb-4">
 								<span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-								<input name="keyword" class="form-control" placeholder="Search" type="text">
+								<input name="keyword" class="form-control" placeholder="Search" type="search" value="{{params.keyword}}">
 							</div>
 						</div>
-						{% comment %} <input type="text" class="form-control sg-bg-light border-0" id="sg-product-search" placeholder="Product Name">
-						<div class="input-group-append ms-2">
-							<button class="input-group-text btn btn-outline-primary sg-btn sg-btn-outline-primary" onClick="productSearch()">Search</button>
-						</div> {% endcomment %}
-						
 					</div>
 				</div>
 				<div class="card mb-5 mb-lg-0 border-0">
@@ -195,21 +190,17 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 							<select class="form-control mb-2" name="range_gte">
 								<option value="" {%- if params.range_gte == blank %}selected{%- endif -%}>Any</option>
 								{% for index in (1..price_options_number) %}
-									{% assign value = price_options_increment | times: index | plus: price_options_floor %}
-									<option value="{{value}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == '{{value}}' -%}selected{%- endif -%}>{{currency_object.symbol}}{{value | divided_by: 100.0 | format_number: precision: 2}}</option>
+									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor %}
+									<option value="{{optionValue}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == optionValue -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
 								{% endfor %}
-								{% comment %} <option value="500" {%- if params.range_field contains 'module_field_14' and params.range_gte == '500' -%}selected{%- endif -%}>{{currency_object.symbol}}5.00</option>
-								<option value="10000" {%- if params.range_field contains 'module_field_14' and params.range_gte == '1000' -%}selected{%- endif -%}>{{currency_object.symbol}}10.00</option>
-								<option value="1500" {%- if params.range_field contains 'module_field_14' and params.range_gte == '1500' -%}selected{%- endif -%}>{{currency_object.symbol}}15.00</option>
-								<option value="2000" {%- if params.range_field contains 'module_field_14' and params.range_gte == '2000' -%}selected{%- endif -%}>{{currency_object.symbol}}20.00</option> {% endcomment %}
 							</select>
 						
 							<label for="range_lte">Highest Price</label>
 							<select class="form-control" name="range_lte" id="range_lte">
 								<option value="" {%- if params.range_lte == blank %}selected{%- endif -%}>Any</option>
 								{% for index in (1..price_options_number) %}
-									{% assign value = price_options_increment | times: index | plus: price_options_floor | plus: price_options_increment %}
-									<option value="{{value}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == '{{value}}' -%}selected{%- endif -%}>{{currency_object.symbol}}{{value | divided_by: 100.0 | format_number: precision: 2}}</option>
+									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor | plus: price_options_increment %}
+									<option value="{{optionValue}}" {%- if params.range_field contains 'module_field_14' and params.range_lte == optionValue -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
 								{% endfor %}
 							</select>
 							

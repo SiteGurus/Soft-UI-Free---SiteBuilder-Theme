@@ -3,9 +3,10 @@
 {% comment %} ------ Cart URL ------ {% endcomment %}
 {% assign cart_url = '/cart' %}
 {% comment %} ---End Settings--- {% endcomment %}
-<section data-product-group class="sg-ecommerce sg-ecommerce-detail-01">
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+<section data-product-group class="py-5">
 	<div class="container">
-		<div class="row">
+		<div class="row d-flex flex-wrap">
 			{%- include 'modules/siteglide_ecommerce/ecommerce/get/get_products', item_layout: 'item' -%}
 		</div>
 	</div>

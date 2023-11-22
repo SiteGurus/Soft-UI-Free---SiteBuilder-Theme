@@ -1,7 +1,7 @@
 {% raw %}
 <div class="form-group text-center text-md-start">
-	<label for="sg-ecommerce-cart-01-shipping-options" class="mb-3">Shipping Options</label>
-	<select onchange="s_e_cart_shipping(this);" name="sg-ecommerce-cart-01-shipping-options" id="sg-ecommerce-cart-01-shipping-options" class="form-select mb-5 mb-lg-0 border-0 sg-bg-light">
+	<label for="{{sitebuilder_uniq_component_id}}-shipping-options" class="mb-3">Shipping Options</label>
+	<select onchange="s_e_cart_shipping(this);" name="{{sitebuilder_uniq_component_id}}-shipping-options" id="{{sitebuilder_uniq_component_id}}-shipping-options" class="form-control">
 		<option selected value="">--Please select--</option>
 		{%- for this in shipping_options -%}
 			{% assign currency = this.price.properties["module_field_14/price_2"] %}

@@ -1,56 +1,62 @@
 {% raw %}
-<div class="col-12 col-md-6">
-	<img src="{{this['Image'] | asset_url}}" alt="{{this.name}}" class="mb-5 mb-md-0 w-100 rounded">
-</div>
-<div class="col-12 col-md-5 offset-md-1">
-	<h1 class="h2 sg-h2 mb-4">{{this['name']}}</h1>
-	<p class="h3 sg-h3 mb-3" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}"></p>
-	<form class="mb-3">
-		<div class="form-group mb-1 mb-md-3">
-			<div class="row">
-				{% for attribute in this.product_attributes %}
-					{% if attribute.properties.enabled == true %}
-						{% include 'ecommerce/product_attributes', name: attribute.properties.name, layout: layout -%}
-					{% endif %}
+<div class="col-12 col-md-7 order-2 order-md-1">
+	<div class="row">
+		
+		<div class="col-12 mb-3">
+			<img data-sg-main-image data-sg-attr-image="" src="{{this['Image'] | asset_url}}" alt="{{this.name}}" class=" w-100 rounded mb-4">
+		</div>
+		<div class="col-12" style="columns: 2; column-gap: 1.5rem;">
+			{% for attribute in this.product_attributes %}
+				{% for option in attribute.product_attribute_options %}
+					<img data-sg-attr-image="{{option.id}}" src="{{option.image | asset_url}}" alt="{{this.name}}" class="mb-2 mb-4 w-100 rounded d-block">
 				{% endfor %}
-				<div class="col-12 col-md-6">
-					<label for="quantity">Quantity</label>
-					<input type="number" min="1" value="1" data-quantity-control id="quantity" class="form-control sg-bg-light border-0">
-				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="col-12 col-md-4 offset-md-1 order-1 order-md-2 mb-4">
+	<h1 class="h2 mb-3">{{this['name']}}</h1>
+	<p class="h4 mb-3" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}"></p>
+	<form class="">
+		<div class="row">
+			{% for attribute in this.product_attributes %}
+				{% if attribute.properties.enabled == true %}
+					{% include 'ecommerce/product_attributes', name: attribute.properties.name, layout: layout -%}
+				{% endif %}
+			{% endfor %}
+			<div class="col-12 mb-3">
+				<label for="quantity">Quantity</label>
+				<input type="number" min="1" value="1" data-quantity-control id="quantity" class="form-control">
+			</div>
+			<div class="col-12">
+				{% if this['Volume Pricing Enabled'] %}
+					<div class="mb-3">
+						{% for volume_price in this['Volume Pricing'] %}
+							<p>Buy {{volume_price[0]}} for {{this.price.currency_symbol}}{{volume_price[0] | times: volume_price[1] | divided_by: 100.0 | format_number: precision: 2 }} ({{this.price.currency_symbol}}{{volume_price[1] | divided_by: 100.0 | format_number: precision: 2}} per item)
+							</p>
+						{% endfor %}
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</form>
-	{% if this.category_array %}
-		{% for category in this.category_array %}
-			<p class="mb-5">
-				<a href="{{context.exports.categories.items[category].full_slug}}" class="btn btn-primary sg-btn sg-btn-primary px-4 py-2"><i class="fas fa-tags me-2"></i>{{context.exports.categories.items[category].name}}</a>
-			</p>
-		{% endfor %}
-	{% endif %}
-	{% if this['Volume Pricing Enabled'] %}
-		<h3 class="mb-3">Volume Pricing</h3>
-		<div class="mb-4">
-			{% for volume_price in this['Volume Pricing'] %}
-				<p>Buy {{volume_price.first}} for {{this.price.currency_symbol}}{% include 'modules/siteglide_ecommerce/ecommerce/price_formatter', price_data: volume_price.last %} per item
-				</p>
-			{% endfor %}
-		</div>
-	{% endif %}
-	{% if this['Description'] %}
-		<h3 class="mb-3">Product Description</h3>
-		<div class="mb-4">{{this['Description']}}</div>
-	{% endif %}
-	{% comment %} Toggle wishlist {% endcomment %}
 	<div class="mb-3">
-		
-		{% include 'user_favourites_toggle', layout: layout -%}
+		{% comment %} Add to Cart button {% endcomment %}
+		{% include 'ecommerce/cart_add', component_layout: layout -%}
 	</div>
-	{% comment %} Add to Cart button {% endcomment %}
-	{% include 'ecommerce/cart_add', component_layout: layout -%}
-	
-</div>
+	{% if this['Description'] %}
+		<div class="mb-3">{{this['Description']}}</div>
+	{% endif %}
+	<div class="mb-n1 me-n1">
+		{% if this.category_array %}
+			{% for category in this.category_array %}
+				<a href="{{context.exports.categories.items[category].full_slug}}" class="btn btn-primary btn-sm mb-2 mr-2"><i class="fas fa-tags me-2"></i>{{context.exports.categories.items[category].name}}</a>
+			{% endfor %}
+		{% endif %}
+	</div>
 </div>
 <script>
 	document.addEventListener("DOMContentLoaded", s_e_update_price());
 </script>
+
 {% endraw %}

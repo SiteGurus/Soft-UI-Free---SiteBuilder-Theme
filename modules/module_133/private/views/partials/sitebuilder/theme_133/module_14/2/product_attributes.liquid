@@ -1,10 +1,25 @@
 {% raw %}
-<div class="col-12 col-md-6">
+<div class="col-12">
   <label for="{{this_attribute.properties.name | slugify}}">{{name}}</label>
-  <select name="{{this_attribute.properties.name | slugify}}" id="{{this_attribute.properties.name | slugify}}" class="form-select sg-bg-light border-0" data-attribute-control="{{product_attribute_id}}" onchange="s_e_update_price()">
+  <select name="{{this_attribute.properties.name | slugify}}" id="{{this_attribute.properties.name | slugify}}" class="form-control" data-attribute-control="{{product_attribute_id}}" onchange="
+    const imageEl = document.querySelector(`[data-sg-attr-image=&quot;${this.value}&quot;]`) || Array.from(document.querySelectorAll(`[data-sg-attr-image]`)).find(
+      function(i) {
+        return i.dataset.sgAttrImage == ''
+      }
+    );
+    const topImageEl = document.querySelector('[data-sg-main-image]');
+    const topImageId = topImageEl.dataset.sgAttrImage;
+    const topImageSrc = topImageEl.getAttribute('src');
+    const thisSrc = imageEl.getAttribute('src');
+    imageEl.setAttribute('src', topImageSrc);
+    imageEl.setAttribute('data-sg-attr-image', topImageId);
+    topImageEl.setAttribute('src', thisSrc);
+    topImageEl.setAttribute('data-sg-attr-image', this.value);
+    s_e_update_price();
+  ">
     <option selected>No Attribute</option>
     {% for option in product_attribute_options -%}
-      <option value="{{option.id}}" data-attribute-price-control="{{option.price_raw}}">{{option.name}} {{this.price.currency_symbol}}{{option.price}}</option>
+      <option value="{{option.id}}" data-attribute-price-control="{{option.price_raw}}">{{option.name}}{% if option.price != "0.00" %}{% if this.product_attributes.size > 1 %} + {{this.price.currency_symbol}}{{option.price | format_number: precision: 2}}{% else %} {{this.price.currency_symbol}}{{this.price.price_charge | divided_by: 100.0 | plus: option.price | format_number: precision: 2}}{% endif %} {% endif %}</option>
     {% endfor -%}
   </select>
 </div>

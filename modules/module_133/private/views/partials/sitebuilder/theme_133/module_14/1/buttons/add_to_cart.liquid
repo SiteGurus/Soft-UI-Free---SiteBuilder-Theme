@@ -1,6 +1,37 @@
 {% raw %}
-<button class="w-100 btn bg-gradient-success px-4 py-2 mb-2" onclick="s_e_cart_add('{{this.id}}')">Add to cart</button>
+<button class="w-100 btn bg-gradient-success px-4 py-2 mb-2" onclick="s_e_cart_add('{{this.id}}', function() {
+	if(typeof window.swal === 'function') {
+		success();
+	} else {
+		const script = document.querySelector('#sweetalert_script');
+		script.addEventListener('load', success);
+	}
+	function success() {
+		swal.fire({
+			position: 'bottom-end',
+			icon: 'success',
+			title: 'Product added to cart!',
+			showConfirmButton: false,
+			timer: 1500,
+			toast: true,
+			width: '24em',
+			padding: '1.5rem',
+			custom_class: {
+				title: 'h6'
+			}
+		});
+	}
+});">Add to cart</button>
 <button class="w-100 btn bg-gradient-primary px-4 py-2 mb-0" onclick="s_e_cart_add('{{this.id}}', function() {
 	window.location.href = '{{cart_url | html_safe}}';
 })">Buy now</button>
+{% if context.exports.sitebuilder.sweetalert == blank %}
+	<script id="sweetalert_script" async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	{% assign sweetalert = true %}
+	{% export sweetalert, namespace: "sitebuilder" %}
+{% endif %}
+<style>
+	.swal2-icon {
+	}
+</style>
 {% endraw %}
