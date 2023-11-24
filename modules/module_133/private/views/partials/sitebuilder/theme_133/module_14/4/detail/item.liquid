@@ -1,115 +1,248 @@
-{%- raw -%}
-<section class="py-5 bg-light">
+{% raw %}
+
+{% assign form_config_id = context.session.form_fc | split: "_" | last %}
+{% function table_config = "modules/module_86/front_end/functions/v1/get_table_config", model_type: 'form', id: form_config_id %}
+
+{% comment %} context.session.form_id: {{context.session.form_id}}
+context.session.form_fc: {{context.session.form_fc}} {% endcomment %}
+<section class="position-relative">
+  <div style="z-index: -1;" class="d-none d-lg-block position-absolute top-0 end-0 h-100 bg-secondary w-25" aria-role="presentation">
+    {% comment %} Purpose is to fill in bg-colour behind RHS of container only. {% endcomment %}
+  </div>
   <div class="container">
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-5">
-      <h2 class="mb-1 me-1">Your Order Confirmation</h2>
-      <div class="mb-1">
-        <button type="button" class="btn mt-6 mt-md-0 justify-content-center align-items-center border" onclick="window.print();">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1rem; hieght: 1rem;">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-          </svg>
-          <span class="ms-4">Print Invoice</span>
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 card p-3 bg-white">
-        <table  class="w-100 mb-5 table-bordered border-gray">
-          <caption class="w-100 bg-dark text-light caption-top p-2">Order Summary</caption>
-          <thead>
-            <tr>
-              <th class="p-2">Order ID</th>
-              <th class="p-2">Date</th>
-              <th class="p-2">Customer Email</th>
-              <th class="p-2">Status</th>
-              <th class="p-2">Shipping To</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="p-2">{{ this.id }}</td>
-              <td class="p-2">{{this.create_date | date: "%b %d %Y"}}</td>
-              <td class="p-2">{{this.properties['module_field_14/order_2']}}</td>
-              <td class="p-2">{{this.Status}}</td>
-              <td class="p-2">{{this['Shipping Address'] | replace: ", ,", "," | replace: ",", ",<br>"}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <table class="w-100 mb-5 table-bordered border-gray">
-          <caption class="w-100 bg-dark text-light caption-top p-2">Products Ordered</caption>
-          <thead>
-            <tr>
-              <th class="p-2">SKU</th>
-              <th class="p-2">Product</th>
-              <th class="p-2">Quantity</th>
-              <th class="p-2">Attributes</th>
-              <th class="p-2">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for product in this.order_products -%}
-              <tr>
-                <td class="p-2">{{product.properties['module_field_14/product_4']}}</td>
-                <td class="p-2">{{product['product_name']}}</td>
-                <td class="p-2">{{product.quantity}}</td>
-                <td class="p-2">
-                  {% for attribute in product.order_product_attributes -%}
-                    {% if attribute.product_attribute_name != blank -%}
-                      {{ attribute.product_attribute_name }}: {{ attribute.product_attribute_option_name }}
-                    {% endif -%}
-                  {% endfor -%}
-                </td>
-                <td class="p-2">{{product.currency_symbol}}{{product.price}}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-          <tbody>
-            <tr class="bg-dark text-light">
-              <td class="p-2" colspan="4">Subtotal (excl. tax)</td>
-              <td class="p-2">{{this['Currency Symbol']}}{{this['Price - Cart Item Total Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</td>
-            </tr>
-            <tr class="bg-dark text-light">
-              <td class="p-2" colspan="4">Shipping</td>
-              <td class="p-2">{{this['Currency Symbol']}}{{this['Shipping Method Price - Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</td>
-            </tr>
-            <tr class="bg-dark text-light">
-              <td class="p-2" colspan="4">Tax</td>
-              <td class="p-2">{{this['Currency Symbol']}}{{this['Price - Cart Total Tax Amount'] | divided_by: 100.0 | format_number: precision: 2}}</td>
-            </tr>
-            {% if this['Discount Code - Total Saving'] %}
-            <tr class="bg-dark text-light">
-              <td class="p-2" colspan="4">Discount</td>
-              <td class="p-2"><span class="fw-bold text-danger">-{{this['Currency Symbol']}}{{this['Discount Code - Total Saving'] | divided_by: 100.0 | format_number: precision: 2}}</span></td>
-            </tr>
-            {% endif %}
-            <tr class="bg-dark text-light">
-              <td class="p-2" colspan="4">Order Total</td>
-              <td class="p-2">{{this['Currency Symbol']}}{{this['Total Price'] | divided_by: 100.0 | format_number: precision: 2}}</td>
-            </tr>
-          </tbody>
-        </table>
-        {% if this['Shipping Method Name'] != blank %}
-          <div class="col-12 col-md-4 mb-6 mb-lg-0">
-            <p class="mb-6 fw-bold">Shipping</p>
-            <p class="mb-0 text-secondary">{{this['Shipping Method Name']}}</p>
-            {% if shipping_updates_contact != blank %}
-              <p class="mb-0 text-secondary">For updates, contact: {{shipping_updates_contact}}</p>
-            {% endif %}
+    <div class="row g-0">
+      <div class="col-lg-7">
+        <div class="pt-5 pb-0 pb-lg-5 pe-lg-5">
+          <div class="d-flex justify-content-between mb-3 mb-lg-5">
+            <h1 class="h2 flex-shrink-1">Your Order Confirmation</h1>
+            <button type="button" class=" ms-2 d-none d-lg-block btn justify-content-center align-items-center border px-4 py-2" onclick="window.print();">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1rem; hieght: 1rem;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+              </svg>
+              <span class="ms-4">Print Invoice</span>
+            </button>
           </div>
-        {% endif %}
-        <div class="d-flex justify-content-end align-items-center flex-wrap">
-          {% if context.current_user.id != blank %}
-            <div class="mx-1">
-              <button type="button" onclick="s_e_reorder({ order_id: '{{this.id}}', token: '{{context.authenticity_token}}', cart_url: '{{cart_url}}'})" class="btn btn-primary">
-                Re-Order
-              </button>
+          <div class="card border p-5 mb-3 mb-lg-5">
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0">
+                <tbody>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Reference</th>
+                    <td>#{{ this.id }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                    <td>{{this.release_date | date: "%b %d %Y"}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer Email</th>
+                    <td>{{this.properties['module_field_14/order_2']}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Status</th>
+                    <td>{{this.Status}}</td>
+                  </tr>
+                  {% if this['Shipping Address'] != blank %}
+                  {% comment %} Note- if you used custom fields for address, these should output automatically in the loop below instead. {% endcomment %}
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Address</th>
+                    <td>{{this['Shipping Address'] | replace: ", ,", "," | replace: ",", ",<br>"}}</td>
+                  </tr>
+                  {% endif %}
+                  {% for property in table_config.custom_fields %}
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{property[1].name}}</th>
+                      <td>
+
+                        {% assign value = form.properties[property[0]] %}
+                        {% case property[1].type %}
+                        {% when "image" %}
+                          
+                          <img style="object-fit: cover; height: 3rem;" class="rounded" src="{{value | asset_url }}">
+                          
+                        {% when "file" %}
+                          <a class="" target="_blank" href="{{value | asset_url}}" title="Download File {{value | asset_url}}">Download File</a> 
+                        {% when "image_array" %}
+                          <div style="object-fit: cover; height: 3rem;" class="d-flex flex-wrap mb-n2 me-n2">
+                            {% for item in value %}
+                              <span class="me-2 mb-2"><img class="rounded" src="{{item | asset_url }}"> </span>
+                            {% endfor %}
+                          </div>
+                        {% when "array_custom" or "input_checkbox" or "select_multi" or "array" or "datasource_multi" %}
+                          <div class="d-flex flex-wrap -mb-2">
+                            {% for item in value %}
+                              <span class="badge badge-info mb-2 me-2"> {{item}}</span>
+                            {% endfor %}
+                          </div>
+                        {% when "date" %}
+                          {% assign day = value | date: "%e" %}
+                          {% assign daySuffix1st = day | matches: "\d?1\z" %}
+                          {% assign daySuffix2nd = day | matches: "\d?2\z" %}
+                          {% assign daySuffix3rd = day | matches: "\d?3\z" %}
+                          {{day}}{% if daySuffix1st %}st{% elsif daySuffix2nd %}nd{% elsif daySuffix3rd %}rd{% else %}th{% endif %} {{value | date: "%b %Y"}}
+                        {% when "boolean" %}
+                          {% if value == true %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-success-400">
+                              <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                            </svg>
+
+                          {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-danger-400">
+                              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                            </svg>
+                          {% endif %}
+                        {% when "textarea" %}
+                          <div class="">
+                            {{value  | truncatewords: 20 | sanitize  }}
+                          </div>
+                        {% when "datasource" or "datasource_multi" %}
+                          {% comment %} Note- this is an experimental feature, use with caution. You may find it has an adverse effect on performance if used on long lists using datasources. {% endcomment %}
+                          {% if field_metadata.type == "datasource" %}
+                            {% assign ids = value | split: "," %}
+                          {% else %}
+                            {% assign ids = value %}
+                          {% endif %}
+                          {% graphql g, table: field_metadata.datasource_id, ids: ids %}
+                            query g($table: String!) {
+                              records(
+                                per_page: 2000,
+                                filter: {
+                                  table: {
+                                    value: $table
+                                  }
+                                }
+                              ) {
+                                results {
+                                  name: property(name: "name")
+                                }
+                              }
+                            }
+                          {% endgraphql %}
+                          <div class="d-flex flex-wrap mb-n2 me-n2">
+                            {% for item in g.records.results %}
+                              <span class="badge badge-info mb-2 me-2">{{item.name}}</span>
+                            {% endfor %}
+                          </div>
+                        {% else %}
+                          {{value}}
+                        {% endcase %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-          {% endif %}
-          <div class="mx-1"><a class="btn w-100 btn-outline-primary" href="{{shop_home_url}}">Back to Orders</a></div>
-          <div class="mx-1"><a class="btn w-100 btn-outline-primary" href="{{shop_home_url}}">Back to Shopping</a></div>
+          </div>
+          <div class="d-flex justify-content-start align-items-center flex-wrap">
+            {% if context.current_user.id != blank %}
+              <div class="mx-1">
+                <button type="button" onclick="s_e_reorder({ order_id: '{{this.id}}', token: '{{context.authenticity_token}}', cart_url: '{{cart_url}}'})" class="btn btn-secondary  px-4 py-2 mb-3">
+                  Re-Order
+                </button>
+              </div>
+            {% endif %}
+            <div class="mx-1"><a class="btn btn-secondary  px-4 py-2 mb-3" href="{{orders_url}}">Back to Orders</a></div>
+            <div class="mx-1"><a class="btn btn-primary  px-4 py-2 mb-3" href="{{shop_home_url}}">Back to Shopping</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 {% if context.device.device_type == 'desktop' %}bg-secondary text-white{% endif %}">
+        {% comment %} style="max-width: min-content;" {% endcomment %}
+        <div class="w-100">
+          <div class="py-5 ps-lg-5">
+            <h2 class="h4 me-2 mb-3 mb-lg-5 text-white">Order Summary</h2>
+            <div class="card mb-3 mb-md-5">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  {% comment %} <caption class="w-100 bg-dark text-light caption-top p-2">Products Ordered</caption> {% endcomment %}
+                  <thead>
+                    <tr>
+                      {% comment %} <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SKU</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Attributes</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th> {% endcomment %}
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
+                      <th class="d-none d-xl-table-cell text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Quantity</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% assign ordered_products_snapshots = this['Ordered Products'] | parse_json | parse_json %}
+                    
+                    {% for prod in ordered_products_snapshots -%}
+                      {% assign product_snapshot = prod[1] %}
+                      {% assign product_current_details = this.order_products | detect: id: product_snapshot.product_id %}
+                      {% assign attr_current_details = '' | split: ',' %}
+                      {% for attr in product_snapshot.attributes %}
+                        {% assign option_id = attr[1].option_id %}
+                        {% assign option_current_details = product_current_details.product_attribute_options[option_id] %}
+                        {% assign attr_current_details = attr_current_details | array_add: option_current_details %}
+                      {% endfor %}
+                      {% assign product_snapshot_price = product_snapshot.price_charge %}
+                      {% for attr_opt in attr_current_details %}
+                        {% assign product_snapshot_price = product_snapshot_price | plus: attr_opt.price_charge %}
+                        {% if attr_opt.image != blank %}
+                          {% assign product_snapshot_image = attr_opt.image %}
+                        {% endif %}
+                      {% endfor %}
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div class="position-relative {% if product_current_details['Image'] != blank %} me-3 {% endif %}">
+                              
+                              {% if product_snapshot_image != blank %}
+                                <img style="object-fit: cover;" src="{{product_snapshot_image | asset_url }}" alt="{{product.product_data.name}}" class="avatar-xl rounded">
+                              {% else %}
+                                <img style="object-fit: cover;" src="{{product_current_details['Image'] | asset_url }}" alt="{{product_snapshot.name}}" class="avatar-xl rounded">
+                              {% endif %}
+                              {% comment %} Only display the quantity here on smaller widths. On larger widths it gets its own column. {% endcomment %}
+                              
+                              <span class="d-block d-xl-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{{product_snapshot.quantity}}</span>
+                              
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <a href="{{product_current_details.full_slug}}"><h6 class="mb-0 text-xs">{{product_snapshot['name']}}</h6></a>
+                              <p class="text-xs text-secondary mb-0">{{this['Currency Symbol']}}{{product_snapshot_price | divided_by: 100 | format_number: precision: 2}}</p>
+                              {% for attribute_opt in attr_current_details -%}
+                                <p class="text-xs {% if forloop.last %}mb-0{% endif %}">{{attribute_opt.product_attribute.name}}: {{attribute_opt.name}}</p>
+                              {% endfor -%}
+                            </div>
+                          </div>
+                        </td>
+                        <td class="d-none d-xl-table-cell">
+                          <div class="d-flex align-items-center" data>
+                            {{product_snapshot.quantity}}
+                          </div>
+                        </td>
+                        <td class="align-middle text-center text-sm fw-bold">
+                          {{this['Currency Symbol']}}{{product_snapshot_price | times: product_snapshot.quantity | divided_by: 100 | format_number: precision: 2 }}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card p-5">
+              {% if this['Shipping Method Name'] != blank %}
+                <div class="col-12 col-md-4 mb-6 mb-lg-0">
+                  <p class="mb-6 fw-bold">Shipping</p>
+                  <p class="mb-0 text-secondary">{{this['Shipping Method Name']}}</p>
+                  {% if shipping_updates_contact != blank %}
+                    <p class="mb-0 text-secondary">For updates, contact: {{shipping_updates_contact}}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <p class="text-dark d-flex justify-content-between flex-wrap "><strong class="me-3">Shipping Cost:</strong>{{this['Currency Symbol']}}{{this['Shipping Method Price - Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</p>
+              <p class="text-dark d-flex justify-content-between flex-wrap "><strong class="me-3">Subtotal:</strong>{{this['Currency Symbol']}}{{this['Price - Cart Item Total Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</p>
+              <p class="text-dark d-flex justify-content-between flex-wrap "><strong class="me-3">Tax:</strong>{{this['Currency Symbol']}}{{this['Price - Cart Total Tax Amount'] | divided_by: 100.0 | format_number: precision: 2}}</p>
+              <p class="text-dark d-flex justify-content-between flex-wrap "><strong class="me-3">Order Total:</strong>{{this['Currency Symbol']}}{{this['Total Price'] | divided_by: 100.0 | format_number: precision: 2}}</p>
+            </div>
+          </div> 
         </div>
       </div>
     </div>
   </div>
 </section>
-{%- endraw -%}
+{% endraw %}
