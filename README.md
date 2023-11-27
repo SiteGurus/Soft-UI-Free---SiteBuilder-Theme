@@ -8,6 +8,12 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.2.4
+
+- Added new footer menu layout
+- Bug fix to Call to Action static layout category
+- Added logo to header menu layout
+
 0.2.3 - Released 1st November
 
 - Small improvements to form layouts
