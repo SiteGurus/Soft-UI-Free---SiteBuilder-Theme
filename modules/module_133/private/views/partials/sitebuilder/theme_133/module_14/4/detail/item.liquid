@@ -1,6 +1,15 @@
 {% raw %}
-
-{% assign form_config_id = context.session.form_fc | split: "_" | last %}
+{% if slug == params.slug2 %}
+   {% comment %} When accessed via an order slug in the URL {% endcomment %}
+  {% graphql case_details = "modules/module_86/front_end/v1/case_from_order_id", order_id: this.id %}
+  {% assign form_config_id = case_details.records.results[0].table | split: "_" | last %}
+  {% assign form = '{}' | parse_json %}
+  {% hash_assign form['properties'] = case_details.records.results[0].properties %}
+{% elsif form and context.session.form_fc  %}
+  {% comment %} When nested inside a form_confirmation layout {% endcomment %}
+  {% assign form_config_id = context.session.form_fc | split: "_" | last %}
+  {% comment %} Inherit form from form_confirmation layout {% endcomment %}
+{% endif %}
 {% function table_config = "modules/module_86/front_end/functions/v1/get_table_config", model_type: 'form', id: form_config_id %}
 
 {% comment %} context.session.form_id: {{context.session.form_id}}

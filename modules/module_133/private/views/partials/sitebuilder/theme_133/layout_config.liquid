@@ -41,6 +41,37 @@
       "type": "default",
       "pro": false,
       "sub_module": 1
+    },
+    "4": {
+      "name": "Navbar with cart, login, logout",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696598736/modules/module_133/layouts/navbars/Screenshot_2023-10-06_at_14.03.36.png",
+      "enabled": true,
+      "coming_soon": false,
+      "dest": "layouts/modules/module_2",
+      "files": [
+        {
+          "src": "item",
+          "dest": "layouts/modules/module_2"
+        },
+        {
+          "src": "wrapper",
+          "dest": "layouts/modules/module_2"
+        },
+        {
+          "src": "log_out",
+          "dest": "layouts/modules/module_5/log_out",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "log_in",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "tags": [],
+      "type": "default",
+      "pro": false,
+      "sub_module": 1
     }
   },
   "module_3": {
@@ -837,7 +868,51 @@
     }
   },
   "module_5": {
-
+    "1": {
+      "name": "Default login page",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1658236823/modules/module_86/admin/libraries/5/Login-Form1.png",
+      "dest": "layouts/modules/module_5/log_in",
+      "files": [
+        {
+          "src": "login",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "sub_module": 1
+    },
+    "2": {
+      "name": "Default Logout Button",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1661171545/log-out-button-1.png",
+      "dest": "layouts/modules/module_5/log_out",
+      "files": [
+        {
+          "src": "logout",
+          "dest": "layouts/modules/module_5/log_out",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "tags": [
+        "button"
+      ],
+      "type": "default",
+      "sub_module": 2
+    },
+    "3": {
+      "name": "Default login modal",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1658236823/modules/module_86/admin/libraries/5/Login-Form1.png",
+      "dest": "layouts/modules/module_5/log_in",
+      "files": [
+        {
+          "src": "login_modal",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "sub_module": 1
+    }
   },
   "module_10": {
     "1": {
@@ -994,12 +1069,12 @@
       "dest": "layouts/modules/module_5/user_orders",
       "files": [
         {
-          "src": "order_confirmation",
+          "src": "orders_list",
           "dest": "layouts/modules/module_5/user_orders",
           "install_type": "layout_is_liquid_file"
         }
       ],
-      "type": "list"
+      "type": "default"
     }
   },
   "module_s4": {

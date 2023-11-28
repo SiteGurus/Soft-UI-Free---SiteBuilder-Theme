@@ -26,29 +26,50 @@
       <ul class="navbar-nav navbar-nav-hover mx-auto">
         {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
         <li class="nav-item d-lg-none mx-2">
-          <a class="ms-2 mt-2 badge bg-gradient-primary btn-round mb-0 me-auto d-lg-none d-inline-block" href="{{cart_url}}">
-            <i class="fas fa-shopping-cart text-base"></i>
-            {% assign cart_parsed = context.session.cart | parse_json %}
-            {% assign total_quantity = 0 %}
-            {% for item in cart_parsed %}
-              {% assign total_quantity = total_quantity | plus: item[1].quantity %}
-            {% endfor %}
-            <span data-s-e-live-cart-quantity class="text-base">{{total_quantity}}</span>
-          </a>
+          <div class="btn-group">
+            <a class="ms-2 mt-2 badge bg-gradient-primary mb-0 me-auto d-lg-none d-flex align-items-center" href="{{cart_url}}">
+              <i class="fas fa-shopping-cart text-base"></i>
+              {% assign cart_parsed = context.session.cart | parse_json %}
+              {% assign total_quantity = 0 %}
+              {% for item in cart_parsed %}
+                {% assign total_quantity = total_quantity | plus: item[1].quantity %}
+              {% endfor %}
+              <span data-s-e-live-cart-quantity class="text-base ms-1 d-block">{{total_quantity}}</span>
+            </a>
+            {% if context.current_user.id %}
+              {% include 'logout_button', redirect: context.location.pathname, layout: layout, mobile: true %}
+            {% else %}
+              <button type="button" class="ms-2 mt-2 badge bg-gradient-primary mb-0 me-auto d-lg-none d-flex align-items-center border-0" data-bs-toggle="modal" data-bs-target="#loginModal{{sitebuilder_uniq_component_id}}">
+                <i class="fas fa-user"></i>
+                <span class="text-base ms-1">Login</span>
+              </button>
+            {% endif %}
+            
+          </div>
           {% comment %} <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" role="button">Buy Now</a> {% endcomment %}
         </li>
       </ul>
       
     </div>
-    <a class="d-none d-lg-flex align-items-center btn bg-gradient-primary btn-round mb-0 ms-auto" href="{{cart_url}}">
-      <i class="fas fa-shopping-cart text-base"></i>
-      {% assign cart_parsed = context.session.cart | parse_json %}
-      {% assign total_quantity = 0 %}
-      {% for item in cart_parsed %}
-        {% assign total_quantity = total_quantity | plus: item[1].quantity %}
-      {% endfor %}
-      <span data-s-e-live-cart-quantity class="ms-1 text-base">{{total_quantity}}</span>
-    </a>
+    <div class="btn-group d-none d-lg-flex">
+      <a class="d-none d-lg-flex align-items-center btn bg-gradient-primary border border-primary btn-round mb-0 ms-auto" href="{{cart_url}}">
+        <i class="fas fa-shopping-cart text-base"></i>
+        {% assign cart_parsed = context.session.cart | parse_json %}
+        {% assign total_quantity = 0 %}
+        {% for item in cart_parsed %}
+          {% assign total_quantity = total_quantity | plus: item[1].quantity %}
+        {% endfor %}
+        <span data-s-e-live-cart-quantity class="text-base ms-1 d-block">{{total_quantity}}</span>
+      </a>
+      {% if context.current_user.id %}
+        {% include 'logout_button', redirect: context.location.pathname, layout: layout, mobile: false %}
+      {% else %}
+        <button type="button" class="d-none d-lg-flex align-items-center btn btn-outline-light opacity-9 btn-round mb-0 ms-auto" data-bs-toggle="modal" data-bs-target="#loginModal{{sitebuilder_uniq_component_id}}">
+          <i class="fas fa-user"></i>
+          <span class="text-base ms-1">Login</span>
+        </button>
+      {% endif %}
+    </div>
   </div>
 </nav>
 <!-- End Navbar -->
@@ -64,4 +85,6 @@
     }
   }
 </style>
+<!-- Modal -->
+{% include 'login_form', redirect: context.location.pathname, layout: layout %}
 {% endraw %}
