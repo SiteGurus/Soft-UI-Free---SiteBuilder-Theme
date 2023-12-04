@@ -80,11 +80,6 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <div class="form-error alert alert-danger text-white mb-4">
-                  <!-- Main Siteglide validation message will appear here. -->
-                </div>
-              </div>
-              <div class="col-12">
                 <button type="submit" class="btn bg-gradient-dark w-100">
                   <div class="d-flex align-items-center justify-content-center position-relative">
                     <span>Submit</span>
@@ -154,21 +149,45 @@
           //Use the commented line below instead if you want to print the first field with an error.
           //error = `please enter a value for the following: ${field_validation_map[error]}.`;
         } else if(error.includes('captcha')) {
-          error = `please confirm you are not a bot by completing the challenge.`;
+          error = `Please confirm you are not a bot by completing the challenge.`;
         }
         //Display the errors
-        var formErrorContainer = form.querySelector('.form-error');
-        if(error && formErrorContainer) {
-          console.error(error);
-          formErrorContainer.textContent = "Error: "+error;
-          formErrorContainer.style.display = "block";
+        if(typeof window.swal === 'function') {
+          errorToast();
+        } else {
+          const script = document.querySelector('#sweetalert_script');
+          script.addEventListener('load', errorToast);
         }
+        function errorToast() {
+          swal.fire({
+            position: 'bottom-end',
+            icon: 'error',
+            title: error,
+            showConfirmButton: true,
+            toast: true,
+            width: '24em',
+            padding: '1.5rem',
+            custom_class: {
+              title: 'h6'
+            },
+            allowEscapeKey: true,
+            allowOutsideClick: true,
+            confirmButtonColor: 'var(--bs-danger)',
+            timer: 8000
+          });
+        }
+        //Scroll to error
         form.classList.add('was-validated');
         var fieldError = form.querySelector(':invalid');
+        console.log('form', form, 'fieldError', fieldError)
         if(fieldError) {
-          fieldError.scrollIntoView({
-            block: "nearest"
-          });
+        console.log('scrolling?')
+          window.setTimeout(function() {
+            fieldError.scrollIntoView({
+              block: 'center',
+              behaviour: 'auto'
+            });
+          },1);
         }
       }
       //Change Siteglide Form Submit Function to an Event Listener
@@ -201,4 +220,9 @@
     }
   })();
 </script>
+{% if context.exports.sitebuilder.sweetalert == blank %}
+	<script id="sweetalert_script" async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	{% assign sweetalert = true %}
+	{% export sweetalert, namespace: "sitebuilder" %}
+{% endif %}
 {%- endraw -%}

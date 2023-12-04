@@ -24,8 +24,13 @@
           <div class="form-error form-group alert alert-danger text-white"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary mb-0" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary mb-0" onclick="siteglide_login_process(this,'{{_redirect}}','Sorry, that email and password combination was not recognised.')">Login</button>
+          <div class="w-100 d-flex flex-wrap justify-content-between align-items-center">
+            <a class="nav-link" href="{{sign_up_url}}">Sign Up</a>
+            <div>
+              <button type="button" class="btn btn-secondary mb-0" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn bg-gradient-primary mb-0" onclick="siteglide_login_process(this,'{{_redirect}}','Sorry, that email and password combination was not recognised.')">Login</button>
+            </div>
+          </div>
         </div>
       {% endform %}
     </div>

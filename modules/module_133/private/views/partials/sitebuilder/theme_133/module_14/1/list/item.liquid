@@ -22,16 +22,13 @@
 			</p> {% endcomment %}
 			<div class="d-flex flex-wrap align-items-center justify-content-stretch">
 				<h6 class="card-text mb-3 w-100">
-					<span class="me-2" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</span>
-					{% assign price_display_int = this.price.price_display | plus: 0 %}
-					{% assign price_charge_int = this.price.price_charge | plus: 0 %}
-					{% if show_display_price_crossed_out == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 %}
-						<span class="small text-secondary text-decoration-line-through" style="font-size: 16px;">{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
-					{% elsif show_display_price_as_price_before_tax == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 and show_display_price_crossed_out == false %}
-						<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }} Before Tax)</span>
-					{% elsif this.price.price_charge_before_tax != blank and show_display_price_crossed_out == false %}
-						<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_charge_before_tax | divided_by: 100.0 | format_number: precision: 2}} Before Tax)</span>
+					{% assign dis_float = this.price.price_display | plus: 0.0 %}
+					{% assign chr_float = this.price.price_charge | plus: 0.0 %}
+					{% if show_display_price_crossed_out == true and this.price.price_display != blank and chr_float != dis_float and dis_float != 0 %}
+						<span class="text-secondary text-decoration-line-through me-2" style="font-size: 16px;">{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
 					{% endif %}
+					<span class="" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</span>
+					
 				</h6>
 				<div class="w-100">
 					{% include 'ecommerce/cart_add', component_layout: layout -%}

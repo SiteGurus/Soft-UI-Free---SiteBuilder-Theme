@@ -16,7 +16,15 @@
 </div>
 <div class="col-12 col-md-4 offset-md-1 order-1 order-md-2 mb-4">
 	<h1 class="h2 mb-3">{{this['name']}}</h1>
-	<p class="h4 mb-3" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}"></p>
+	{% assign dis_float = this.price.price_display | plus: 0.0 %}
+	{% assign chr_float = this.price.price_charge | plus: 0.0 %}
+	{% if show_display_price_crossed_out == true and this.price.price_display != blank and chr_float != dis_float and dis_float != 0 %}
+		<span class="small text-secondary text-decoration-line-through h4 mb-3" >{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
+	{% endif %}
+	<p class="h4 mb-3 {% if show_display_price_crossed_out == true and this.price.price_display != blank and chr_float != dis_float and dis_float != 0 %} d-inline-block ms-2 {% endif %}" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">
+		{% comment %} This price will change as attributes with prices are selected. If you have attributes with prices, you may wish to modify or disable the display price output above to avoid confusion. {% endcomment %}
+	</p>
+	
 	<form class="">
 		<div class="row">
 			{% for attribute in this.product_attributes %}
