@@ -13,9 +13,8 @@ How many price options to show?
 {% endcomment %}
 {% assign price_options_number = 5 %}
 {% comment %} ------Display Only Price Settings-------
-Siteglide's Products contain a Display Only Price which can be used flexibily. If your Products use the Display only Price to show original price before a global discount, you could set "show_display_price_crossed_out" to true. If your Display only price shows price before Sales Tax, you could set "show_display_price_as_price_before_tax" to true.{% endcomment %}
-{% assign show_display_price_crossed_out = false %}
-{% assign show_display_price_as_price_before_tax = false %}
+Siteglide's Products contain a Display Only Price which can be used flexibily. If your Products use the Display only Price to show original price before a global discount, you could set "show_display_price_crossed_out" to true. {% endcomment %}
+{% assign show_display_price_crossed_out = true %}
 {% comment %} ------Product Category Parent------- 
 Add the ID of a category containing product categories e.g. "11", or leave as null. This helps show only relevant categories in the sidebar.
 {% endcomment %}
@@ -177,6 +176,8 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 							</svg>
 						</button>
 						<fieldset class="form-group">
+							{% assign defaultTaxPercent = context.session.tax_code_object | parse_json | dig: "percentage" %}
+							{% assign defaultTaxModifier = defaultTaxPercent | divided_by: 100 | plus: 1 %}
 							<legend class="col-form-label">Filter by Price</legend>
 							{%- function
 								currency_object = "modules/siteglide_ecommerce/ecommerce/functions/currency_object"
@@ -191,7 +192,8 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 								<option value="" {%- if params.range_gte == blank %}selected{%- endif -%}>Any</option>
 								{% for index in (1..price_options_number) %}
 									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor %}
-									<option value="{{optionValue}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == optionValue -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
+									{% assign optionValueWOTax = optionValue | divided_by: defaultTaxModifier | format_number: precision: 2  %}
+									<option value="{{optionValueWOTax}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == optionValueWOTax -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
 								{% endfor %}
 							</select>
 						
@@ -200,7 +202,8 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 								<option value="" {%- if params.range_lte == blank %}selected{%- endif -%}>Any</option>
 								{% for index in (1..price_options_number) %}
 									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor | plus: price_options_increment %}
-									<option value="{{optionValue}}" {%- if params.range_field contains 'module_field_14' and params.range_lte == optionValue -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
+									{% assign optionValueWOTax = optionValue | divided_by: defaultTaxModifier | format_number: precision: 2  %}
+									<option value="{{optionValueWOTax}}" {%- if params.range_field contains 'module_field_14' and params.range_lte == optionValueWOTax -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
 								{% endfor %}
 							</select>
 							
