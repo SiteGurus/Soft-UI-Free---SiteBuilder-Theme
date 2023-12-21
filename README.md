@@ -8,9 +8,14 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.2.5 - Released 21st December 2023
+
+- Improvements to Footer styles and Company Information dynamic data
+- Fix to FAQ layout
+
 0.2.4
 
-- Added new footer menu layout
+- Added new Footer menu layout
 - Bug fix to Call to Action static layout category
 - Added logo to header menu layout
 
