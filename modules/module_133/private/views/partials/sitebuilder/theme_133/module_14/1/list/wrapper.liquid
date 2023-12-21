@@ -68,6 +68,14 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
 				</svg>Sorting Highest to Lowest`
 			})
+			{% if product_category_parent != blank %}
+				{% comment %} When no category filter selected, enforce the product_category_parent as default. Replaces the Liquid version after page load. {% endcomment %}
+				instance.setDefaultParams({
+					category: '{{product_category_parent}}'
+				})
+				const defaultCategoryFilter = document.querySelector('#defaultCategoryFilter{{sitebuilder_uniq_component_id}}');
+				defaultCategoryFilter.remove();
+			{% endif %}
 		}
 	})();
 </script>
@@ -89,18 +97,19 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 						
 					</div>
 					<div id="collapseCategoriesFilters" class="card-body collapse {% if context.device.device_type == "desktop" %}show{% endif %}" aria-labelled-by="categoriesFiltersHeader">
-						{% comment %}The variable products_category just needs to == the id of your root category that contains all Products categories. For the starter kit, we use the following block of liquid to find this automatically.{% endcomment %}
-						{% for category in context.exports.categories.data %}
-							{% if category[1].external_id == "category_57529" %}
-								{% assign products_category = category[1].id %}
-								{% break %}
-							{% endif %}
-						{% endfor %}
 						{% assign category_map = context.exports.categories.items %}
 						{% assign path_info = context.headers.PATH_INFO %}
+						{% if product_category_parent != blank and params.category == blank  %}
+							{% comment %} Enforces parent category filter when no other filters selected on initial load. Removed by script when default params added via JS to replace it. {% endcomment %}
+							<input id="defaultCategoryFilter{{sitebuilder_uniq_component_id}}" type="hidden" name="category" value="{{product_category_parent}}">
+						{% endif %}
 						<ul class="list-unstyled mb-2">
 							{% for category in context.exports.categories.data %}
-								{% if category[1].parent != products_category %}{% continue %}{% endif %}
+								{% if product_category_parent != blank %}
+									{% if category[1].parent != product_category_parent %}
+										{% continue %}
+									{% endif %}
+								{% endif %}
 								{% assign category_id = category[1].id %}
 								<li class="mb-2">
 									<div class="form-check">
