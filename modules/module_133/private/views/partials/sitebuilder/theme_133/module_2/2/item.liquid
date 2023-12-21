@@ -1,19 +1,31 @@
 {% raw %}
-{%- if this['is_parent'] -%}
-  <div class="col-md-2 col-6 mb-md-0 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
-    <h6 class="text-sm">{{this['link_name']}}</h6>
-    <ul class="flex-column ms-n3 nav">
-      {%- assign _next_level = _level | plus: 1 -%}
-      {%- include 'modules/siteglide_menu/get/get_items', level: _next_level, parent_id: this['forced_id'], item_layout: 'item' -%}
-    </ul>
-  </div>
-{% elsif this['level'] == 1 %}
-  <div class="col-md-2 col-6 mb-md-0 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
-    <h6 class="text-sm">{{this['link_name']}}</h6>
-  </div>
-{% else %}
-  <li class="nav-item">
-    <a class="nav-link text-secondary" href="{{this['link_url']}}">{{this['link_name']}}</a>
-  </li>
-{% endif %}
+  {%- if this['is_parent'] -%}
+    <div class="col-md-2 col-6 mb-4">
+      <h6 class="text-sm">
+        {% if this['link_url'] != blank %}
+          <a href="{{this['link_url']}}" title="">{{this['link_name']}}</a>
+        {% else %}
+          {{this['link_name']}}
+        {% endif %}
+      </h6>
+      <ul class="flex-column ms-n3 nav">
+        {%- assign _next_level = _level | plus: 1 -%}
+        {%- include 'modules/siteglide_menu/get/get_items', level: _next_level, parent_id: this['forced_id'], item_layout: 'item' -%}
+      </ul>
+    </div>
+  {% elsif this['level'] == 1 %}
+    <div class="col-md-2 col-6 mb-4 {% if forloop.first %}ms-lg-auto{% endif %}">
+      <h6 class="text-sm">
+        {% if this['link_url'] != blank %}
+          <a href="{{this['link_url']}}" title="">{{this['link_name']}}</a>
+        {% else %}
+          {{this['link_name']}}
+        {% endif %}
+      </h6>
+    </div>
+  {% else %}
+    <li class="nav-item">
+      <a class="nav-link text-secondary" href="{{this['link_url']}}">{{this['link_name']}}</a>
+    </li>
+  {% endif %}
 {% endraw %}
