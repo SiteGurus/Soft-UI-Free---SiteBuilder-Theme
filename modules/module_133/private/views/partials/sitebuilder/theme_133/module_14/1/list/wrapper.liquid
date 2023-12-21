@@ -83,9 +83,12 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 
 <section class="py-5" id="{{sitebuilder_uniq_component_id}}" data-sg-live-update-section="{{sitebuilder_uniq_component_id}}" data-sg-live-update-key="{{public_key}}" {% if filters_values_from_URL == true %}data-sg-live-update-modify-history-enabled="true" data-sg-live-update-modify-history-include-hidden-fields="false" {% endif %}>
 	<div class="container">
-		
 		<div class="row">
 			<div class="col-12 col-lg-3" data-sg-live-update-controls="sidebar">
+				{% if product_category_parent != blank %}
+					<input type="hidden" name="category" value="{{product_category_parent}}" data-sg-live-update-default-param>
+				{% endif %}
+			
 				<div class="card mb-4 mb-lg-3 border-0">
 					<div class="card-header bg-transparent">
 						<h5 id="categoriesFiltersHeader" class="h5 mb-0 d-flex justify-content-between flex-wrap align-items-center">
@@ -109,6 +112,8 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
 									{% if category[1].parent != product_category_parent %}
 										{% continue %}
 									{% endif %}
+								{% elsif category[1].parent != blank %}
+									{% continue %}
 								{% endif %}
 								{% assign category_id = category[1].id %}
 								<li class="mb-2">
