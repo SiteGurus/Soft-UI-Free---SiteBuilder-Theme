@@ -1,7 +1,6 @@
 {% raw %}
 {% comment %} Note the view will load initially visually hidden so that search engines can access without JS then on first live update will apply initial filters and re-render contents visible.  {% endcomment %}
 <div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3 {% if params.public_key == blank %}visually-hidden{% endif %}" data-product-group>
-	{% comment %} New {% endcomment %}
 	<div class="card" >
 		<a href="{{this['full_slug']}}" class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
 			<img loading="lazy" class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
@@ -17,9 +16,6 @@
 					{{this.properties.name}}
 				</h3>
 			</a>
-			{% comment %} <p class="card-description mb-4">
-				{{this.properties['module_field_14/product_1'] | truncate: 100 }}
-			</p> {% endcomment %}
 			<div class="d-flex flex-wrap align-items-center justify-content-stretch">
 				<h6 class="card-text mb-3 w-100">
 					{% assign dis_float = this.price.price_display | plus: 0.0 %}
@@ -33,7 +29,6 @@
 				<div class="w-100">
 					{% include 'ecommerce/cart_add', component_layout: layout -%}
 				</div>
-				{% comment %} {% include 'user_favourites_toggle', layout: layout -%} {% endcomment %}
 			</div>
 		</div>
 	</div>
