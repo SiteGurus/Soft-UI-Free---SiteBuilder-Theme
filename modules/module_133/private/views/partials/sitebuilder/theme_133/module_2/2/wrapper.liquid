@@ -1,0 +1,48 @@
+{% raw %}
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ---End Settings--- {% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<!-- Footer 1 -->
+<footer class="footer py-5 draggable">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 mb-5 mb-lg-0">
+        <h6 class="text-uppercase mb-2">{{context.exports.company_information.properties.company_name | default: "Soft & Loopple by Creative Tim" }}</h6>
+        <p class="mb-4 pb-2">
+            The next generation of design systems.
+        </p>
+        {% if context.exports.company_information.properties.facebook_account != blank %}
+          <a href="{{context.exports.company_information.properties.facebook_account}}" class="text-secondary me-xl-4 me-3">
+            <span class="text-lg fab fa-facebook"></span>
+          </a>
+        {% endif %}
+        {% if context.exports.company_information.properties.twitter_account != blank %}
+          <a href="{{context.exports.company_information.properties.twitter_account}}" class="text-secondary me-xl-4 me-3">
+            <span class="text-lg fab fa-twitter"></span>
+          </a>
+        {% endif %}
+        {% if context.exports.company_information.properties.instagram_account != blank %}
+          <a href="{{context.exports.company_information.properties.instagram_account}}" class="text-secondary me-xl-4 me-3">
+            <span class="text-lg fab fa-instagram"></span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="col-lg-8 offset-lg-1">
+        <div class="row">
+          {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
+        </div>
+      </div>
+    </div>
+    <hr class="horizontal dark mt-lg-5 mt-4 mb-sm-4 mb-1">
+    <div class="row">
+      <div class="col-8 mx-lg-auto text-lg-center">
+        <p class="text-sm text-secondary">
+          Copyright © <script type="text/JavaScript">document.write(new Date().getFullYear());</script> {{context.exports.company_information.properties.company_name | default: "Soft & Loopple by Creative Tim" }}.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer 1 -->
+{% endraw %}

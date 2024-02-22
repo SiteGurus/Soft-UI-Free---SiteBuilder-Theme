@@ -10,9 +10,16 @@
 <!-- Navbar Dark -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3">
-  <div class="container">
-    <a class="navbar-brand text-white" href="{{logo_url}}" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
-      {{context.exports.company_information.properties.company_name | default: "Soft UI Design System" }}
+  <div class="container p-0 ">
+    <a class="navbar-brand text-white me-2" href="{{logo_url}}" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
+      {% if context.exports.company_information.properties.logo != blank %}
+        <img src="{{context.exports.company_information.properties.logo | asset_url}}" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}" class="h-auto w-100" style="max-height: 2rem; max-width: 100px;">
+      {% elsif context.exports.company_information.properties.logo_white != blank %}
+        <img src="{{context.exports.company_information.properties.logo_white | asset_url}}" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}" class="h-auto w-100" style="max-height: 2rem; max-width: 100px;">
+      {% else %}
+        <img src="https://www.creative-tim.com/assets/logo/logo-ct-white-170d794e447f75aec55c6effdfbedced9dd268ceceece152675ff8f9891e3588.svg" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}" class="h-auto w-100" style="max-height: 2rem; max-width: 100px;">
+      {% endif %}
+      <span class="sr-only">{{context.exports.company_information.properties.company_name | default: "Soft UI Design System" }}</span>
     </a>
     <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 ms-auto d-lg-none d-block">Buy Now</a>
     <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +48,13 @@
     content: '' !important;
   }
   /* Fix dropdown menu colors */
+  @media only screen and (max-width: 991px) {
+    .navbar ul[aria-labelledby="navbarDropdown__{{sitebuilder_uniq_component_id}}"] .dropdown-item:hover .nav-link,
+    .navbar ul[aria-labelledby="navbarDropdown__{{sitebuilder_uniq_component_id}}"] .dropdown-item:focus .nav-link {
+      color: var(--bs-dark) !important;
+    }
+  }
+
   @media only screen and (min-width: 992px) {
     .text-lg-dark {
       color: var(--bs-dark) !important;

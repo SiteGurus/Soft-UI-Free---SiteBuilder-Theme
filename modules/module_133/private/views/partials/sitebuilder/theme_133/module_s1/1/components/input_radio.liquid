@@ -1,5 +1,5 @@
 {%- raw -%}
-<fieldset class="col-12  mb-3 radio-container {{validation}}">
+<fieldset class="col-12 mb-3 radio-container {{validation}}">
   {% if options.size > 1 %}<legend class="col-form-label">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</legend>{% endif %}
   {% for option in options %}
     <div {{attributes}} class="form-check mb-3 align-items-center">

@@ -34,7 +34,7 @@ Add the URL for the cart page, powers the buy now button {% endcomment %}
   {% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
 {% endif %}
 {% if context.exports.sitebuilder.live_update_JS_loaded == blank %}
-  <script async src="{{'modules/module_86/js/v1-3/sitegurus_live_update_javascript_api.min.js' | asset_url }}"></script>
+  <script async src="{{'modules/module_86/js/v1-4/sitegurus_live_update_javascript_api.min.js' | asset_url }}"></script>
   {% assign live_update_JS_loaded = true %}
   {% export live_update_JS_loaded, namespace: sitebuilder %}
 {% endif %}

@@ -8,6 +8,30 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.3.0 - Released 21st December 2023
+
+- Updated Live Updates Layouts to use latest version of Live Updates 1-4. This adds new support for default parameters allowing better support for upcoming eCommerce layouts. Update the main SiteBuilder module first, before updating to this version.
+
+0.2.5 - Released 21st December 2023
+
+- Improvements to Footer styles and Company Information dynamic data
+- Fix to FAQ layout
+
+0.2.4
+
+- Added new Footer menu layout
+- Bug fix to Call to Action static layout category
+- Added logo to header menu layout
+
+0.2.3 - Released 1st November
+
+- Small improvements to form layouts
+
+0.2.0 - Released 31st October
+
+- Large number of new static layouts added
+- 3 new webapp layouts added
+
 0.1.3 - Released 9th October
 
 - Initial Beta Release
