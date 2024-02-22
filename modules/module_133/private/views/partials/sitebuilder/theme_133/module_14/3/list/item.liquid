@@ -31,14 +31,20 @@
 				<span class="text-xs">Out of Stock</span>
 			{% else %}
 				<label for="quantity" class="visually-hidden">Quantity</label>
-				<input class="form-control py-2 text-xs" type="number" id="quantity" name="quantity" min="1" value="{{this.cart_data.quantity}}" onchange="s_e_cart_update_quantity(event.target.value,{{this.cart_data.cart_id}},'{{context.authenticity_token}}', false);
-				s_e_cart_update(false,'{{context.authenticity_token}}');
-				const liveParams = window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'].getFormState();
-				window.sgLiveUpdateConfig['sitegurus_component_0'].liveUpdate(liveParams);
+				<input class="form-control py-2 text-xs" type="number" id="quantity" name="quantity" min="1" value="{{this.cart_data.quantity}}" oninput="
+					s_e_cart_update_quantity(event.target.value,{{this.cart_data.cart_id}},'{{context.authenticity_token}}', false);
+					s_e_cart_update({
+						token: '{{context.authenticity_token}}',
+						success_cb: function() {
+							window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'].changeStateTrailingDebounce();
+						}
+					});
 				">
 			{% endif %}
 			<button class="ms-2 {% if context.device.device_type == 'desktop' %} badge badge-secondary text-secondary {% else %} bg-transparent p-0 {% endif %} mb-0 font-weight-bold text-xs border-0"  onclick="
-				s_e_cart_remove(true,{{this.cart_data.cart_id}})
+				s_e_cart_remove(true,{{this.cart_data.cart_id}},function() {
+					window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'].changeStateTrailingDebounce();
+				})
 			" data-toggle="tooltip" data-original-title="Remove"><i class="fas fa-times fa-sm"></i><span class="sr-only">Remove</span></button>
 		</div>
 	</td>
