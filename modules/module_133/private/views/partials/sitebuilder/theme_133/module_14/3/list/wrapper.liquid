@@ -1,7 +1,7 @@
 {% raw %}
 {% comment %} ---Settings--- {% endcomment %}
 {% comment %} ------ Get Quote URL ------ {% endcomment %}
-{% assign get_quote_url = "/quote" %}
+{% assign get_quote_url = null %}
 {% comment %} ------ Checkout URL ------ {% endcomment %}
 {% assign checkout_url = "/checkout" %}
 {% comment %} ------ Shop Home URL ------ {% endcomment %}
@@ -68,19 +68,17 @@
 						<p class=""><strong>Total:</strong> {% include 'ecommerce/price_total', format_type: 'formatted' -%}</p>
 					</div>
 				</div>
-				<div class="d-flex flex-wrap justify-content-start justify-content-lg-between">
+				<div class="d-flex flex-wrap justify-content-start justify-content-sm-between">
 					<div class="d-sm-none w-100">
 						<button class="btn btn-secondary  px-4 py-2 mb-3 w-100" onclick="s_e_cart_empty(true)">Empty cart</button>
-						<button class="btn btn-secondary  px-4 py-2 mb-3 w-100" onclick="s_e_cart_update(true,'{{context.authenticity_token}}')">Update cart</button>
-						<a class="btn btn-secondary px-4 py-2 mb-3 w-100" href="{{get_quote_url}}">Get a Quote</a>
+						{% if get_quote_url != blank %}<a class="btn btn-secondary px-4 py-2 mb-3 w-100" href="{{get_quote_url}}">Get a Quote</a>{% endif %}
 					</div>
 					<div class="d-none d-sm-block input-group w-auto">
 						<button class="btn btn-secondary  px-4 py-2" onclick="s_e_cart_empty(true)">Empty cart</button>
-						<button class="btn btn-secondary  px-4 py-2 " onclick="s_e_cart_update(true,'{{context.authenticity_token}}')">Update cart</button>
-						<a class="btn btn-secondary  px-4 py-2 " href="{{get_quote_url}}">Get a Quote</a>
+						{% if get_quote_url != blank %}<a class="btn btn-secondary  px-4 py-2 " href="{{get_quote_url}}">Get a Quote</a>{% endif %}
 						<a class="btn btn-secondary  px-4 py-2 mb-3" href="{{shop_home_url}}">Continue Shopping</a>
 					</div>
-					<a class="btn btn-primary  px-4 py-2 mb-3 mb-md-5 w-100 w-sm-auto" href="{{checkout_url}}">Proceed to checkout</a>
+					<a class="btn btn-primary px-4 py-2 mb-3 mb-md-5 w-100 w-sm-auto" href="{{checkout_url}}">Proceed to checkout</a>
 				</div>
 			</div>
 		{% else %}
