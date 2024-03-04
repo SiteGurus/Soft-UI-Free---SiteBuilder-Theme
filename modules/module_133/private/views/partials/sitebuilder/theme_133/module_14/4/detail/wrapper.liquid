@@ -9,10 +9,10 @@ URL to link customers back to the shop after an order. {% endcomment %}
 {% assign shop_home_url = '/' %}
 {% comment %} ------Orders List URL-------
 URL to link customers back to the orders list. {% endcomment %}
-{% assign orders_home_url = '/orders' %}
+{% assign orders_url = '/orders' %}
 {% comment %} ---End Settings--- {% endcomment %}
 {% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
 
-{% comment %} <script defer src="{{'modules/siteglide_ecommerce/js/siteglide_ecommerce.js' | asset_url}}"></script> {% endcomment %}
+<script defer src="{{'modules/siteglide_ecommerce/js/siteglide_ecommerce.js' | asset_url}}"></script>
 
 {%- include 'modules/siteglide_ecommerce/ecommerce/get/get_order_details', item_layout: 'item' -%}{%- endraw -%}

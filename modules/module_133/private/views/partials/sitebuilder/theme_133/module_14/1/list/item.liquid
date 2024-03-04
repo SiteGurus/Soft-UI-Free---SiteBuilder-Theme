@@ -1,43 +1,34 @@
 {% raw %}
-<div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3" data-product-group>
-	{% comment %} New {% endcomment %}
-	<div class="card ">
-		<div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-			<a href="{{this['full_slug']}}" class="d-block">
-				<img class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
+{% comment %} Note the view will load initially visually hidden so that search engines can access without JS then on first live update will apply initial filters and re-render contents visible.  {% endcomment %}
+<div class="col-12 col-sm-6 col-lg-4 d-flex text-center mb-3 {% if params.public_key == blank %}visually-hidden{% endif %}" data-product-group>
+	<div class="card" >
+		<a href="{{this['full_slug']}}" class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+			<img loading="lazy" class="img-fluid border-radius-lg" src="{{this.properties['module_field_14/product_2'] | asset_url }}">
+			<div class="d-flex flex-wrap flex-row-reverse align-items-end pb-1 position-absolute bottom-0 end-0 px-1">
+				{% for category in this.category_array %}
+					<div class="badge bg-dark mr-2 m-1">{{context.exports.categories.items[category].name}}</div>
+				{% endfor %}
+			</div>
+		</a>
+		<div class="card-body p-3 d-flex flex-column justify-content-end">
+			<a href="{{this['full_slug']}}">
+				<h3 href="{{this['full_slug']}}" class="card-title h5 d-block text-darker">
+					{{this.properties.name}}
+				</h3>
 			</a>
-		</div>
-
-		<div class="card-body pt-2">
-			{% for category in this.category_array %}
-				<a class="" href="{{context.exports.categories.items[category].full_slug}}" title="{{context.exports.categories.items[category].name}}"> <span class="badge bg-gradient-primary">{{context.exports.categories.items[category].name}}</span></a>
-			{% endfor %}
-			
-			<a href="{{this['full_slug']}}" class="card-title h5 d-block text-darker">
-				{{this.properties.name}}
-			</a>
-			<p class="card-description mb-4">
-				{{this.properties['module_field_14/product_1'] | truncate: 100 }}
-			</p>
-			<div class="d-flex align-items-center">
-				<div class="px-md-3">
-					<h6 class="card-text mb-3">
-						<span class="me-2" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</span>
-						{% assign price_display_int = this.price.price_display | plus: 0 %}
-						{% assign price_charge_int = this.price.price_charge | plus: 0 %}
-						{% if show_display_price_crossed_out == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 %}
-							<span class="small text-secondary text-decoration-line-through" style="font-size: 16px;">{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
-						{% elsif show_display_price_as_price_before_tax == true and price_display_int != price_charge_int and price_display_int != blank and price_display_int != 0 and show_display_price_crossed_out == false %}
-							<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }} Before Tax)</span>
-						{% elsif this.price.price_charge_before_tax != blank and show_display_price_crossed_out == false %}
-							<span class="small text-secondary" style="font-size: 16px;">({{this.price.currency_symbol}}{{this.price.price_charge_before_tax | divided_by: 100.0 | format_number: precision: 2}} Before Tax)</span>
-						{% endif %}
-					</h6>
-					<div class="row">
-					  {% include 'ecommerce/cart_add', component_layout: layout -%}
-					</div>
+			<div class="d-flex flex-wrap align-items-center justify-content-stretch">
+				<h6 class="card-text mb-3 w-100">
+					{% assign dis_float = this.price.price_display | plus: 0.0 %}
+					{% assign chr_float = this.price.price_charge | plus: 0.0 %}
+					{% if show_display_price_crossed_out == true and this.price.price_display != blank and chr_float != dis_float and dis_float != 0 %}
+						<span class="text-secondary text-decoration-line-through me-2" style="font-size: 16px;">{{this.price.currency_symbol}}{{this.price.price_display | divided_by: 100.0 | format_number: precision: 2 }}</span>
+					{% endif %}
+					<span class="" data-price-control="{{this.price.price_charge}}" data-currency-control="{{this.price.currency_symbol}}">{{this.price.currency_symbol}}{{this.price.price_charge_formatted}}</span>
+					
+				</h6>
+				<div class="w-100">
+					{% include 'ecommerce/cart_add', component_layout: layout -%}
 				</div>
-				{% comment %} {% include 'user_favourites_toggle', layout: layout -%} {% endcomment %}
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
   "module_2": {
     "1": {
       "name": "Navbar dark",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696598736/modules/module_133/layouts/navbars/Screenshot_2023-10-06_at_14.03.36.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709574425/modules/module_133/layouts/navbars/menu-simple.jpg",
       "enabled": true,
       "coming_soon": false,
       "dest": "layouts/modules/module_2",
@@ -23,24 +23,76 @@
     },
     "2": {
       "name": "Footer Standard",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/v1698148348/modules/module_133/layouts/footers/Screenshot_2023-10-24_at_12.52.24.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1698148348/modules/module_133/layouts/footers/Screenshot_2023-10-24_at_12.52.24.png",
       "enabled": true,
       "coming_soon": false,
       "dest": "layouts/modules/module_2",
       "files": [
-      {
+        {
           "src": "item",
           "dest": "layouts/modules/module_2"
-      },
-      {
+        },
+        {
           "src": "wrapper",
           "dest": "layouts/modules/module_2"
-      }
+        }
       ],
       "tags": [],
       "type": "default",
       "pro": false,
       "sub_module": 2
+    },
+    "3": {
+      "name": "Navbar with Cart",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709573669/modules/module_133/layouts/eCommerce/menu-cart.jpg",
+      "enabled": true,
+      "coming_soon": false,
+      "dest": "layouts/modules/module_2",
+      "files": [
+        {
+          "src": "item",
+          "dest": "layouts/modules/module_2"
+        },
+        {
+          "src": "wrapper",
+          "dest": "layouts/modules/module_2"
+        }
+      ],
+      "tags": [],
+      "type": "default",
+      "pro": false,
+      "sub_module": 1
+    },
+    "4": {
+      "name": "Navbar with cart, login, logout",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709572598/modules/module_133/layouts/eCommerce/menu.jpg",
+      "enabled": true,
+      "coming_soon": false,
+      "dest": "layouts/modules/module_2",
+      "files": [
+        {
+          "src": "item",
+          "dest": "layouts/modules/module_2"
+        },
+        {
+          "src": "wrapper",
+          "dest": "layouts/modules/module_2"
+        },
+        {
+          "src": "log_out",
+          "dest": "layouts/modules/module_5/log_out",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "log_in",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "tags": [],
+      "type": "default",
+      "pro": false,
+      "sub_module": 1
     }
   },
   "module_3": {
@@ -112,148 +164,148 @@
   },
   "module_s1": {
     "1": {
-        "name": "Default Form",
-        "enabled": true,
-        "image": "https://res.cloudinary.com/sitegurus/image/upload/c_crop,h_943,w_1650,f_auto/v1698857790/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-52-54_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
-        "dest": "layouts/forms",
-        "sub_module": 1,
-        "files": [
-            {
-                "src": "dynamic_wrapper",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "static_wrapper",
-                "dest": "layouts/forms",
-                "virtual": true
-            },
-            {
-                "src": "empty",
-                "dest": "layouts/modules/module_14/checkout",
-                "install_type": "default"
-            },
-            {
-                "src": "components/boolean",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/checkout_standard",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/basic_payment",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/quote_only",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/subscription_detail",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/datasource_multi",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/datasource",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/date",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/email",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/file",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/image",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/hidden_fields",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/input_checkbox",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/input_radio",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/name_field",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/password",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/recaptcha",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/select_multi",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/select",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/string",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/textarea",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/subheading",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/heading",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/array_custom",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/folder",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/image_array",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/number_float",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/number_integer",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/email_edit",
-                "dest": "layouts/forms"
-            },
-            {
-                "src": "components/password_edit",
-                "dest": "layouts/forms"
-            }
-        ],
-        "type": "default"
+      "name": "Default Form",
+      "enabled": true,
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/c_crop,h_943,w_1650,f_auto/v1698857790/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-52-54_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
+      "dest": "layouts/forms",
+      "sub_module": 1,
+      "files": [
+          {
+              "src": "dynamic_wrapper",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "static_wrapper",
+              "dest": "layouts/forms",
+              "virtual": true
+          },
+          {
+              "src": "empty",
+              "dest": "layouts/modules/module_14/checkout",
+              "install_type": "default"
+          },
+          {
+              "src": "components/boolean",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/checkout_standard",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/basic_payment",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/quote_only",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/subscription_detail",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/datasource_multi",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/datasource",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/date",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/email",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/file",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/image",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/hidden_fields",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/input_checkbox",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/input_radio",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/name_field",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/password",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/recaptcha",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/select_multi",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/select",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/string",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/textarea",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/subheading",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/heading",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/array_custom",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/folder",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/image_array",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/number_float",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/number_integer",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/email_edit",
+              "dest": "layouts/forms"
+          },
+          {
+              "src": "components/password_edit",
+              "dest": "layouts/forms"
+          }
+      ],
+      "type": "default"
     },
     "2": {
       "name": "Default WebApp create form",
@@ -489,7 +541,7 @@
     },
     "5": {
       "name": "Default Module create form",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696416173/modules/module_133/layouts/forms/Screenshot_2023-10-04_at_11-37-13_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1698857790/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-55-40_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
       "dest": "layouts/modules",
       "sub_module": 5,
       "files": [
@@ -591,7 +643,7 @@
     },
     "6": {
       "name": "Default Module update form",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696416173/modules/module_133/layouts/forms/Screenshot_2023-10-04_at_11-37-13_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1698857903/modules/module_133/layouts/forms/Screenshot_2023-11-01_at_16-58-04_https___soft-ui-module-testing-mj.staging.oregon.platform-os.com.png",
       "dest": "layouts/modules",
       "sub_module": 6,
       "tags": [
@@ -698,10 +750,211 @@
         }
       ],
       "type": "default"
+    },
+    "7": {
+      "name": "Checkout form with embedded cart",
+      "enabled": true,
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709572597/modules/module_133/layouts/eCommerce/checkout.jpg",
+      "dest": "layouts/forms",
+      "sub_module": 7,
+      "files": [
+        {
+            "src": "dynamic_wrapper",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "static_wrapper",
+            "dest": "layouts/forms",
+            "virtual": true
+        },
+        {
+            "src": "empty",
+            "dest": "layouts/modules/module_14/checkout",
+            "install_type": "default"
+        },
+        {
+            "src": "components/boolean",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/checkout_standard",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/basic_payment",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/quote_only",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/subscription_detail",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/datasource_multi",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/datasource",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/date",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/email",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/file",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/image",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/hidden_fields",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/input_checkbox",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/input_radio",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/name_field",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/password",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/recaptcha",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/select_multi",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/select",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/string",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/textarea",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/subheading",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/heading",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/array_custom",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/folder",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/image_array",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/number_float",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/number_integer",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/email_edit",
+            "dest": "layouts/forms"
+        },
+        {
+            "src": "components/password_edit",
+            "dest": "layouts/forms"
+        },
+        {
+          "src": "cart/list/wrapper",
+          "dest": "layouts/modules/module_14/product",
+          "install_type": "default"
+        },
+        {
+          "src": "cart/list/item",
+          "dest": "layouts/modules/module_14/product",
+          "install_type": "default"
+        }
+      ],
+      "type": "default"
     }
   },
+  "module_s3": {
+    
+  },
   "module_5": {
-
+    "1": {
+      "name": "Default login page",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1658236823/modules/module_86/admin/libraries/5/Login-Form1.png",
+      "dest": "layouts/modules/module_5/log_in",
+      "files": [
+        {
+          "src": "login",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "sub_module": 1
+    },
+    "2": {
+      "name": "Default Logout Button",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1661171545/log-out-button-1.png",
+      "dest": "layouts/modules/module_5/log_out",
+      "files": [
+        {
+          "src": "logout",
+          "dest": "layouts/modules/module_5/log_out",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "tags": [
+        "button"
+      ],
+      "type": "default",
+      "sub_module": 2
+    },
+    "3": {
+      "name": "Default login modal",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1658236823/modules/module_86/admin/libraries/5/Login-Form1.png",
+      "dest": "layouts/modules/module_5/log_in",
+      "files": [
+        {
+          "src": "login_modal",
+          "dest": "layouts/modules/module_5/log_in",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "sub_module": 1
+    }
   },
   "module_s2": {
     "1": {
@@ -716,12 +969,26 @@
         }
       ],
       "type": "default"
+    },
+    "2": {
+      "name": "Pagination Simple Compatible with Live-Updating Layouts",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1696598830/modules/module_133/layouts/pagination/Screenshot_2023-10-06_at_14.07.00.png",
+      "dest": "layouts/pagination",
+      "files": [
+        {
+          "src": "pagination",
+          "dest": "layouts/pagination",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default",
+      "live_updates": true
     }
   },
   "module_14": {
-    {% comment %} "1": {
+    "1": {
       "name": "Default Product List",
-      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1668071762/modules/module_86/libraries/studio/ecommerce/Screenshot_2022-11-10_at_09-15-13_https___september-sitebuilder-development-site.staging.oregon.platform-os.com.png",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709572064/modules/module_133/layouts/eCommerce/Untitled.jpg",
       "dest": "layouts/modules/module_14/product",
       "files": [
         {
@@ -736,16 +1003,99 @@
           "src": "buttons/add_to_cart",
           "dest": "layouts/modules/module_14/components/add_to_cart_button",
           "install_type": "layout_is_liquid_file"
-        },
-        {
-          "src": "favourites/toggle",
-          "dest": "layouts/modules/module_5/user_favourites_toggle",
-          "install_type": "layout_is_liquid_file"
         }
       ],
       "type": "list",
       "sub_module": 1
-    } {% endcomment %}
+    },
+    "2": {
+      "name": "Default Product Detail",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709573889/modules/module_133/layouts/eCommerce/product-detail.jpg",
+      "dest": "layouts/modules/module_14/product",
+      "files": [
+        {
+          "src": "detail/wrapper",
+          "dest": "layouts/modules/module_14/product"
+        },
+        {
+          "src": "detail/item",
+          "dest": "layouts/modules/module_14/product"
+        },
+        {
+          "src": "buttons/add_to_cart",
+          "dest": "layouts/modules/module_14/components/add_to_cart_button",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "product_attributes",
+          "dest": "layouts/modules/module_14/product_attributes",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "detail",
+      "sub_module": 2
+    },
+    "3": {
+      "name": "Default Cart",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709572597/modules/module_133/layouts/eCommerce/cart.jpg",
+      "dest": "layouts/modules/module_14/product",
+      "files": [
+        {
+            "src": "list/wrapper",
+            "dest": "layouts/modules/module_14/product"
+        },
+        {
+            "src": "list/item",
+            "dest": "layouts/modules/module_14/product"
+        },
+        {
+          "src": "discount_code",
+          "dest": "layouts/modules/module_14/discount_code",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "shipping_option",
+          "dest": "layouts/modules/module_14/shipping_option",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "list",
+      "sub_module": 3
+    },
+    "4": {
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709572597/modules/module_133/layouts/eCommerce/single-order.jpg",
+      "type": "detail",
+      "sub_module": 8,
+      "dest": "layouts/modules/module_14/order",
+      "files": [
+        {
+          "src": "form_confirmation",
+          "dest": "layouts/form_confirmation",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "detail/wrapper",
+          "dest": "layouts/modules/module_14/order"
+        },
+        {
+          "src": "detail/item",
+          "dest": "layouts/modules/module_14/order"
+        }
+      ]
+    },
+    "5": {
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/f_auto/v1709573782/modules/module_133/layouts/eCommerce/orders-list.jpg",
+      "sub_module": 7,
+      "dest": "layouts/modules/module_5/user_orders",
+      "files": [
+        {
+          "src": "orders_list",
+          "dest": "layouts/modules/module_5/user_orders",
+          "install_type": "layout_is_liquid_file"
+        }
+      ],
+      "type": "default"
+    }
   },
   "module_s4": {
 

@@ -1,21 +1,32 @@
 {% raw %}
 {% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------Price Options Floor-------
+In price options, the lowest price available for filtering in cents e.g. if selling high value products, no point starting options at $0
+{% endcomment %}
+{% assign price_options_floor = 500 %}
+{% comment %} ------Price Options Increment-------
+What is the increment between each price option in cents e.g. increment of 500 being $5, $10, $15
+{% endcomment %}
+{% assign price_options_increment = 500 %}
+{% comment %} ------Price Options Number-------
+How many price options to show?
+{% endcomment %}
+{% assign price_options_number = 5 %}
 {% comment %} ------Display Only Price Settings-------
-Siteglide's Products contain a Display Only Price which can be used flexibily. If your Products use the Display only Price to show original price before a global discount, you could set "show_display_price_crossed_out" to true. If your Display only price shows price before Sales Tax, you could set "show_display_price_as_price_before_tax" to true.{% endcomment %}
-{% assign show_display_price_crossed_out = false %}
-{% assign show_display_price_as_price_before_tax = false %}
+Siteglide's Products contain a Display Only Price which can be used flexibily. If your Products use the Display only Price to show original price before a global discount, you could set "show_display_price_crossed_out" to true. {% endcomment %}
+{% assign show_display_price_crossed_out = true %}
 {% comment %} ------Product Category Parent------- 
 Add the ID of a category containing product categories e.g. "11", or leave as null. This helps show only relevant categories in the sidebar.
 {% endcomment %}
 {% assign product_category_parent = null %}
-{% comment %} ------Price Range------ {% endcomment %}
-{% assign min_price = null | default: 1 %}
-{% assign max_price = null | default: 300 %}
 {% comment %}------Set filter default values from URL------
   Boolean, if true any sidebar filters will set their initial values from the URL on page load. Useful if returning to the list view from a filter in the detail page. Note we wouldn't normally recommend having more than one live update layout on the page with this setting set to true. If you are setting this value, you may remove the if statement, this is just to set a default.{% endcomment %}
   {% if _use_adv_search == 'true' or _use_search == 'true' %}
     {% assign filters_values_from_URL = true %}
   {% endif %}
+{% comment %}------Cart URL------
+Add the URL for the cart page, powers the buy now button {% endcomment %}
+{% assign cart_url = "/cart" %}
 {% comment %} ---End Settings--- {% endcomment %}
 {% if params.sitebuilder_uniq_component_id %}
   {% assign sitebuilder_uniq_component_id = params.sitebuilder_uniq_component_id %}
@@ -27,7 +38,12 @@ Add the ID of a category containing product categories e.g. "11", or leave as nu
   {% assign live_update_JS_loaded = true %}
   {% export live_update_JS_loaded, namespace: sitebuilder %}
 {% endif %}
-{% comment %} <script>
+<style>
+	#{{sitebuilder_uniq_component_id}} .accordion-button.collapsed {
+		transform: rotate(180deg);
+	}
+</style>
+<script>
 	(function () {
 		if(window.sgLiveUpdateInitiated === true) {
 			myFunction();
@@ -38,37 +54,67 @@ Add the ID of a category containing product categories e.g. "11", or leave as nu
 			//Target an instance of SitegurusLiveUpdate and use a method.
 			const instance = sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'];
 			instance.setSortHTML({
-				unsorted: `<bold>Sort ASC</bold>`,
-				asc: `<bold>Sort DESC</bold>`,
-				desc: `<bold>Sort ASC</bold>`
+				unsorted: `
+					<div class="">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1rem; height: 1rem;">
+							<path fill-rule="evenodd" d="M2.24 6.8a.75.75 0 001.06-.04l1.95-2.1v8.59a.75.75 0 001.5 0V4.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L2.2 5.74a.75.75 0 00.04 1.06zm8 6.4a.75.75 0 00-.04 1.06l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75a.75.75 0 00-1.5 0v8.59l-1.95-2.1a.75.75 0 00-1.06-.04z" clip-rule="evenodd"></path>
+						</svg>
+						Unsorted
+					`,
+				asc: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="currentColor" style="width: 1rem; height: 1rem;">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
+				</svg>Sorting Lowest to Highest`,
+				desc: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="currentColor" style="width: 1rem; height: 1rem;">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
+				</svg>Sorting Highest to Lowest`
 			})
+			{% if product_category_parent != blank %}
+				{% comment %} When no category filter selected, enforce the product_category_parent as default. Replaces the Liquid version after page load. {% endcomment %}
+				instance.setDefaultParams({
+					category: '{{product_category_parent}}'
+				})
+				const defaultCategoryFilter = document.querySelector('#defaultCategoryFilter{{sitebuilder_uniq_component_id}}');
+				defaultCategoryFilter.remove();
+			{% endif %}
 		}
 	})();
-</script> {% endcomment %}
+</script>
 {% function public_key = "modules/module_86/front_end/functions/v1/live_update_params_encode", layout: layout, model: _model, model_type: 'ecommerce/products', collection: 'false', creator_id: nil %}
 
-<section class="" id="{{sitebuilder_uniq_component_id}}_products" data-sg-live-update-section="{{sitebuilder_uniq_component_id}}" data-sg-live-update-key="{{public_key}}" {% if filters_values_from_URL == true %}data-sg-live-update-modify-history-enabled="true" data-sg-live-update-modify-history-include-hidden-fields="false" {% endif %}>
+<section class="py-5" id="{{sitebuilder_uniq_component_id}}" data-sg-live-update-section="{{sitebuilder_uniq_component_id}}" data-sg-live-update-key="{{public_key}}" {% if filters_values_from_URL == true %}data-sg-live-update-modify-history-enabled="true" data-sg-live-update-modify-history-include-hidden-fields="false" {% endif %}>
 	<div class="container">
-		<div class="row" data-sg-live-update-controls="sidebar">
-			<div class="col-12 col-lg-3">
+		<div class="row">
+			<div class="col-12 col-lg-3" data-sg-live-update-controls="sidebar">
+				{% if product_category_parent != blank %}
+					<input type="hidden" name="category" value="{{product_category_parent}}" data-sg-live-update-default-param>
+				{% endif %}
+			
 				<div class="card mb-4 mb-lg-3 border-0">
 					<div class="card-header bg-transparent">
-						<h5 class="h5 sg-h5 mb-0">Categories</h5>
+						<h5 id="categoriesFiltersHeader" class="h5 mb-0 d-flex justify-content-between flex-wrap align-items-center">
+							Categories
+							<button class="accordion-button p-1 w-auto {% if context.device.device_type != "desktop" %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategoriesFilters" aria-expanded="{% if context.device.device_type == "desktop" %}true{% else %}false{% endif %}" aria-controls="collapseCategoriesFilters" >
+								<i class="fas fa-chevron-up"></i>
+							</button>
+						</h5>
+						
 					</div>
-					<div class="card-body">
-						{% comment %}The variable products_category just needs to == the id of your root category that contains all Products categories. For the starter kit, we use the following block of liquid to find this automatically.{% endcomment %}
-						{% for category in context.exports.categories.data %}
-							{% if category[1].external_id == "category_57529" %}
-								{% assign products_category = category[1].id %}
-								{% break %}
-							{% endif %}
-						{% endfor %}
-						{% comment %}End of starter kit products_category code.{% endcomment %}
+					<div id="collapseCategoriesFilters" class="card-body collapse {% if context.device.device_type == "desktop" %}show{% endif %}" aria-labelled-by="categoriesFiltersHeader">
 						{% assign category_map = context.exports.categories.items %}
 						{% assign path_info = context.headers.PATH_INFO %}
+						{% if product_category_parent != blank and params.category == blank  %}
+							{% comment %} Enforces parent category filter when no other filters selected on initial load. Removed by script when default params added via JS to replace it. {% endcomment %}
+							<input id="defaultCategoryFilter{{sitebuilder_uniq_component_id}}" type="hidden" name="category" value="{{product_category_parent}}">
+						{% endif %}
 						<ul class="list-unstyled mb-2">
 							{% for category in context.exports.categories.data %}
-								{% if category[1].parent != products_category %}{% continue %}{% endif %}
+								{% if product_category_parent != blank %}
+									{% if category[1].parent != product_category_parent %}
+										{% continue %}
+									{% endif %}
+								{% elsif category[1].parent != blank %}
+									{% continue %}
+								{% endif %}
 								{% assign category_id = category[1].id %}
 								<li class="mb-2">
 									<div class="form-check">
@@ -107,52 +153,75 @@ Add the ID of a category containing product categories e.g. "11", or leave as nu
 				</div>
 				<div class="card mb-4 mb-lg-3 border-0">
 					<div class="card-header bg-transparent">
-						<h5 class="h5 sg-h5 mb-0">Keyword Search</h5>
+						<h5 id="searchHeader" class="h5 mb-0 d-flex justify-content-between flex-wrap align-items-center">
+							Search
+							<button class="accordion-button p-1 w-auto {% if context.device.device_type != "desktop" %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-expanded="{% if context.device.device_type == "desktop" %}true{% else %}false{% endif %}" aria-controls="collapseSearch" >
+								<i class="fas fa-chevron-up"></i>
+							</button>
+						</h5>
+						
 					</div>
-					<div class="card-body">
+					<div class="card-body collapse {% if context.device.device_type == "desktop" %}show{% endif %}" id="collapseSearch" aria-labelled-by="searchHeader">
 						<div class="form-group">
 							<div class="input-group mb-4">
 								<span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-								<input name="keyword" class="form-control" placeholder="Search" type="text">
+								<input name="keyword" class="form-control" placeholder="Search" type="search" value="{{params.keyword}}">
 							</div>
 						</div>
-						{% comment %} <input type="text" class="form-control sg-bg-light border-0" id="sg-product-search" placeholder="Product Name">
-						<div class="input-group-append ms-2">
-							<button class="input-group-text btn btn-outline-primary sg-btn sg-btn-outline-primary" onClick="productSearch()">Search</button>
-						</div> {% endcomment %}
-						
 					</div>
 				</div>
 				<div class="card mb-5 mb-lg-0 border-0">
 					<div class="card-header bg-transparent">
-						<h5 class="h5 sg-h5 mb-0">Price Options</h5>
+						<h5 id="priceRangeHeader" class="h5 mb-0 d-flex justify-content-between flex-wrap align-items-center">
+							Prices
+							<button class="accordion-button p-1 w-auto {% if context.device.device_type != "desktop" %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePriceRange" aria-expanded="{% if context.device.device_type == "desktop" %}true{% else %}false{% endif %}" aria-controls="collapsePriceRange" >
+								<i class="fas fa-chevron-up"></i>
+							</button>
+						</h5>
 					</div>
-					<div class="card-body sg-price-control">
-						<label class="col-form-label">Sort by Price</label>
-						<button data-sg-live-update-sort-order="unsorted" data-sg-live-update-sort-type="properties.module_field_14/product/price/usd/1" type="button" class="ms-1">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1.5rem; height: 1.5rem;">
+					<div id="collapsePriceRange" class="card-body collapse {% if context.device.device_type == "desktop" %}show{% endif %}" aria-labelled-by="priceRangeHeader">
+						<label class="ms-0 col-form-label d-flex flex-wrap justify-content-between align-items-center">
+							Sort by Price
+							
+						</label>
+						<button data-sg-live-update-sort-order="unsorted" data-sg-live-update-sort-type="properties.module_field_14/product/price/usd/1" type="button" class="form-control w-100">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1rem; height: 1rem;">
 								<path fill-rule="evenodd" d="M2.24 6.8a.75.75 0 001.06-.04l1.95-2.1v8.59a.75.75 0 001.5 0V4.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L2.2 5.74a.75.75 0 00.04 1.06zm8 6.4a.75.75 0 00-.04 1.06l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75a.75.75 0 00-1.5 0v8.59l-1.95-2.1a.75.75 0 00-1.06-.04z" clip-rule="evenodd" />
 							</svg>
 						</button>
-						{% comment %} <select class="mb-4 sg-bg-light border-0" name="sort_order" onChange="controlPrice('sort')">
-							<option value="" {%- if context.params.sort_order == blank %}selected{%- endif -%}>Select an Option</option>
-							<option value="asc" {%- if context.params.sort_order == 'asc' %}selected{%- endif -%}>Lowest to Highest</option>
-							<option value="desc" {%- if context.params.sort_order == 'desc' %}selected{%- endif -%}>Highest to Lowest</option>
-						</select> {% endcomment %}
-						<h6 class="mb-2">Filter by Price</h6>
-						{%- function
-							currency_object = "modules/siteglide_ecommerce/ecommerce/functions/currency_object"
-							_model: _model
-							_model_field: 'module_field_14/product'
-						-%}
-						{%- parse_json currency_object -%}{{currency_object}}{%- endparse_json -%}
-						<select class="sg-bg-light border-0" id="sg-filter-price" onChange="controlPrice('filter')">
-							<option value="none" {%- if context.params.range_gt == blank %}selected{%- endif -%}>Any</option>
-							<option value="500,1000" {%- if context.params.range_gt == '500' -%}selected{%- endif -%}>{{currency_object.symbol}}5.00 - {{currency_object.symbol}}10.00</option>
-							<option value="1000,1500" {%- if context.params.range_gt == '1000' -%}selected{%- endif -%}>{{currency_object.symbol}}10.00 - {{currency_object.symbol}}15.00</option>
-							<option value="1500,2000" {%- if context.params.range_gt == '1500' -%}selected{%- endif -%}>{{currency_object.symbol}}15.00 - {{currency_object.symbol}}20.00</option>
-							<option value="2000,2500" {%- if context.params.range_gt == '2000' -%}selected{%- endif -%}>{{currency_object.symbol}}20.00 - {{currency_object.symbol}}25.00</option>
-						</select>
+						<fieldset class="form-group">
+							{% assign defaultTaxPercent = context.session.tax_code_object | parse_json | dig: "percentage" %}
+							{% assign defaultTaxModifier = defaultTaxPercent | divided_by: 100 | plus: 1 %}
+							<legend class="col-form-label">Filter by Price</legend>
+							{%- function
+								currency_object = "modules/siteglide_ecommerce/ecommerce/functions/currency_object"
+								_model: _model
+								_model_field: 'module_field_14/product'
+							-%}
+							{% capture price_filter_field %}module_field_14/product/price/{{currency_object.code_lowercase}}/1{% endcapture %}
+							{%- parse_json currency_object -%}{{currency_object}}{%- endparse_json -%}
+							<input type="hidden" name="range_field" value="{{price_filter_field}}">
+							<label for="range_gte">Lowest Price</label>
+							<select class="form-control mb-2" name="range_gte">
+								<option value="" {%- if params.range_gte == blank %}selected{%- endif -%}>Any</option>
+								{% for index in (1..price_options_number) %}
+									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor %}
+									{% assign optionValueWOTax = optionValue | divided_by: defaultTaxModifier | format_number: precision: 2  %}
+									<option value="{{optionValueWOTax}}" {%- if params.range_field contains 'module_field_14' and params.range_gte == optionValueWOTax -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
+								{% endfor %}
+							</select>
+						
+							<label for="range_lte">Highest Price</label>
+							<select class="form-control" name="range_lte" id="range_lte">
+								<option value="" {%- if params.range_lte == blank %}selected{%- endif -%}>Any</option>
+								{% for index in (1..price_options_number) %}
+									{% assign optionValue = price_options_increment | times: index | plus: price_options_floor | plus: price_options_increment %}
+									{% assign optionValueWOTax = optionValue | divided_by: defaultTaxModifier | format_number: precision: 2  %}
+									<option value="{{optionValueWOTax}}" {%- if params.range_field contains 'module_field_14' and params.range_lte == optionValueWOTax -%}selected{%- endif -%}>{{currency_object.symbol}}{{optionValue | divided_by: 100.0 | format_number: precision: 2}}</option>
+								{% endfor %}
+							</select>
+							
+						</fieldset>
 					</div>
 				</div>
 			</div>
@@ -160,37 +229,45 @@ Add the ID of a category containing product categories e.g. "11", or leave as nu
 				<div class="row mb-n3" data-sg-live-update-component="main_results">
 					{%- include 'modules/siteglide_ecommerce/ecommerce/get/get_products', item_layout: 'item' -%}
 				</div>
-				<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center p-4" aria-label="Blog pagination">
+				<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center pt-4" aria-label="pagination">
           {% comment %} For screenreaders, this section will announce when filters change the number of results. {% endcomment %}
-          <div class="py-5" aria-live="polite">
+          <div class="" aria-live="polite">
             <div data-sg-live-update-component="total_results">
-              {% capture exports_key %}module_3{% endcapture %}
+              {% capture exports_key %}module_14/product{% endcapture %}
               {% assign per_page = per_page | default: context.params.per_page | default: 20 %}
               {% assign total_entries = context.exports[exports_key].data.result.total_entries %}
               {% assign total_pages = total_entries | plus: 0.0 | divided_by: per_page | ceil %}
               {% assign current_page = context.params.page | default: 1 %}
-              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+              {% if total_entries > 0 %}
+							<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                 Showing Page
                 <span class="font-semibold text-gray-900 dark:text-white">{{current_page}}</span>
                 of
                 <span class="font-semibold text-gray-900 dark:text-white">{{total_pages}}</span>
               </span>
+							{% else %}
+								<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+									Sorry, no results.
+								</span>
+							{% endif %}
             </div>
           </div>
-          <form class="d-flex flex-wrap align-items-center py-5" data-sg-live-update-controls="per_page">
-            <label for="rows" class="col-form-label">
+					<div class="">
+            {% include "modules/module_86/front_end/includes/v1/pagination", live_updates: 'true', lock_per_page: 'false' %}
+          </div>
+          <form class="d-flex flex-wrap align-items-center" data-sg-live-update-controls="per_page">
+            <label for="rows" class="col-form-label sr-only">
               Rows per page
             </label>
             <select name="per_page" id="rows" class="form-control">
-              <option selected value="{{per_page}}">{{per_page}}</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+							{% if per_page != blank %}
+              <option {% if params.per_page == per_page %}selected{% endif %} value="{{per_page}}">{{per_page}} products per page</option>
+							{% endif %}
+              <option {% if params.per_page == "25" %}selected{% endif %} value="25">25 products per page</option>
+              <option {% if params.per_page == "50" %}selected{% endif %} value="50">50 products per page</option>
+              <option {% if params.per_page == "100" %}selected{% endif %} value="100">100 products per page</option>
             </select>
           </form>
-          <div class="-my-8">
-            {% include "modules/module_86/front_end/includes/v1/pagination", live_updates: 'true', lock_per_page: 'false' %}
-          </div>
         </div>
 			</div>
 		</div>

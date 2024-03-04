@@ -1,0 +1,48 @@
+{% raw %}
+<tr>
+	<td>
+		<div class="d-flex px-2 py-1">
+			<div class="position-relative {% if attribute_image != blank or this['Image'] != blank%} me-3 {% endif %}">
+				{% for attribute in this.cart_data.attributes -%}
+					{%- if attribute.last -%}
+						{% assign attribute_image = attribute.last.properties['module_field_14/product_attribute_option_5'] %}
+					{%- endif -%}
+				{% endfor -%}
+				{% if attribute_image %}
+					<img style="object-fit: cover;" src="{{attribute_image | asset_url }}" alt="{{this.name}}" class="avatar-xl rounded">
+				{% else %}
+					<img style="object-fit: cover;" src="{{this['Image'] | asset_url }}" alt="{{this.name}}" class="avatar-xl rounded">
+				{% endif %}
+				{% comment %} Only display the quantity here on smaller widths. On larger widths it gets its own column. {% endcomment %}
+				{% if this.inventory.id != blank and this.inventory.quantity == '0' -%}
+					<span class="d-block d-xl-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">Out of Stock</span>
+				{% else %}
+					<span class="d-block d-xl-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{{this.cart_data.quantity}}</span>
+				{% endif %}
+			</div>
+			<div class="d-flex flex-column justify-content-center">
+				<a href="{{this.full_slug}}"><h6 class="mb-0 text-xs">{{this['name']}}</h6></a>
+				<p class="text-xs text-secondary mb-0">{{this.price.currency_symbol}}{{this.cart_data.price_data.price_charge_formatted}}</p>
+				{% for attribute in this.cart_data.attributes -%}
+					{%- if attribute.last -%}
+						<p class="text-xs {% if forloop.last %}mb-0{% endif %}">{{attribute.last.product_attribute.name}}: {{attribute.last.name}}</p>
+					{%- endif -%}
+				{% endfor -%}
+				
+			</div>
+		</div>
+	</td>
+	<td class="d-none d-xl-table-cell">
+		<div class="d-flex align-items-center" data>
+			{% if this.inventory.id != blank and this.inventory.quantity == '0' -%}
+				<span class="text-xs">Out of Stock</span>
+			{% else %}
+				{{this.cart_data.quantity}}
+			{% endif %}
+		</div>
+	</td>
+	<td class="align-middle text-center text-sm fw-bold">
+		{{this.price.currency_symbol}}{{this.cart_data.price}}
+	</td>
+</tr>
+{% endraw %}

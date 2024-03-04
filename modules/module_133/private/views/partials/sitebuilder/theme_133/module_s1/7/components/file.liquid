@@ -1,0 +1,13 @@
+{%- raw -%}<div class="col-12  mb-3 file">
+  {% if value != blank %}
+    <div class="form-group">
+      <label class="col-form-label" for="existing_file_{{field_id}}">Current {{label}}</label>
+      <input class="form-control" {{attributes}} readonly disabled id="existing_file_{{field_id}}" type="text" value="{{value | split: '/' | last }}">
+    </div>
+  {% endif %}
+  <div class="form-group">
+    <label class="col-form-label" for="{{field_id}}">{% if value != blank %}Change{% endif %} {{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
+    <input {{attributes}} class="form-control {% if value == blank and validation == 'required' %}{{validation}}{% endif %}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}" type="hidden" value="{{value}}">
+    <input class="form-control {% if value != blank and validation == 'required' %} is-valid{% elsif validation == 'required' %}is-invalid {{validation}}{% endif %}" {% if validation != blank and value == blank %}{{validation}}{% endif %} id="{{field_id}}_file" type="file" />
+  </div>
+</div>{%- endraw -%}

@@ -1,0 +1,92 @@
+{% raw %}
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------Logo URL------ {% endcomment %}
+{% assign logo_url = "/" %}
+{% comment %} ------Cart URL-------- {% endcomment %}
+{% assign cart_url = "/cart" %}
+{% comment %} ------Sign Up URL-------- {% endcomment %}
+{% assign sign_up_url = "/sign-up" %}
+{% comment %} ---End Settings--- {% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<!-- Navbar Dark -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3">
+  <div class="container p-0 ">
+    <a class="navbar-brand text-white me-2" href="{{logo_url}}" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
+      <img src="{% if context.exports.company_information.properties.logo != blank %}{{context.exports.company_information.properties.logo | asset_url}}{% else %}https://res.cloudinary.com/sitegurus/image/upload/v1701174909/modules/module_133/placeholders/bootstrap-logo.svg{% endif %}" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}" class="h-auto w-100" style="max-height: 2rem; max-width: 100px;">
+      <span class="sr-only">{{context.exports.company_information.properties.company_name | default: "Soft UI Design System" }}</span>
+    </a>
+    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon mt-2">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
+      <ul class="navbar-nav navbar-nav-hover mx-auto">
+        {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
+        <li class="nav-item d-lg-none mx-2">
+          <div class="btn-group">
+            <a class="ms-2 mt-2 badge bg-gradient-primary mb-0 me-auto d-lg-none d-flex align-items-center" href="{{cart_url}}">
+              <i class="fas fa-shopping-cart text-base"></i>
+              {% assign cart_parsed = context.session.cart | parse_json %}
+              {% assign total_quantity = 0 %}
+              {% for item in cart_parsed %}
+                {% assign total_quantity = total_quantity | plus: item[1].quantity %}
+              {% endfor %}
+              <span data-s-e-live-cart-quantity class="text-base ms-1 d-block">{{total_quantity}}</span>
+            </a>
+            {% if context.current_user.id %}
+              {% include 'logout_button', redirect: context.location.pathname, layout: layout, mobile: true %}
+            {% else %}
+              <button type="button" class="ms-2 mt-2 badge bg-gradient-primary mb-0 me-auto d-lg-none d-flex align-items-center border-0" data-bs-toggle="modal" data-bs-target="#loginModal{{sitebuilder_uniq_component_id}}">
+                <i class="fas fa-user"></i>
+                <span class="text-base ms-1">Login</span>
+              </button>
+            {% endif %}
+            
+          </div>
+          {% comment %} <a href="{{buy_now_url}}" class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" role="button">Buy Now</a> {% endcomment %}
+        </li>
+      </ul>
+      
+    </div>
+    <div class="btn-group d-none d-lg-flex">
+      <a class="d-none d-lg-flex align-items-center btn bg-gradient-primary border border-primary btn-round mb-0 ms-auto" href="{{cart_url}}">
+        <i class="fas fa-shopping-cart text-base"></i>
+        {% assign cart_parsed = context.session.cart | parse_json %}
+        {% assign total_quantity = 0 %}
+        {% for item in cart_parsed %}
+          {% assign total_quantity = total_quantity | plus: item[1].quantity %}
+        {% endfor %}
+        <span data-s-e-live-cart-quantity class="text-base ms-1 d-block">{{total_quantity}}</span>
+      </a>
+      {% if context.current_user.id %}
+        {% include 'logout_button', redirect: context.location.pathname, layout: layout, mobile: false %}
+      {% else %}
+        <button type="button" class="d-none d-lg-flex align-items-center btn btn-outline-light opacity-9 btn-round mb-0 ms-auto" data-bs-toggle="modal" data-bs-target="#loginModal{{sitebuilder_uniq_component_id}}">
+          <i class="fas fa-user"></i>
+          <span class="text-base ms-1">Login</span>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+<!-- End Navbar -->
+<style>
+  /* Fix font-awesome bug */
+  .dropdown-menu.show::before {
+    content: '' !important;
+  }
+  /* Fix dropdown menu colors */
+  @media only screen and (min-width: 992px) {
+    .text-lg-dark {
+      color: var(--bs-dark) !important;
+    }
+  }
+</style>
+<!-- Modal -->
+{% include 'login_form', redirect: context.location.pathname, layout: layout %}
+{% endraw %}

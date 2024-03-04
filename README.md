@@ -8,6 +8,17 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.4.0 - Released 04th March 2024
+
+- eCommerce Layouts Release
+  - Requires SiteBuilder version 4.9.1!
+  - New Header Menu Layouts which include a Cart summary
+  - A new Product List View and Cart utilising Live Updates for smooth, fast, user-interaction.
+  - A new special type of Form Layout designed for a Checkout Form which includes an embedded Cart Preview
+  - A new Product Detail view, including a JS widget for switching the top image to that used by the active Product Attribute option
+  - An Orders List view layout for signed in users
+  - A special Form Confirmation Layout with embedded Order Detail view - (find inside the eCommerce module). You can use the same layout for Form Confirmation - and for viewing Order Details of past orders. The layout contains Liquid which displays the submitted form fields from the case in both contexts.
+
 0.3.0 - Released 21st December 2023
 
 - Updated Live Updates Layouts to use latest version of Live Updates 1-4. This adds new support for default parameters allowing better support for upcoming eCommerce layouts. Update the main SiteBuilder module first, before updating to this version.

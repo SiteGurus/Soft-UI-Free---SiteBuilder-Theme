@@ -1,7 +1,7 @@
 {%- raw -%}
 {% assign form_min_payment_amount_int = form_payment_amount | plus: 0.0 %}
 {% if form_min_payment_amount_int > 0 %}
-<div class="col-12 mb-3">
+<div class="col-12">
   <div class="form-group">
     <span class="col-form-label d-block">Enter Payment Details</span>
     <input {{attributes}} name="{{ form_builder.fields.properties.order_id.name }}" id="s_e_order_id" type="hidden" />

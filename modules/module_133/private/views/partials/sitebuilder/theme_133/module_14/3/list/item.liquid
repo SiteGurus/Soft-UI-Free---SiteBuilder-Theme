@@ -1,29 +1,55 @@
 {% raw %}
 <tr>
-	<td scope="row" class="p-0 py-md-4 pe-md-4 d-block d-md-table-cell text-center text-md-start">
-		<img src="{{this['Image'] | asset_url }}" alt="{{this.name}}" class="mb-3">
-		<p class="mb-3">{{this['name']}}</p>
+	<td>
+		<div class="d-flex px-2 py-1">
+			<div>
+				{% for attribute in this.cart_data.attributes -%}
+					{%- if attribute.last -%}
+						{% assign attribute_image = attribute.last.properties['module_field_14/product_attribute_option_5'] %}
+					{%- endif -%}
+				{% endfor -%}
+				{% if attribute_image %}
+					<img style="object-fit: cover;" src="{{attribute_image | asset_url }}" alt="{{this.name}}" class="{% if context.device.device_type == 'desktop' %} avatar-xl {% else %} avatar-sm {% endif %} rounded me-2 me-md-3">
+				{% else %}
+					<img style="object-fit: cover;" src="{{this['Image'] | asset_url }}" alt="{{this.name}}" class="{% if context.device.device_type == 'desktop' %} avatar-xl {% else %} avatar-sm {% endif %} rounded me-2 me-md-3">
+				{% endif %}
+			</div>
+			<div class="d-flex flex-column justify-content-center">
+				<a href="{{this.full_slug}}"><h6 class="mb-0 text-xs">{{this['name']}}</h6></a>
+				<p class="text-xs text-secondary mb-0">{{this.price.currency_symbol}}{{this.cart_data.price_data.price_charge_formatted}}</p>
+				{% for attribute in this.cart_data.attributes -%}
+					{%- if attribute.last -%}
+						<p class="text-xs {% if forloop.last %}mb-0{% endif %}">{{attribute.last.product_attribute.name}}: {{attribute.last.name}}</p>
+					{%- endif -%}
+				{% endfor -%}
+			</div>
+		</div>
 	</td>
-	<td class="p-0 py-md-4 pe-md-4 d-none d-md-table-cell">
-		{% for attribute in this.cart_data.attributes -%}
-			{%- if attribute.last -%}
-				<p>{{attribute.last.product_attribute.name}}: {{attribute.last.name}}</p>
-			{%- endif -%}
-		{% endfor -%}
+	<td>
+		<div class="d-flex align-items-center" data>
+			{% if this.inventory.id != blank and this.inventory.quantity == '0' -%}
+				<span class="text-xs">Out of Stock</span>
+			{% else %}
+				<label for="quantity" class="visually-hidden">Quantity</label>
+				<input class="form-control py-2 text-xs" type="number" id="quantity" name="quantity" min="1" value="{{this.cart_data.quantity}}" oninput="
+					s_e_cart_update_quantity(event.target.value,{{this.cart_data.cart_id}},'{{context.authenticity_token}}', false);
+					s_e_cart_update({
+						token: '{{context.authenticity_token}}',
+						success_cb: function() {
+							window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'].changeStateTrailingDebounce();
+						}
+					});
+				">
+			{% endif %}
+			<button class="ms-2 {% if context.device.device_type == 'desktop' %} badge badge-secondary text-secondary {% else %} bg-transparent p-0 {% endif %} mb-0 font-weight-bold text-xs border-0"  onclick="
+				s_e_cart_remove(true,{{this.cart_data.cart_id}},function() {
+					window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}'].changeStateTrailingDebounce();
+				})
+			" data-toggle="tooltip" data-original-title="Remove"><i class="fas fa-times fa-sm"></i><span class="sr-only">Remove</span></button>
+		</div>
 	</td>
-	<td class="p-0 py-md-4 pe-md-4 d-block d-md-table-cell text-center mb-3">
-		{% if this.inventory.id != blank and this.inventory.quantity == '0' -%}
-			Out of Stock
-		{% else %}
-			<label for="quantity" class="d-md-none">Quantity</label>
-			<input class="form-control py-2 " type="number" id="quantity" name="quantity" min="1" max="{{this.inventory.quantity | default: 1}}" value="{{this.cart_data.quantity}}" onchange="s_e_cart_update_quantity(event.target.value,{{this.cart_data.cart_id}},'{{context.authenticity_token}}')">
-		{% endif %}
-	</td>
-	<td class="p-0 py-md-4 pe-md-4 d-block d-md-table-cell text-center text-md-start">
-		<p class="mb-3 mb-md-0">{{this.price.currency_symbol}}{{this.cart_data.price}}</p>
-	</td>
-	<td class="p-0 py-md-4 ps-md-4 d-block d-md-table-cell text-center text-md-end">
-		<button class="btn btn-secondary sg-btn sg-btn-secondary px-4 py-3 mb-5 mb-md-0"  onclick="s_e_cart_remove(true,{{this.cart_data.cart_id}})"><i class="fas fa-trash"></i><span class="sr-only">Remove</span></button>
+	<td class="align-middle text-center text-sm fw-bold">
+		{{this.price.currency_symbol}}{{this.cart_data.price}}
 	</td>
 </tr>
 {% endraw %}

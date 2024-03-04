@@ -1,10 +1,39 @@
 {% raw %}
-<button class="btn btn-primary sg-btn sg-btn-primary px-4 py-2 me-2 mb-4" onclick="s_e_cart_add('{{this.id}}')">Add to cart</button>
-
-<button class="btn btn-primary sg-btn sg-btn-secondary px-4 py-2 mb-4" onclick="s_e_cart_add('{{this.id}}',product_buy_now)">Buy now</button>
-<script>
-	function product_buy_now() {
-		window.location.href = "{{cart_url}}";
+<button class="w-100 btn btn-icon bg-gradient-success py-2 mb-2" onclick="s_e_cart_add('{{this.id}}', function() {
+	if(typeof window.swal === 'function') {
+		success();
+	} else {
+		const script = document.querySelector('#sweetalert_script');
+		script.addEventListener('load', success);
 	}
-</script>
+	function success() {
+		swal.fire({
+			position: 'bottom-end',
+			icon: 'success',
+			title: 'Product added to cart!',
+			showConfirmButton: false,
+			timer: 1500,
+			toast: true,
+			width: '24em',
+			padding: '1.5rem',
+			custom_class: {
+				title: 'h6'
+			}
+		});
+	}
+});">
+	<span class="btn-inner--icon"><i class="ni ni-cart  me-2"></i>
+	<span class="btn-inner--text">Add to cart
+</button>
+<button class="w-100 btn bg-gradient-primary mb-2 py-2" onclick="s_e_cart_add('{{this.id}}', function() {
+	window.location.href = '{{cart_url | html_safe}}';
+})">
+	<span class="btn-inner--icon "><i class="ni ni-delivery-fast me-2"></i>
+	<span class="btn-inner--text">Buy now</span>
+</button>
+{% if context.exports.sitebuilder.sweetalert == blank %}
+	<script id="sweetalert_script" async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	{% assign sweetalert = true %}
+	{% export sweetalert, namespace: "sitebuilder" %}
+{% endif %}
 {% endraw %}

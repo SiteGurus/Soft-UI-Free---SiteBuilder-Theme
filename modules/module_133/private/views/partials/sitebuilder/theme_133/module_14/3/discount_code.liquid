@@ -1,21 +1,23 @@
 {% raw %}
-<div class="form-group text-center text-md-start row discount">
-  <div class="col-12 col-lg-7">
-      <label class="mb-3" for="s_e_discount_code">Discount Code</label>
-  	  <input class="form-control" id="s_e_discount_code" data-s-e-discount-code value="{%- if discount_code != blank -%}{{discount_code}}{%- endif -%}">
-  	  {%- if discount_code != blank -%}<p class="mt-2" style="margin-bottom: 0px;">Discount: <span style="color: red;">-{{context.exports.cart_currency.data}}{%- include 'modules/siteglide_ecommerce/ecommerce/price_formatter', price_data: discount_amount -%}</span></p>{%- endif -%}
+<div class="form-group text-center text-md-start ">
+  <label class="mb-3" for="{{sitebuilder_uniq_component_id}}_discount_code">Discount Code</label>
+  <div class="input-group">
+    <input style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;" type="text" class="form-control rounded-start" id="{{sitebuilder_uniq_component_id}}_discount_code" data-s-e-discount-code value="{%- if discount_code != blank -%}{{discount_code}}{%- endif -%}">
+    {%- if discount_code == blank -%}
+      <button class="btn btn-primary 
+       mb-0" id="s_e_discount_apply" onclick="s_e_cart_discount_code('{{context.exports.cart_base_price.data | json}}', s_e_discount_error)">Apply Code</button>
+    {%- else-%}
+      <button class="btn btn-primary rounded-end mb-0" id="s_e_discount_remove" onclick="s_e_cart_discount_code_remove()">Remove Code</button>
+    {% endif %}
+    
   </div>
-  <div class="col-12 col-lg-5 mb-5 mb-md-0 pt-4 mt-3">
-      {%- if discount_code == blank -%}
-    	  <button class="btn btn-primary sg-btn sg-btn-primary py-2 px-4" id="s_e_discount_apply" onclick="s_e_cart_discount_code('{{context.exports.cart_base_price.data | json}}', s_e_discount_error)">Apply Code</button>
-      {%- else-%}
-      	<button class="btn btn-primary sg-btn sg-btn-danger" id="s_e_discount_remove" onclick="s_e_cart_discount_code_remove()">Remove Code</button>
-      {% endif %}
-  </div>
-  {%- if discount_code != blank and discount_minimum-%}
-  	<p style="padding-left: 15px;">This code will only be valid on orders over: {{context.exports.cart_currency.data}}{%- include 'modules/siteglide_ecommerce/ecommerce/price_formatter', price_data: discount_minimum -%}</p>
-  {%- endif -%}
 </div>
+{%- if discount_code != blank -%}<p class="mt-2" >Discount: <span class="text-danger">-{{context.exports.cart_currency.data}}{%- include 'modules/siteglide_ecommerce/ecommerce/price_formatter', price_data: discount_amount -%}</span></p>{%- endif -%}
+  
+{%- if discount_code != blank and discount_minimum-%}
+  <p>This code will only be valid on orders over: {{context.exports.cart_currency.data}}{%- include 'modules/siteglide_ecommerce/ecommerce/price_formatter', price_data: discount_minimum -%}</p>
+{%- endif -%}
+
 <script>
 	function s_e_discount_error(error) {
 		console.log(error.type); /* an error code which you can use in your logic. */

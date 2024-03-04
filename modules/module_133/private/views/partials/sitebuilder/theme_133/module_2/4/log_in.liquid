@@ -1,0 +1,39 @@
+{% raw %}
+<div class="modal fade" id="loginModal{{sitebuilder_uniq_component_id}}" tabindex="-1" aria-labelledby="#loginModal{{sitebuilder_uniq_component_id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#loginModal{{sitebuilder_uniq_component_id}}Label">Login</h5>
+        <button type="button" class="btn-close btn btn-default" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fas fa-times text-dark"></i>
+        </button>
+      </div>
+      {% form html-class: "sg-form" -%}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="{{ form_builder.fields.email.name }}">Email Address</label>
+            <input class="form-control sg-form-control" type="email" name="{{ form_builder.fields.email.name }}" id="{{ form_builder.fields.email.name }}" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="{{ form_builder.fields.password.name }}">Password</label>
+            <input class="form-control sg-form-control mb-2" type="password" name="{{ form_builder.fields.password.name }}" id="{{ form_builder.fields.password.name }}" autocomplete="current-password">
+            <div class="d-flex align-items-center">
+              <a class="text-xs" href="/system/recover-password" title="Reset password">Reset Password</a>
+            </div>
+          </div>
+          <div class="form-error form-group alert alert-danger text-white"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="w-100 d-flex flex-wrap justify-content-between align-items-center">
+            <a class="nav-link" href="{{sign_up_url}}">Sign Up</a>
+            <div>
+              <button type="button" class="btn btn-secondary mb-0" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn bg-gradient-primary mb-0" onclick="siteglide_login_process(this,'{{_redirect}}','Sorry, that email and password combination was not recognised.')">Login</button>
+            </div>
+          </div>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
+{% endraw %}
