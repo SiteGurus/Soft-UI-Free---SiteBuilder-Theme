@@ -8,7 +8,7 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
-0.4.0 - Released 04th March 2024
+0.4.0 - Released 4th March 2024
 
 - eCommerce Layouts Release
   - Requires SiteBuilder version 4.9.1!
