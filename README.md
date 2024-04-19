@@ -8,6 +8,10 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.4.1 - Released 19th Aprile 2024
+
+- Fixed attribute switching on detail layout changing image when returning to default option.
+
 0.4.0 - Released 4th March 2024
 
 - eCommerce Layouts Release

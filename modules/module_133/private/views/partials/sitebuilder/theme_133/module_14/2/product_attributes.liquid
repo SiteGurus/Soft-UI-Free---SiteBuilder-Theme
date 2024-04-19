@@ -2,11 +2,8 @@
 <div class="col-12">
   <label for="{{this_attribute.properties.name | slugify}}">{{name}}</label>
   <select name="{{this_attribute.properties.name | slugify}}" id="{{this_attribute.properties.name | slugify}}" class="form-control" data-attribute-control="{{product_attribute_id}}" onchange="
-    const imageEl = document.querySelector(`[data-sg-attr-image=&quot;${this.value}&quot;]`) || Array.from(document.querySelectorAll(`[data-sg-attr-image]`)).find(
-      function(i) {
-        return i.dataset.sgAttrImage == ''
-      }
-    );
+    const imageArr = Array.from(document.querySelectorAll(`[data-sg-attr-image]`));
+    const imageEl = imageArr.find((i) => i.dataset.sgAttrImage === this.value) || imageArr.find((i) => i.dataset.sgAttrImage === 'undefined');
     const topImageEl = document.querySelector('[data-sg-main-image]');
     const topImageId = topImageEl.dataset.sgAttrImage;
     const topImageSrc = topImageEl.getAttribute('src');
