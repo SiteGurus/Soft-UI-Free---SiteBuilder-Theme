@@ -8,7 +8,11 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
-0.4.1 - Released 19th Aprile 2024
+0.4.2 - Released 8th May 2024
+
+- Updated eCommerce Order Confirmation Layout to display the price the customer paid for product attributes, rather than the attribute's current cost.
+
+0.4.1 - Released 19th April 2024
 
 - Fixed attribute switching on detail layout changing image when returning to default option.
 

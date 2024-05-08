@@ -183,14 +183,16 @@ context.session.form_fc: {{context.session.form_fc}} {% endcomment %}
                       {% assign product_snapshot = prod[1] %}
                       {% assign product_current_details = this.order_products | detect: id: product_snapshot.product_id %}
                       {% assign attr_current_details = '' | split: ',' %}
+                      {% assign product_snapshot_price = product_snapshot.price_charge %}
                       {% for attr in product_snapshot.attributes %}
                         {% assign option_id = attr[1].option_id %}
                         {% assign option_current_details = product_current_details.product_attribute_options[option_id] %}
                         {% assign attr_current_details = attr_current_details | array_add: option_current_details %}
+                        
+                        {% assign product_snapshot_price = product_snapshot_price | plus: attr[1].price_charge %}
                       {% endfor %}
-                      {% assign product_snapshot_price = product_snapshot.price_charge %}
+                      
                       {% for attr_opt in attr_current_details %}
-                        {% assign product_snapshot_price = product_snapshot_price | plus: attr_opt.price_charge %}
                         {% if attr_opt.image != blank %}
                           {% assign product_snapshot_image = attr_opt.image %}
                         {% endif %}
