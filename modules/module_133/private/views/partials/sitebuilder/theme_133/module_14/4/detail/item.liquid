@@ -1,7 +1,7 @@
 {% raw %}
 {% if slug == params.slug2 and params.slug2 != blank %}
   {% comment %} When accessed via an order slug in the URL {% endcomment %}
-  {% function case_details = "modules/module_86/front_end/v1/case_from_order_id", order_id: this.id %}
+  {% function case_details = "modules/module_86/front_end/functions/v1/case_from_order_id", order_id: this.id %}
   {% assign form_config_id = case_details.table | split: "_" | last %}
   {% assign form = '{}' | parse_json %}
   {% hash_assign form['properties'] = case_details.properties %}
