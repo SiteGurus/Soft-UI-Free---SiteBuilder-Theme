@@ -1,0 +1,243 @@
+{%-raw-%}
+
+{% include 'module', id: '6', item_ids: this['Host'], collection: 'true', per_page: '1', datasource: 'true', type: 'list' %}
+{% assign host = context.exports.module_6.data.result.items[0] %}
+{% capture structured_data %}layouts/modules/module_12/{{layout}}/structured_data{% endcapture %}
+{%- include structured_data, virtual_event_url: this.properties[cf_virtual_event_url], physical_street_address: this.properties[cf_physical_street_address], physical_address_locality: this.properties[cf_physical_address_locality], physical_postal_code: this.properties[cf_physical_postal_code], physical_address_region: this.properties[cf_physical_address_region], physical_address_country: this.properties[cf_physical_address_country] -%}
+  
+
+<section>
+  <div class="container py-8">
+    <div class="row mb-8">
+      <div class="col-12 col-lg-8">
+        <div class="row g-3">
+          <div class="col-12">
+            <h2 class="fs-3 fw-bolder text-gradient text-primary">{{this['name']}}</h2>
+            <p>
+              By
+              <a rel="host" href="{{events_list_page_url}}?module_field_3_4={{host.id}}&host_name={{host.properties.name | url_encode}}">{{host.properties.module_field_6_1}}</a>
+              in 
+              {% for category in this['category_array'] %}
+                <a href="{{events_list_page_url}}?category={{context.exports.categories.data[category].id}}">{{context.exports.categories.data[category].name  | replace: " ", "&nbsp;" -}}</a>
+                {%- assign position = forloop.index | plus: 1 -%}
+                {%- if this['category_array'].size == position -%}&nbsp;and{%- elsif forloop.last != true -%}, {% endif %}
+              {% endfor %}
+            </p>
+            <p>
+              {% assign time_diff = this['Event Start'] | time_diff: this['Event End'] %}
+              {% if time_diff < 86400000 %}
+                Starts at 
+                <time pubdate class="text-uppercase" datetime="{{this['Event Start'] | date: '%d %^b. %Y'}}" title="{{this['Event Start'] | date: '%b %d %Y'}}">
+                  {{this['Event Start'] | date: '%d/%m/%y %H:%M'}}
+                </time>
+                ,  Ends at 
+                <time pubdate class="text-uppercase" datetime="{{this['Event End'] | date: '%d %^b. %Y'}}" title="{{this['Event End'] | date: '%b %d %Y'}}">
+                  {{this['Event End'] | date: '%H:%M'}}
+                </time>
+              {% else %}
+                Starts on 
+                <time pubdate class="text-uppercase" datetime="{{this['Event Start'] | date: '%d %^b. %Y'}}" title="{{this['Event Start'] | date: '%b %d %Y'}}">
+                  {{this['Event Start'] | date: '%d/%m/%y %H:%M'}}
+                </time>
+                , Ends on 
+                <time pubdate class="text-uppercase" datetime="{{this['Event End'] | date: '%d %^b. %Y'}}" title="{{this['Event End'] | date: '%b %d %Y'}}">
+                  {{this['Event End'] | date: '%d/%m/%y %H:%M'}}
+                </time>
+              {% endif %}
+            </p>
+            {% assign now = "now" | date: "%s" | plus: 0 %}
+            {% assign event_start = this['Event Start'] | date: "%s" | plus: 0 %}
+            {% assign event_end = this['Event End'] | date: "%s" | plus: 0 %}
+            {% if event_start < now and event_end > now %}
+              <div role="alert">
+                <span class="font-medium">This Event Is In Progress. </span> Sorry! Please let us know if you'd like to see another event like this soon!
+              </div>
+            {% elsif event_start < now and event_end < now %}
+              <div role="alert">
+                <span class="font-medium">This Event Has Finished. </span> Sorry! Please let us know if you'd like to see another event like this soon!
+              </div>
+            {% endif %}
+          </div>
+          <aside class="col-12 d-flex flex-wrap gap-2" aria-label="Share social media">
+            {% if event_end > now %}
+              <button data-s-g-option-id="{{this.id}}" 
+              data-s-g-option-start-date="{{this['Event Start'] | date: '%Y%m%dT%H%M%SZ'}}"
+              data-s-g-option-end-date="{{this['Event End'] | date: '%Y%m%dT%H%M%SZ'}}"
+              data-s-g-option-summary="{{this.properties['name']}}"
+              data-s-g-option-description="{{this['Description']}}"
+              data-s-g-option-address="{{this.properties.module_field_12_6}}"
+              data-s-g-option-location="{{this.properties.module_field_12_7}}" class="btn btn-primary btn-icon mb-1" data-s-g-events-feature="ics-link" download="event.ics">
+                <div class="d-flex align-items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                  </svg>
+                  Get Calendar Invite
+                </div>
+              </button>
+            {% endif %}
+
+            <button data-s-g-social-feature="fbButton" class="btn btn-primary btn-icon mb-1" type="button">
+              <div class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                </svg>
+                Share
+              </div>
+            </button>
+
+            <button data-s-g-social-feature="tw" class="btn btn-primary btn-icon mb-1" type="button">
+              <div class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                  <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                </svg>
+                Tweet
+              </div>
+            </button>
+
+            <button data-s-g-social-feature="clipboard" class="btn btn-primary btn-icon mb-1" type="button">
+              <div class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                  <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z"/>
+                  <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z"/>
+                </svg>
+                Copy link
+              </div>
+            </button>
+          </aside>
+          <div class="col-12">
+            <div class="row">
+              {{this['Description'] | html_safe }}
+            </div>
+            <div class="row">
+              {% if  this.properties['module_field_12_6'] != blank or  this.properties['module_field_12_7'] != blank %}
+                <h4 class="my-4 fw-bold">Getting Here</h4>
+              {% endif %}
+              {% if this.properties['module_field_12_6'] != blank  %}
+                <p class="text-gray-500 dark:text-gray-400">{{this.properties.module_field_12_6}}</p>
+              {% endif %}
+              {% if  this.properties['module_field_12_7'] != blank and context.exports.integrations.properties.google_api_key != blank %}
+                <iframe
+                  class="my-4"
+                  width="100%"
+                  height="450"
+                  style="border:0"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps/embed/v1/place?key={{context.exports.integrations.properties.google_api_key}}&q={{this.properties['module_field_12_7']}}">
+                </iframe>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if sidebar == true %}
+        <div class="d-none d-lg-block col-lg-4" aria-labelledby="sidebar-label">
+          <div class="p-3 border rounded bg-light">
+            {% capture sidebar %}layouts/modules/module_12/{{layout}}/sidebar{% endcapture %}
+            {%- include sidebar -%}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <aside aria-label="Related events" class="row">
+      {% comment %} {% assign category_ids = this['category_array'] | join: "," %} {% endcomment %}
+      {% comment %} category_ids: {{category_ids}} {% endcomment %}
+      {% assign now_string = now | downcase %}
+      {% graphql related_events, category_array: this.category_array, id: this.id, now_string: now_string %}
+        query related_events($category_array: [String!]=["00000"], $id: ID!, $now_string: String){
+          records(
+            per_page: 4,
+            filter: {
+              table: {
+                value: "module_12"
+              }
+              properties: [
+                {
+                  name: "category_array",
+                  array_overlaps: $category_array 
+                },
+                {
+                  name: "module_field_12_2",
+                  range: {
+                    gt: $now_string
+                  }
+                }
+              ],
+              id: {
+                not_value_in: $id
+              }
+            },
+            sort: {
+              properties: {
+                name: "module_field_12_2",
+                order: ASC
+              }
+            }
+          ) {
+            results {
+              id
+              properties
+            }
+          }
+        }
+      {% endgraphql %}
+
+      {% if related_events.records.results.size > 0 %}
+        <div class="col-12">
+          <h2 class="fs-4 fw-bolder text-gradient text-primary">Related upcoming events</h2>
+          <div class="d-flex flex-wrap justify-content-between gap-4">
+            <div class="row w-100 g-3">
+              {% for event in related_events.records.results %}
+                {% assign event_start = event.properties['module_field_12_2'] | date: "%s" | plus: 0 %}
+                <div class="d-flex col-12 col-sm-6 col-lg-3">
+                  <div class="card flex-fill">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="/{{context.params.slug}}/{{event.properties.slug}}">{{event.properties.name}}</a>
+                      </h5>
+                      <p class="card-text mb-2">
+                        {% assign time_diff = event.properties.module_field_12_2 | time_diff: event.properties.module_field_12_3 %}
+                        {% if time_diff < 86400000 %}
+                          Starts at&nbsp;
+                          <time pubdate class="uppercase" datetime="{{event.properties.module_field_12_2 | date: '%d %^b. %Y'}}" title="{{event.properties.module_field_12_2 | date: '%b %d %Y'}}">
+                            {{event.properties.module_field_12_2 | date: '%d/%m/%y %H:%M'}}
+                          </time>
+                          , Ends at&nbsp;
+                          <time pubdate class="uppercase" datetime="{{event.properties.module_field_12_3 | date: '%d %^b. %Y'}}" title="{{event.properties.module_field_12_3 | date: '%b %d %Y'}}">
+                            {{event.properties.module_field_12_3 | date: '%H:%M'}}
+                          </time>
+                        {% else %}
+                          Starts on&nbsp;
+                          <time pubdate class="uppercase" datetime="{{event.properties.module_field_12_2 | date: '%d %^b. %Y'}}" title="{{event.properties.module_field_12_2 | date: '%b %d %Y'}}">
+                            {{event.properties.module_field_12_2 | date: '%d/%m/%y %H:%M'}}
+                          </time>
+                          , Ends on&nbsp;
+                          <time pubdate class="uppercase" datetime="{{event.properties.module_field_12_3 | date: '%d %^b. %Y'}}" title="{{event.properties.module_field_12_3 | date: '%b %d %Y'}}">
+                            {{event.properties.module_field_12_3 | date: '%d/%m/%y %H:%M'}}
+                          </time>
+                        {% endif %}
+                      </p>
+                      {% if event.properties.module_field_12_6 != blank %}
+                        <p class="card-text">{{event.properties.module_field_12_6}}</p>
+                      {% endif %}
+                      <a href="/{{context.params.slug}}/{{event.properties.slug}}" class="btn btn-primary">Event Details</a>
+                    </div>
+                  </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+
+{% if context.exports.module_86.sitegurus_social_share_api != true %}
+  <script async id="sitegurus_social_share_api" src="{{'modules/module_86/js/sitegurus_social_share_api.min.js' | asset_url}}" charset="utf-8"></script>
+  {% assign sitegurus_social_share_api = true %}
+  {% export sitegurus_social_share_api, namespace: "module_86" %}
+{% endif %}
+
+
+{%-endraw-%}

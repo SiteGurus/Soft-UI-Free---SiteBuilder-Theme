@@ -1,0 +1,23 @@
+{%-raw-%}
+
+<aside aria-label="Sidebar">
+  <div class="overflow-y-auto bg-light rounded mb-4">
+    <div class="mb-4">
+      <h4 class="text-lg mb-2">Categories</h4>
+      <div>
+        {% for category in context.exports.categories.data %}
+          {% if category[1].parent == event_parent_category or event_parent_category == blank %}
+            <a class="btn btn-secondary btn-sm py-1 px-2 mb-2" href="{{events_list_page_url}}?category={{category[0]}}">{{category[1].name | replace: " ", "&nbsp;"}}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% capture archive_layout %}{{layout}}{% endcapture %}
+    {%- include 'modules/siteglide_events/get/get_events_archive', archive_layout: archive_layout, archive_layout_type: "archive" -%}
+    
+    {% capture search %}layouts/modules/module_12/{{layout}}/search{% endcapture %}
+    {%- include search -%}
+  </div>
+</aside>
+
+{%-endraw-%}
