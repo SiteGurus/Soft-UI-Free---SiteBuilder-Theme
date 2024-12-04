@@ -1,0 +1,114 @@
+{%- raw -%}
+
+{% if context.exports.module_86.flatpickr_script_included == blank %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  {% assign flatpickr_script_included = true %}
+  {% export flatpickr_script_included, namespace: "module_86" %}
+{% endif %}
+
+<div class="mb-4">
+  <h4 class="text-lg mb-2">Archive</h4>
+  <div class="accordion" id="accordion_blog_archive_{{sitebuilder_uniq_component_id}}">
+    {% for year in blog_archive_years %}
+      <div class="accordion-item mb-3">
+        <h5 class="accordion-header" id="accordion_blog_archive_h_{{forloop.index}}_{{sitebuilder_uniq_component_id}}">
+          <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion_blog_archive_{{forloop.index}}_{{sitebuilder_uniq_component_id}}" aria-expanded="false" aria-controls="accordion_blog_archive_{{forloop.index}}_{{sitebuilder_uniq_component_id}}">
+            {{year.start | date: "%Y"}}
+              {% comment %} <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="collapse-close bi bi-chevron-up" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+            </svg>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="collapse-open bi bi-chevron-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+            </svg> {% endcomment %}
+          </button>
+        </h5>
+        <div id="accordion_blog_archive_{{forloop.index}}_{{sitebuilder_uniq_component_id}}" class="accordion-collapse collapse" aria-labelledby="accordion_blog_archive_h_{{forloop.index}}_{{sitebuilder_uniq_component_id}}" data-bs-parent="#accordion_blog_archive_{{sitebuilder_uniq_component_id}}">
+          <div class="accordion-body text-sm opacity-8">
+            <div>
+              <div class="w-100 text-sm">
+                {% assign months_by_year = blog_archive_months | group_by: "year" %}
+                {% for month in months_by_year[year.start] %}
+                  <a class="btn btn-primary" href="{{blog_list_page_url}}?range_gte={{month.start}}&range_lt={{month.end}}&range_type=month">{{month.start | date: "%B" }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="mb-4">
+  <h4 class="text-lg mb-2">Search by Date</h4>
+  <form class="mb-3" title="Search Event by Date" id="blog_archive_search_{{sitebuilder_uniq_component_id}}">
+    <label class="d-block mb-2 text-sm text-dark" for="range_gt">Start Date</label>
+    <div class="position-relative mb-2">
+      <div class="d-flex position-absolute top-0 bottom-0 left-0 align-items-center ps-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+        </svg>
+      </div>
+      <input class="border text-dark rounded d-block w-100 p-2 ps-5 datepicker" data-sg-blog="start-date" id="range_gt" name="range_gt" type="date" placeholder="mm-dd-yyyy">
+    </div>
+    <label class="d-block mb-2 text-sm text-dark" for="range_lte">End Date</label>
+    <div class="position-relative mb-2">
+      <div class="d-flex position-absolute top-0 bottom-0 left-0 align-items-center ps-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+        </svg>
+      </div>
+      <input class="border text-dark rounded d-block w-100 p-2 ps-5 datepicker" data-sg-blog="end-date" id="range_lte" name="range_lte" type="date" placeholder="mm-dd-yyyy">
+    </div>
+    <div class="position-relative d-flex justify-content-end mb-2 pe-3">
+      <button class="btn btn-primary btn-sm" type="submit">Search</button> 
+    </div>
+  </form>
+</div>
+
+{% comment %}This is a custom Archive Search function, but it uses the same URL parameters expected by Siteglide. It uses the custom Blog URL passed in settings.{% endcomment %}
+<script>
+  var blogArchiveSearchForm = document.querySelector('#blog_archive_search_{{sitebuilder_uniq_component_id}}');
+  if(typeof sitegurus_ui_blog_archive_search != 'function') {
+    function sitegurus_ui_blog_archive_search(event) {
+      event.preventDefault();
+      var t = event.currentTarget;
+      var start = t.querySelector("[data-sg-blog=start-date]");
+      var end = t.querySelector("[data-sg-blog=end-date]");
+      if (!start.value || !end.value ) {
+        alert("Please enter valid dates before searching.");
+      } else {
+        var url_string = "{{blog_list_page_url}}"+"?range_gt="+start.value+"&range_lte="+end.value+"&range_type=between";
+        location.assign(url_string);
+      }
+    }
+  }
+  if(blogArchiveSearchForm) {
+    blogArchiveSearchForm.addEventListener('submit', sitegurus_ui_blog_archive_search);
+  }
+</script>
+
+<script async>
+  (function(){
+    checkForFlatpickr();
+    function checkForFlatpickr() {
+      if (
+        typeof flatpickr == "function"
+      ) {
+        init();
+      } else {
+        //Set event listener or timeout.
+        window.setTimeout(checkForFlatpickr, 1000);
+      }
+    }
+    function init() {
+      //Safe to use Flatpickr, go
+      const datePicker = document.querySelector(".datepicker");
+      if (datePicker) {
+        flatpickr(".datepicker", {});
+      }
+    }
+  })();
+</script>
+
+{%- endraw -%}
