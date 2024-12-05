@@ -1,0 +1,116 @@
+{%-raw-%}
+
+{% comment %} --- Settings --- {% endcomment %}
+{% comment %} ------ Product Category Parent - Add a category ID here to loop over the child categories of your chosen categories, or leave null to loop over all categories ------ {% endcomment %}
+{% assign product_category_parent = null %}
+{% comment %} ------ Link URL - Change the Link for Main Product Category ------ {% endcomment %}
+{% assign all_product_category_link = "/catalogues" %}
+{% comment %} ------ All Product URL - Change the Link for All Product Page ------ {% endcomment %}
+{% assign all_product_link = "/all-departments" %}
+{% comment %} --- End Settings --- {% endcomment %}
+
+<section>
+  <div class="container py-8 py-lg-16">
+    <div class="row">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gx-0 mb-3">
+        <h2 class="text-xl text-sm-xxl">Shop by category</h2>
+        {% if all_product_category_link != blank %}
+          <a href="{{all_product_category_link}}" title="See All Categories" class="d-flex align-items-center text-md">
+            See more categories
+            <svg class="ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row g-3">
+      {% assign categories_array = context.exports.categories.data | hash_values %}
+      {% comment %} <p>{{ categories_array }}</p> {% endcomment %}
+      {% if product_category_parent != blank %}
+        {% assign root_cats = categories_array | select: parent: product_category_parent %}
+      {% else %}
+        {% assign root_cats = categories_array %}
+      {% endif %}
+      {% for cat in root_cats %}
+      <div class="d-flex col-12 col-lg-6 col-xl-4">
+        <a class="flex-fill" href="{{cat.full_slug}}">
+          <div class="h-100 card mb-3 border border-dark rounded-2" style="transition: background-color 0.1s ease;" onmouseover="this.style.backgroundColor='#dee2e6';" onmouseout="this.style.backgroundColor='';">
+            <div class="h-100 row g-0">
+              <!-- Image Column -->
+              {% if cat.image != blank %}
+                <div class="col-12 col-sm-4">
+                  <!-- Image for breakpoints higher than small -->
+                  <div class="position-relative w-100 h-100 d-none d-sm-block">
+                    <img src="{{cat.image | asset_url }}" 
+                      class="position-absolute w-100 h-100 rounded-start" 
+                      style="object-fit: cover;" 
+                      alt="{{cat.name}}"
+                    >
+                  </div>
+                  <!-- Image for small breakpoints -->
+                  <div class="position-relative w-100 d-sm-none" style="height: auto; max-height: 12rem; overflow: hidden;">
+                    <img src="{{cat.image | asset_url }}" 
+                      class="w-100 h-100" 
+                      style="object-fit: cover;" 
+                      alt="{{cat.name}}"
+                    >
+                  </div>
+                </div>
+              {% endif %}
+              <!-- Card Body Column -->
+              <div class="col-12 {% if cat.image != blank %} col-sm-8 {% else %} col-sm-auto {% endif %}">
+                <div class="card-body">
+                  <h4 class="card-title">{{cat.name}}</h5>
+                  {% if cat['meta_desc'] != blank %}<p class="card-text text-sm">{{cat['meta_desc']}}</p>{% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+      {% if all_product_link != blank  %}
+      <div class="d-flex col-12 col-lg-6 col-xl-4">
+        <a class="flex-fill" href="{{all_product_link}}">
+          <div class="h-100 card mb-3 border border-dark rounded-2" style="transition: background-color 0.1s ease;" onmouseover="this.style.backgroundColor='#dee2e6';" onmouseout="this.style.backgroundColor='';">
+            <div class="h-100 row g-0">
+              <!-- Image Column -->
+              <div class="col-12 col-sm-4">
+                <!-- Image for small and larger breakpoints -->
+                <div class="position-relative w-100 h-100 d-none d-sm-block">
+                  <img src="{{ 'images/root-1.jpeg' | asset_url }}" 
+                    class="position-absolute w-100 h-100 rounded-start" 
+                    style="object-fit: cover;" 
+                    alt="All Departments"
+                  >
+                </div>
+                <!-- Image for extra small breakpoints -->
+                <div class="position-relative w-100 d-sm-none" style="height: auto; max-height: 12rem; overflow: hidden;">
+                  <img src="{{ 'images/root-1.jpeg' | asset_url }}" 
+                    class="w-100 h-100" 
+                    style="object-fit: cover;" 
+                    alt="All Departments"
+                  >
+                </div>
+              </div>
+              <!-- Card Body Column -->
+              <div class="col-12 col-sm-8">
+                <div class="card-body">
+                  <h4 class="card-title">All Departments</h4>
+                  {% comment %} All Products Description {% endcomment %}
+                  {% comment %} <p class="card-text text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      
+      
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{%-endraw-%}
