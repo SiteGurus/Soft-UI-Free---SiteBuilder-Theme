@@ -1,0 +1,63 @@
+{%-raw-%}
+
+{% comment %} --- Settings --- {% endcomment %}
+{% comment %} ------ Product Category Parent - Add a category ID here to loop over the child categories of your chosen categories, or leave null to loop over all categories ------ {% endcomment %}
+{% assign product_category_parent = null %}
+{% comment %} ------ Link URL - Change the Link for Main Product Category ------ {% endcomment %}
+{% assign all_product_category_link = "/catalogues" %}
+{% comment %} ------ All Product URL - Change the Link for All Product Page ------ {% endcomment %}
+{% assign all_product_link = "/all-departments" %}
+{% comment %} --- End Settings --- {% endcomment %}
+
+<section>
+  <div class="container py-8">
+    <div class="row mb-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gx-0 mb-3">
+        <h2 class="text-xl text-sm-xxl">Shop by category</h2>
+        {% if all_product_category_link != blank %}
+          <a href="{{all_product_category_link}}" title="See All Categories" class="d-flex align-items-center text-md">
+            See more categories
+            <svg class="ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row g-6">
+      {% assign categories_array = context.exports.categories.data | hash_values %}
+      {% comment %} <p>{{ categories_array }}</p> {% endcomment %}
+      {% if product_category_parent != blank %}
+        {% assign root_cats = categories_array | select: parent: product_category_parent %}
+      {% else %}
+        {% assign root_cats = categories_array %}
+      {% endif %}
+      {% for cat in root_cats %}
+        <div class="col-6 col-md-4 col-lg-2">
+          <a class="d-flex flex-column align-items-center justify-content-center text-center" href="{{cat.full_slug}}">
+            <div class="d-flex justify-items-center align-items-center mb-3 border border-2 border-dark rounded-circle p-4" style="transition: background-color 0.1s ease;" onmouseover="this.style.backgroundColor='#dee2e6';" onmouseout="this.style.backgroundColor='';">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+              </svg>
+            </div>
+            <h6>{{cat.name}}</h5>
+          </a>
+        </div>
+      {% endfor %}
+      {% if all_product_link != blank  %}
+        <div class="col-6 col-md-4 col-lg-2">
+          <a class="d-flex flex-column align-items-center justify-content-center text-center" href="{{all_product_link}}">
+            <div class="d-flex justify-items-center align-items-center mb-3 border border-2 border-dark rounded-circle p-4" style="transition: background-color 0.1s ease;" onmouseover="this.style.backgroundColor='#dee2e6';" onmouseout="this.style.backgroundColor='';">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+              </svg>
+            </div>
+            <h6>All Departments</h5>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{%-endraw-%}
