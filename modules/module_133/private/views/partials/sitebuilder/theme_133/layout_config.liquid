@@ -1336,6 +1336,32 @@
         }
       ],
       "type": "default"
+    },
+    "6": {
+      "name": "Orders List View",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/v1733751725/modules/module_133/layouts/eCommerce/Screenshot_2024-12-09_at_21-41-33.png",
+      "type": "detail",
+      "sub_module": 8,
+      "dest": "layouts/modules/module_14/order",
+      "files": [
+        {
+          "src": "form_confirmation",
+          "dest": "layouts/form_confirmation",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "detail/wrapper",
+          "dest": "layouts/modules/module_14/order"
+        },
+        {
+          "src": "detail/item",
+          "dest": "layouts/modules/module_14/order"
+        }
+      ],
+      "tags": [
+        "dynamically displays submission fields",
+        "nested order detail layout"
+      ]
     }
   },
   "module_s4": {

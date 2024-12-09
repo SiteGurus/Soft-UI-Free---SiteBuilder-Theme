@@ -1,0 +1,251 @@
+{%-raw-%}
+
+{% if slug == params.slug2 and params.slug2 != blank %}
+{% comment %} When accessed via an order slug in the URL {% endcomment %}
+{% function case_details = "modules/module_86/front_end/functions/v1/case_from_order_id", order_id: this.id %}
+{% assign form_config_id = case_details.table | split: "_" | last %}
+{% assign form = '{}' | parse_json %}
+{% hash_assign form['properties'] = case_details.properties %}
+{% elsif form and context.session.form_fc  %}
+{% comment %} When nested inside a form_confirmation layout {% endcomment %}
+{% assign form_config_id = context.session.form_fc | split: "_" | last %}
+{% comment %} Inherit form from form_confirmation layout {% endcomment %}
+{% endif %}
+{% function table_config = "modules/module_86/front_end/functions/v1/get_table_config", model_type: 'form', id: form_config_id %}
+
+<section>
+  <form action="#" class="container py-8">
+    <div class="row pb-4">
+      <div class="col-12 d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-2 fw-bold text-dark text-lg">
+        <span class="d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+          </svg>
+          Cart
+        </span>
+        <div class="d-none d-sm-block border-top w-25"></div>
+        <div class="d-block d-sm-none vr ms-2"></div>
+        <span class="d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+          </svg>
+          Checkout
+        </span>
+        <div class="d-none d-sm-block border-top w-25"></div>
+        <div class="d-block d-sm-none vr ms-2"></div>
+        <span class="d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+          </svg>
+          Order Summary
+        </span>
+      </div>
+    </div>
+    <div class="row py-4 text-dark border-bottom">
+      <h2 class="m-0">Order summary #{{ this.id }}</h2>
+      <h4 class="m-0">{{this.release_date | date: "%b %d %Y"}}</h4>
+      <h4>Status: {{this.Status}}</h4>
+    </div>
+    <div class="row py-4 border-bottom">
+      <h4 class="mb-4">Billing & Delivery information</h4>
+      <dl class="d-sm-flex justify-content-between flex-wrap">
+        <dt class="text-dark">Full Name</dt>
+        <dd>{{form.properties.name}}</dd>
+      </dl>
+      <dl class="d-sm-flex justify-content-between flex-wrap">
+        <dt class="text-dark">Email</dt>
+        <dd>{{form.properties.email}}</dd>
+      </dl>
+      {% if this['Shipping Address'] != blank %}
+        {% comment %} Note- if you used custom fields for address, these should output automatically in the loop below instead. {% endcomment %}
+        <dl class="d-sm-flex justify-content-between flex-wrap">
+          <dt class="text-dark">Shipping Address</dt>
+          <dd>{{this['Shipping Address'] | replace: ", ,", "," | replace: ",", ",<br>"}}</dd>
+        </dl>
+      {% endif %}
+      
+      {% for property in table_config.custom_fields %}
+        <dl class="d-sm-flex align-items-center justify-content-between gap-2">
+          <dt class="text-dark">{{property[1].name}}</dt>
+          <dd>
+            {% assign value = form.properties[property[0]] %}
+            {% case property[1].type %}
+            {% when "image" %}
+              <img style="object-fit: cover; height: 3rem;" class="rounded" src="{{value | asset_url }}">
+            {% when "file" %}
+              {% if value contains ".png" or value contains ".jpg" or value contains ".jpeg" or value contains ".webp" or value contains ".gif" %}
+                {% comment %} For Forms, files can be images. {% endcomment %}
+                <img class="h-auto rounded" style="max-width: 300px;" src="{{value | asset_url}}" alt="{{property[1].name}}">
+                <a target="_blank" href="{{value | asset_url}}" title="Download File {{value | asset_url}}">Download File</a>
+              {% else %}
+                <a target="_blank" href="{{value | asset_url}}" title="Download File {{value | asset_url}}">Download File</a>
+              {% endif %}
+            {% when "image_array" %}
+              <div style="object-fit: cover; height: 3rem;" class="d-flex flex-wrap mb-n2 me-n2">
+                {% for item in value %}
+                  <span class="me-2 mb-2">
+                    <img class="rounded" src="{{item | asset_url}}">
+                  </span>
+                {% endfor %}
+              </div>
+            {% when "array_custom" or "input_checkbox" or "select_multi" or "array" or "datasource_multi" %}
+              <div class="d-flex flex-wrap -mb-2 -me-2">
+                {% for item in value %}
+                  <span class="{% unless forloop.last %} mb-2 me-2 {% endunless %}"> {{item}} </span>
+                {% endfor %}
+              </div>
+            {% when "date" %}
+              {% assign day = value | date: "%e" %}
+              {% assign daySuffix1st = day | matches: "\d?1\z" %}
+              {% assign daySuffix2nd = day | matches: "\d?2\z" %}
+              {% assign daySuffix3rd = day | matches: "\d?3\z" %}
+              {{day}}{% if daySuffix1st %}st{% elsif daySuffix2nd %}nd{% elsif daySuffix3rd %}rd{% else %}th{% endif %} {{value | date: "%b %Y"}}
+            {% when "boolean" %}
+              {% if value == true %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-success-400">
+                  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                </svg>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-danger-400">
+                  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                </svg>
+              {% endif %}
+            {% when "textarea" %}
+              <div class="">
+                {{value  | truncatewords: 20 | sanitize  }}
+              </div>
+            {% when "datasource" or "datasource_multi" %}
+              {% comment %} Note- this is an experimental feature, use with caution. You may find it has an adverse effect on performance if used on long lists using datasources. {% endcomment %}
+              {% if field_metadata.type == "datasource" %}
+                {% assign ids = value | split: "," %}
+              {% else %}
+                {% assign ids = value %}
+              {% endif %}
+              {% graphql g, table: field_metadata.datasource_id, ids: ids %}
+                query g($table: String!) {
+                  records(
+                    per_page: 2000,
+                    filter: {
+                      table: {
+                        value: $table
+                      }
+                    }
+                  ) {
+                    results {
+                      name: property(name: "name")
+                    }
+                  }
+                }
+              {% endgraphql %}
+              <div class="flex flex-wrap -mb-2 -me-2-">
+                {% for item in g.records.results %}
+                  <span>{{item.name}}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{value}}
+            {% endcase %}
+          </dd>
+        </dl>
+      {% endfor %}
+    </div>
+    <div class="row border-bottom">
+      <table class="table mb-0">
+        <tbody>
+          {% assign ordered_products_snapshots = this['Ordered Products'] | parse_json | parse_json %}
+          {% comment %} ordered_products_snapshots: {{ordered_products_snapshots}} {% endcomment %}
+          {% for prod in ordered_products_snapshots -%}
+            {% assign product_snapshot = prod[1] %}
+            {% assign product_current_details = this.order_products | detect: id: product_snapshot.product_id %}
+            {% assign attr_current_details = '' | split: ',' %}
+            {% assign product_snapshot_price = product_snapshot.price_charge %}
+            {% for attr in product_snapshot.attributes %}
+              {% assign option_id = attr[1].option_id %}
+              {% assign option_current_details = product_current_details.product_attribute_options[option_id] %}
+              {% assign attr_current_details = attr_current_details | array_add: option_current_details %}
+              
+              {% assign product_snapshot_price = product_snapshot_price | plus: attr[1].price_charge %}
+            {% endfor %}
+            
+            {% for attr_opt in attr_current_details %}
+              {% if attr_opt.image != blank %}
+                {% assign product_snapshot_image = attr_opt.image %}
+              {% endif %}
+
+            {% endfor %}
+
+            <tr>
+              <td class="align-middle">
+                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+                  <a href="{{product_current_details.full_slug}}" class="d-flex align-items-center">
+                    {% if product_snapshot_image != blank %}
+                      <img src="{{product_snapshot_image | asset_url }}" alt="{{product.product_data.name}}" style="height: 4rem; width: 4rem; object-fit: cover;">
+                    {% else %}
+                      <img src="{{product_current_details['Image'] | asset_url }}" alt="{{product_snapshot.name}}" style="height: 4rem; width: 4rem; object-fit: cover;">
+                    {% endif %}
+                  </a>
+                  <a href="{{product_current_details.full_slug}}" class="fw-bold">{{product_snapshot['name']}}</a>
+                  {% for attribute_opt in attr_current_details -%}
+                    <p class="text-xs {% if forloop.last %}mb-0{% endif %}">{{attribute_opt.product_attribute.name}}: {{attribute_opt.name}}</p>
+                  {% endfor -%}
+                </div>
+              </td>
+
+              <td class="py-4 px-0 align-middle">
+                x{{product_snapshot.quantity}}
+              </td>
+
+              <td class="py-4 px-0 text-end fw-bold text-dark align-middle">{{this['Currency Symbol']}}{{product_snapshot_price | times: product_snapshot.quantity | divided_by: 100 | format_number: precision: 2 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="row py-4 border-bottom">
+      <h4 class="text-xl fw-bold mb-4">Order summary</h4>
+      <dl class="d-flex justify-content-between">
+        <dt>Original price</dt>
+        <dd>{{this['Currency Symbol']}}{{this['Price - Cart Item Total Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</dd>
+      </dl>
+      <dl class="d-flex justify-content-between">
+        <dt>Savings</dt>
+        <dd>-{{this['Currency Symbol']}}{{this['Discount Code - Total Saving'] | divided_by: 100.0 | format_number: precision: 2}}</dd>
+      </dl>
+      <dl class="d-flex justify-content-between">
+        <dt>{{this['Shipping Method Name']}}</dt>
+        <dd>{{this['Currency Symbol']}}{{this['Shipping Method Price - Before Tax'] | divided_by: 100.0 | format_number: precision: 2}}</dd>
+      </dl>
+      <dl class="d-flex justify-content-between">
+        <dt>Tax</dt>
+        <dd>{{this['Currency Symbol']}}{{this['Price - Cart Total Tax Amount'] | divided_by: 100.0 | format_number: precision: 2}}</dd>
+      </dl>
+    </div>
+    <div class="row py-4">
+      <div class="col-12 mb-2">
+        <dl class="d-flex justify-content-between fw-bold">
+          <dt class="h4 fw-bold">Total</dt>
+          <dd class="h4 fw-bold">{{this['Currency Symbol']}}{{this['Total Price'] | divided_by: 100.0 | format_number: precision: 2}}</dd>
+        </dl>
+      </div>
+      {% if context.current_user.id != blank %}
+        <div class="col-12 col-sm-4 d-flex">
+          <button type="button" class="btn btn-outline-primary w-100 flex-fill" onclick="s_e_reorder({ order_id: '{{this.id}}', token: '{{context.authenticity_token}}', cart_url: '{{cart_url}}'})">
+            Re-Order
+          </button>
+        </div>
+      {% endif %}
+      <div class="col-12 col-sm-4 d-flex">
+        <a href="{{shop_home_url}}" class="btn btn-outline-primary w-100 flex-fill">Return to Shopping</a>
+      </div>
+      <div class="col-12 col-sm-4 d-flex">
+        <a href="{{orders_url}}" class="btn btn-primary w-100 flex-fill">Back to Orders</a>
+      </div>
+    </div>
+  </form>
+</section>
+  
+  
+{%-endraw-%}
