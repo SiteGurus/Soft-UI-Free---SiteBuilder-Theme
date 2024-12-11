@@ -1,0 +1,20 @@
+{%-raw-%}
+
+<div class="d-flex col-12 col-sm-6 col-lg-4">
+  <div class="card d-flex flex-fill">
+    <a href="{{ this.full_slug }}" class="h-100" style="max-height: 16rem;">
+      <img class="card-img-top h-100" style="object-fit: cover;" src="{{ this.properties.module_field_3_7 | asset_url }}" alt="{{ this.properties.module_field_3_8 }}" />
+    </a>
+    <div class="card-body">
+      <h5 class="card-title"><a href="{{ this.full_slug }}">{{ this.properties.module_field_3_1 }}</a></h5>
+      <p class="card-text">{{ this.properties.module_field_3_2 }}</p>
+      <div class="h-100">
+        <a href="{{ this.full_slug }}" class="btn btn-primary">
+          Read More
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%-endraw-%}

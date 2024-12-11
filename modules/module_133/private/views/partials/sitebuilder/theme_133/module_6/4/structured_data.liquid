@@ -1,0 +1,19 @@
+{%-raw-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "dateCreated": "{{ this.create_date | date: '%Y-%m-%dT%H:%M:%S%z' }}", 
+  "dateModified": "{{ this.last_edit_date | date: '%Y-%m-%dT%H:%M:%S%z' }}", 
+  "mainEntity": {
+    "@type": "Person",
+    "name": "{{ this.properties.module_field_6_1 }}",
+    "identifier": "{{ this.id }}",
+    "description": "{{ this.properties.module_field_6_2 }}",
+    "image": "{{this.properties.module_field_6_4 | asset_url }}"
+  }
+}
+</script>
+  
+{%-endraw-%}
