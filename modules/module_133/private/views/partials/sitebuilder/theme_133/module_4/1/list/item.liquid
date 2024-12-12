@@ -1,0 +1,33 @@
+{%-raw-%}
+
+<div class="swiper-slide d-flex align-items-center justify-content-center">
+  <div class="w-100 h-100 position-relative overflow-hidden" style="background-image: url('{{ this['Image'] | asset_url }}'); background-size: cover; background-repeat: no-repeat; background-position: center; z-index: 2;">
+    <!-- Dark overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="content: ''; z-index: 1; background-color: rgba(0, 0, 0, 0.4);"></div>
+
+    <div class="pt-6 pt-xxl-8 px-4 mx-auto text-center position-relative" style="z-index: 2;">
+      {% if this['Title'] != blank %}
+        <h1 class="text-white">
+          {{ this['Title'] }}
+        </h1>
+      {% endif %}
+      {% if this['Description'] != blank %}
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="px-md-5 px-xl-10 mb-4 text-lg text-white">
+            {{ this['Description'] | html_safe}}
+          </div>
+        </div>
+      {% endif %}
+      {% if this['Button Name'] != blank or this['Button Link'] != blank %}
+        <div>
+          <a href="{{this['Button Link']}}" class="btn btn-primary">
+            <span>{{this['Button Name']}}</span>
+            <i class="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{%-endraw-%}
