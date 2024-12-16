@@ -71,11 +71,10 @@
   </script>
   {% if context.exports.sitebuilder.sliderJSLoaded == blank %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
-    <script async src="{{'modules/module_86/js/sitegurus_sliders_javascript_api.1.min.js' | asset_url }}"></script>
+    <script async src="{{ 'modules/module_86/js/sitegurus_sliders_javascript_api.1.min.js' | asset_url }}"></script>
     {% assign sliderJSLoaded = true %}
     {% export sliderJSLoaded, namespace: sitebuilder %}
   {% endif %}
 {% endif %}
-
 
 {%-endraw-%}
