@@ -1,0 +1,32 @@
+{%-raw-%}
+
+{% assign style_index = forloop.index |  modulo: 2 %}
+
+<div class="col-12 col-lg-6 {% if style_index == 0 %} pt-lg-6 {% endif %}">
+  <div class="customer-testimonial_{{sitebuilder_uniq_component_id}} d-flex mb-5">
+      <img src="{{ this['Image'] | asset_url }}" class="avatar me-3 rounded-circle shadow-sm" alt="{{this['name']}} picture">
+      <div class="content_{{sitebuilder_uniq_component_id}} shadow-sm border border-light rounded position-relative p-4">
+          {% if this.properties[stars] != blank %}
+            <div class="d-flex mb-4">
+              {% for count in (1..this.properties[stars]) %}
+                <span class="text-warning me-2"><i class="star fas fa-star"></i></span>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="mt-2 mb-4">{{this['Quote'] | html_safe }}</div>
+          <span class="h6">
+            - {{ this['name'] }}  
+            <small class="ms-0 ms-md-2 fw-light">
+              {% if this['Job Title'] != blank %}
+                {{ this['Job Title'] }}
+              {% endif %}
+              {% if this['Company Name'] != blank %}
+                {{ this['Company Name'] }}
+              {% endif %}
+            </small>
+          </span>
+      </div>
+  </div>
+</div>
+
+{%-endraw-%}
