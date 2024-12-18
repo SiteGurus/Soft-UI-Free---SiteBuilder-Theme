@@ -1,0 +1,24 @@
+{%-raw-%}
+
+{% comment %} Should be included inside wrapper.liquid in order to have access to all this data. {% endcomment %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for item in context.exports.module_10.data.result.items %}
+      {
+        "@type": "Question",
+        "name": "{{ item.properties.module_field_4_1 }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ item.properties.module_field_4_2 }}"
+        }
+    } {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
+{%-endraw-%}
