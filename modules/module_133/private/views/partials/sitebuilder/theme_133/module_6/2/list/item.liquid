@@ -2,9 +2,9 @@
 
 {%- function detail_page_valid = "modules/module_86/front_end/functions/v1/detail_page_valid", fc_data: fc_data, full_slug: this.full_slug -%}
 
-<div class="col-12 col-lg-6">
-  <div class="card mb-3 px-0 shadow-sm">
-    <div class="row gx-0">
+<div class="col-12 col-lg-6 d-flex">
+  <div class="card mb-3 px-0 shadow-sm flex-fill">
+    <div class="row gx-0 h-100">
       <div class="col-12 col-sm-4 p-0">
         {% comment %} Author image visible only on smaller screens {% endcomment %}
         <img src="{{ this.properties.module_field_6_4 | asset_url }}" 
