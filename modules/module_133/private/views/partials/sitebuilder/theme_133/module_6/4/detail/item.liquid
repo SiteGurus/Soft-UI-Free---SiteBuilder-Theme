@@ -1,0 +1,52 @@
+{%-raw-%}
+
+{% capture structured_data %}layouts/modules/module_6/{{layout}}/structured_data{% endcapture %}
+{%- include structured_data -%}
+
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex flex-column flex-sm-row align-items-center gap-4">
+      <img class="img-thumbnail rounded-circle" style="max-height: 12rem; max-width: 12rem;" src="{{this.properties.module_field_6_4 | asset_url }}" alt="{% if this.properties.module_field_6_5 != blank %} {{ this.properties.module_field_6_5 }} {% else %} {{ this.properties.name }} {% endif %}">
+      <div class="d-flex flex-column align-items-center align-items-sm-start justify-content-center">
+        <h2 class="text-primary">{{ this.properties.module_field_6_1 }}</h2>
+        <h4>{{ this.properties.module_field_6_2 }}</p>
+        <div class="mt-4 d-flex align-items-center gap-4">
+          {% if this.properties.module_field_6_6 != blank %}
+            <a href="{{ this.properties.module_field_6_6 }}">
+              <i class="fab fa-linkedin fa-lg"></i>
+            </a>
+          {% endif %}
+          {% if this.properties.module_field_6_7 != blank %}
+            <a href="{{ this.properties.module_field_6_7 }}">
+              <i class="fab fa-facebook-square fa-lg"></i>
+            </a>
+          {% endif %}
+          {% if this.properties.module_field_6_8 != blank %}
+            <a href="{{ this.properties.module_field_6_8 }}">
+              <i class="fab fa-twitter-square fa-lg"></i>
+            </a>
+          {% endif %}
+          {% if this.properties.module_field_6_9 != blank %}
+            <a href="{{ this.properties.module_field_6_9 }}">
+              <i class="fab fa-instagram-square fa-lg"></i>
+            </a>
+          {% endif %}
+          {% if this.properties.module_field_6_10 != blank %}
+            <a href="{{ this.properties.module_field_6_10 }}">
+              <i class="fab fa-google fa-lg"></i>
+              test
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 py-4 d-flex justify-content-center justify-content-sm-start">
+    <p class="text-dark text-md">{{ this.properties.module_field_6_3 }}</p>
+  </div>
+</div>
+<div class="row">
+  {% include 'module', id: '3', author_id: this.id, type: 'list', layout: layout, per_page: 3, show_pagination: 'false', pagination_layout: layout %}
+</div>
+  
+{%-endraw-%}

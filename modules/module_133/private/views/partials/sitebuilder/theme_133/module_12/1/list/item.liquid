@@ -1,0 +1,79 @@
+{%- raw -%}
+
+{% assign host_id = this.properties.module_field_12_4 | downcase %}
+{% assign host = host_results.records.results | detect: id: host_id %}
+{% assign host = host | add_hash_key: "Title", host.properties['module_field_6_1'] %}
+{% assign host = host | add_hash_key: "Image", host.properties['module_field_6_4'] %}
+{% assign host = host | add_hash_key: "Image Alt", host.properties['module_field_6_5'] %}
+
+<article class="col-12 col-md-6 d-flex" data-sg-live-update-controls>
+  <div class="card border border-secondary shadow-sm flex-fill">
+    <div class="card-header pt-4 pb-2">
+      
+      <div class="d-flex flex-wrap text-dark">
+        {% for category in this['category_array'] %}
+          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-xs p-1 rounded me-2 mb-1">
+            {{context.exports.categories.data[category].name  | replace: " ", "&nbsp;"}}
+          </button>
+        {% endfor %}
+      </div>
+    
+      <small class="text-xs">
+        {% assign time_diff = this['Event Start'] | time_diff: this['Event End'] %}
+        {% if time_diff < 86400000 %}
+          Starts: {{this['Event Start'] | date: '%a %d/%m/%y %H:%M'}} - Ends {{this['Event End'] | date: '%H:%M'}}
+        {% else %}
+          Starts: {{this['Event Start'] | date: '%a %d/%m/%y %H:%M'}} - Ends: {{this['Event End'] | date: '%a %d/%m/%y %H:%M'}}
+        {% endif %}
+      </small>
+    </div>
+
+    <div class="card-body pt-0 pb-4">
+      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-uppercase h4 font-weight-bold my-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
+          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
+        </svg>
+        {{this.properties.name}}
+      </a>
+      {% if this.properties['module_field_12_6'] != blank  %}
+        <span class="d-flex gap-2 align-items-center text-dark mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+          </svg>
+          {{ this.properties['module_field_12_6'] }}
+        </span>
+      {% endif %}
+      <div class="card-description text-dark">
+        {{ this['Description'] | split: "." | first | append: "." | html_safe }}
+      </div>
+      <div class="author align-items-center">
+        {% if host.id != blank %}
+          <div class="w-100 d-flex flex-wrap justify-content-between align-items-end">
+            <button data-sg-live-update-control-params="?module_field_12_4={{host.id}}&host_name={{host['Title'] | url_encode}}" data-sg-live-update-control-group="host" class="d-flex align-items-center text-sm btn btn-outline-dark border-0 m-0 p-0 bg-transparent">
+              {% if host['Image'] != blank %}
+                <img src="{{host['Image'] | asset_url}}" alt="{{host['Image Alt']}}" class="avatar avatar-xs shadow rounded-circle me-1">
+              {% endif %}
+              {{host['Title']}}
+            </button>
+            <a class="d-flex align-items-center text-sm" href="{{this.full_slug}}">
+              Read More
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+              </svg>
+            </a>
+          </div>
+        {% else %}
+          <a class="d-flex align-items-center text-sm" href="{{this.full_slug}}">
+            Read More
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>
+
+{%- endraw -%}

@@ -1,0 +1,52 @@
+{%-raw-%}
+
+{% comment %} ---Settings:--- {% endcomment %}
+{% comment %} ------- Custom Field for Stars/Rating ------{% endcomment %}
+ {% comment %} example: 'stars = module_field_custom_8_1' {% endcomment %}
+ {% assign stars = null %}
+{% comment %} ------ URL for more Testimonials------ {% endcomment %}
+{% assign list_url = "/testimonials" %}
+{% comment %} ---End Settings--- {% endcomment %}
+
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<style>
+  .customer-testimonial_{{sitebuilder_uniq_component_id}} .content_{{sitebuilder_uniq_component_id}}::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: -1px;
+    margin-left: .75rem;
+    border: 8px solid #24262b;
+      border-top-color: rgb(36, 38, 43);
+      border-right-color: rgb(36, 38, 43);
+      border-bottom-color: rgb(36, 38, 43);
+      border-left-color: rgb(36, 38, 43);
+    border-color: transparent #e0e6ec #e0e6ec transparent;
+    box-sizing: border-box;
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+  }
+</style>
+
+<section>
+  <div class="container py-5">
+      <div class="row justify-content-center mb-5 mb-lg-7">
+          <div class="col-12 col-md-8 text-center">
+              <h1 class="h1 font-weight-bolder mb-4">Recommended by leading experts in marketing and SEO</h1>
+              <p class="lead">Our products are loved by users worldwide</p>
+          </div>
+      </div>
+      <div class="row mb-lg-5">
+        {%- include 'modules/siteglide_system/get/get_items', item_layout: 'item', stars: stars -%}
+      </div>
+      <div class="row">
+          <div class="col text-center">
+              <a href="{{list_url}}" class="btn btn-primary animate-up-2"><span class="me-2"><i class="fas fa-book-open"></i></span> See all stories</a>
+          </div>
+      </div>
+  </div>
+</section>
+
+{%-endraw-%}

@@ -1,0 +1,36 @@
+{%-raw-%}
+
+{% comment %} ---Settings:--- {% endcomment %}
+{% comment %} ------ URL for more Testimonials------ {% endcomment %}
+{% assign list_url = "/testimonials" %}
+{% comment %} ---End Settings--- {% endcomment %}
+
+<section>
+  <div class="container py-8">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="text-center mb-5">
+          <div class="d-flex align-items-center justify-content-center icon icon-shape icon-lg bg-gradient-primary shadow mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#FFFFFF" class="bi bi-people-fill" viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+            </svg>
+          </div>
+          <h2 class="mt-3">Testimonials</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. At iam decimum annum in spelunca iacet.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      {%- include 'modules/siteglide_system/get/get_items', item_layout: 'item' -%}
+    </div>
+    {%- if _show_pagination == 'false' and pagination_layout != blank and pagination_layout != "default" -%}
+      {%- include 'modules/siteglide_system/get/get_pagination', pagination_layout: _pagination_layout -%}
+    {%- else -%}
+      <div class="py-4 text-center">
+        <a href="{{list_url}}" class="btn btn-primary">Show more...</a> 
+      </div>
+  {%- endif -%}
+  </div>
+</section>
+
+{%-endraw-%}

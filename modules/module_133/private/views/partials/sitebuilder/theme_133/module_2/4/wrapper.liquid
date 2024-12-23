@@ -86,6 +86,11 @@
       color: var(--bs-dark) !important;
     }
   }
+
+  .navbar-nav > .nav-item:hover > .nav-link,
+  .navbar-nav > .nav-item:focus > .nav-link {
+    color: var(--bs-primary) !important;
+  }
 </style>
 <!-- Modal -->
 {% include 'login_form', redirect: context.location.pathname, layout: layout %}

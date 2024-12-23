@@ -1,0 +1,86 @@
+{%-raw-%}
+
+{% if previous_page != false %}
+  {% assign previous_page = true %}
+{% endif %}
+{% if next_page != false %}
+  {% assign next_page = true %}
+{% endif %}
+{%- if total_pages != 1 -%}
+  <ul class="pagination pagination-primary m-0">
+    {% assign root_url = root_url | default: context.headers.PATH_INFO %}
+    {% if context.device.device_type == "desktop" %}
+      {% assign show = 6 %}
+    {% elsif context.device.device_type == "tablet" %}
+      {% assign show = 4 %}
+    {% else %}
+      {% assign show = 2 %}
+    {% endif %}
+    {% assign range_a = current_page | minus: show | at_least: 1 %}
+    {% assign range_b = current_page | minus: 1 | at_least: 1 %}
+    {% assign range_c = current_page | plus: 1 | at_most: total_pages %}
+    {% assign range_d = current_page | plus: show | at_most: total_pages %}
+
+    {% assign query_params = context.headers.QUERY_STRING | split: "&" %}
+    {% assign new_query_params = "[]" | parse_json %}
+    {% for param in query_params %}
+      {% assign map = param | split: "=" %}
+      {% unless map[0] == "page" %}
+        {% assign new_query_params = new_query_params | add_to_array: param %}
+      {% endunless %}
+    {% endfor %}
+    {% assign new_query_params = new_query_params | join: "&" %}
+    {% if previous_page == true %}
+      {% comment %} Previous Page {% endcomment %}
+      <li class="page-item">
+        <button class="page-link" type="button" data-sg-live-update-control-params="?page={{current_page | minus: 1 | at_least: 1 }}" data-sg-live-update-control-group="page" title="Previous Page"  aria-label="Previous">
+          <span class="sr-only">Previous</span>
+          <svg style="width: 1rem; height: 1rem;" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+        </button>
+      </li>
+      {% comment %} Indicate More Pages Exist behind {% endcomment %}
+      {% if range_a > 1 %}
+        <li class="page-item d-flex align-items-center mx-1">
+          <span class="sr-only">More previous pages are available</span>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+        </li>
+      {% endif %}
+      {% comment %} Previous Pages {% endcomment %}
+      {% for page_button in (range_a..range_b) %}
+        <li class="page-item">
+            <button type="button" data-sg-live-update-control-params="?page={{page_button}}" data-sg-live-update-control-group="page" class="page-link" aria-label="Go to page {{page_button}}">{{page_button}}</button>
+        </li>
+      {% endfor %}
+    {% endif %}
+    {% comment %} Current Page {% endcomment %}
+    {%- capture _path -%}{{root_url}}?{{new_query_params}}&page={{current_page}}{%- endcapture -%}
+    <li class="page-item active">
+        <button type="button" data-sg-live-update-control-params="?page={{current_page}}" data-sg-live-update-control-group="page" aria-current="page" class="page-link">{{current_page}} <span class="sr-only">(current page)</span></button>
+    </li>
+    {% comment %} Next Pages {% endcomment %}
+    {% if next_page == true %}
+      {% for page_button in (range_c..range_d) %}
+        {%- capture _path -%}{{root_url}}?{{new_query_params}}&page={{page_button}}{%- endcapture -%}
+        <li class="page-item">
+          <button type="button" data-sg-live-update-control-params="?page={{page_button}}" data-sg-live-update-control-group="page" class="page-link" aria-label="Go to page {{page_button}}">{{page_button}}</button>
+        </li>
+      {% endfor %}
+      {% comment %} Indicate More Pages Exist in front {% endcomment %}
+      {% if range_d < total_pages %}
+        <li class="page-item d-flex align-items-center mx-1">
+          <span class="sr-only">More subsequent pages are available</span>
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+        </li>
+      {% endif %}
+      {% comment %} Next Page {% endcomment %}
+      <li class="page-item">
+        <button type="button" data-sg-live-update-control-params="?page={{current_page | plus: 1 | at_most: total_pages }}" class="page-link" aria-label="Next">
+          <span class="sr-only">Next</span>
+          <svg style="width: 1rem; height: 1rem;" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+        </button>
+      </li>
+    {% endif %}
+  </ul>
+{%- endif -%}
+
+{%-endraw-%}

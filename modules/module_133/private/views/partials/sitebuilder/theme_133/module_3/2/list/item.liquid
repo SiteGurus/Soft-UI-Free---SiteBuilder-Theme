@@ -1,0 +1,68 @@
+{%- raw -%}
+
+{% assign author_id = this.properties.module_field_3_4 | downcase %}
+{% assign author = author_results.records.results | detect: id: author_id %}
+{% assign author = author | add_hash_key: "Title", author.properties['module_field_6_1'] %}
+{% assign author = author | add_hash_key: "Image", author.properties['module_field_6_4'] %}
+{% assign author = author | add_hash_key: "Image Alt", author.properties['module_field_6_5'] %}
+{% assign then =  this['release_date'] | to_time %}
+{% assign now = "now" | to_time %}
+{% assign time_elapsed = then | time_diff: now | divided_by: 86400000 | round  %}
+
+<article class="col-12 col-md-6 d-flex" data-sg-live-update-controls>
+  <div class="card border border-secondary shadow-sm flex-fill">
+    <div class="card-header d-flex justify-content-between flex-wrap align-items-center pt-4 pb-2">
+      
+      <div class="d-flex flex-wrap text-dark">
+        {% for category in this['category_array'] %}
+          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-xs p-1 rounded me-2 mb-1">
+            {{context.exports.categories.data[category].name  | replace: " ", "&nbsp;"}}
+          </button>
+        {% endfor %}
+      </div>
+    
+      <small class="text-xs">
+        {{time_elapsed}} {% if time_elapsed > 1 %}days{% else %}day{% endif %} ago.
+      </small>
+    </div>
+
+    <div class="card-body pt-0 pb-4">
+      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-uppercase h4 font-weight-bold mb-3">
+        {{ this['Title'] }}
+      </a>
+      <span class="d-flex gap-2 align-items-center text-dark mb-3">
+        {{ this['Subtitle'] }}
+      </span>
+      {% comment %} <div class="card-description text-sm mb-2">
+        {{ this['Description'] | split: "." | first | append: "." | html_safe }}
+      </div> {% endcomment %}
+      <div class="author">
+        {% if author.id != blank %}
+          <div class="w-100 d-flex flex-wrap justify-content-between align-items-end">
+            <button data-sg-live-update-control-params="?module_field_3_4={{author.id}}&author_name={{author.properties.name | url_encode}}" data-sg-live-update-control-group="author" class="d-flex align-items-center text-sm btn btn-outline-dark border-0 m-0 p-0 bg-transparent">
+              {% if author['Image'] != blank %}
+                <img src="{{author['Image'] | asset_url}}" alt="{{author['Image Alt']}}" class="avatar avatar-xs shadow rounded-circle me-1">
+              {% endif %}
+              {{author['Title']}}
+            </button>
+            <a class="d-flex align-items-center text-sm" href="{{this.full_slug}}">
+              Read More
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+              </svg>
+            </a>
+          </div>
+        {% else %}
+          <a class="d-flex align-items-center text-sm" href="{{this.full_slug}}">
+            Read More
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>
+
+{%- endraw -%}

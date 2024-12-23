@@ -1,0 +1,37 @@
+{%- raw -%}
+
+{% comment %} Should be included inside item.liquid in order to have access to all this data. {% endcomment %}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{this['Title']}}",
+    "image": [
+      "{{ this['Main Image'] | asset_url }}"
+    ],
+    "datePublished": "{{this['release_date'] | date: '%Y-%m-%dT%H:%M:%S'}}Z",
+    "dateModified": "{{this['last_edit_date'] | date: '%Y-%m-%dT%H:%M:%S'}}Z",
+    "author": {
+      "@type": "Person",
+      "name": "{{author.properties.name}}",
+      "url": "{{context.location.url}}{{blog_list_page_url}}?module_field_3_4={{author.id}}&author_name={{author.properties.name | url_encode}}"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ this['full_slug'] }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{context.instance.name}}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ context.exports.company_information.properties.logo | asset_url }}"
+      }
+    },
+    "description": "{{ this['Description'] | strip_html | escape }}",
+    "articleBody": "{{ this['Content'] | strip_html | escape }}"
+  }
+</script>
+
+{%- endraw -%}

@@ -1,0 +1,15 @@
+{%- raw -%}
+
+{% comment %}---Settings---{% endcomment %}
+  {% comment %}------Insert your Blog List View URL here to go there for sorting, searching and filtering results.  {% endcomment %}
+  {% assign blog_list_page_url = "/blog" %}
+  {% comment %}------Show a sidebar?  {% endcomment %}
+  {% assign sidebar = true %}
+  {% comment %} Default (null) is to show all categories in the sidebar. Alternatively, pass in an id (in quotes e.g. '6') for a category which is the parent of blog categories to only show relevant categories. {% endcomment %}
+  {% assign blog_parent_category = null %}
+{% comment %}---End Settings---{% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+{%- include 'modules/siteglide_system/get/get_items', item_layout: 'item' -%}
+
+{%- endraw -%}

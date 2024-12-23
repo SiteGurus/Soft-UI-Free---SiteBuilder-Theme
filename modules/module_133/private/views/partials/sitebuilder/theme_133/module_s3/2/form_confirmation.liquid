@@ -1,0 +1,114 @@
+{%-raw-%}
+
+{% assign form_config_id = context.session.form_fc | split: "_" | last %}
+{% function table_config = "modules/module_86/front_end/functions/v1/get_table_config", model_type: 'form', id: form_config_id %}
+
+<section>
+  <div class="container py-8">
+    <div class="row">
+      <h2 class="text-dark"> Thanks for contacting us!</h2>
+      <p class="mb-4"> Your submission reference <a href="#">#{{form.id}}</a> will be read as soon as possible. </p>
+    </div>
+    <div class="row">
+      <div class="col-12 border rounded p-4">
+        <dl class="d-sm-flex align-items-center justify-content-between gap-2">
+          <dt>Name</dt>
+          <dd>{{form.name}}</dd>
+        </dl>
+        <dl class="d-sm-flex align-items-center justify-content-between gap-2">
+          <dt>Email</dt>
+          <dd>{{form.email}}</dd>
+        </dl>
+        {% for property in table_config.custom_fields %}
+          <dl class="d-sm-flex align-items-center justify-content-between gap-2">
+            <dt>{{property[1].name}}</dt>
+            <dd>
+              {% assign value = form.properties[property[0]] %}
+              {% case property[1].type %}
+              {% when "image" %}
+                <img style="object-fit: cover; height: 3rem;" class="rounded" src="{{value | asset_url }}">
+              {% when "file" %}
+                {% if value contains ".png" or value contains ".jpg" or value contains ".jpeg" or value contains ".webp" or value contains ".gif" %}
+                  {% comment %} For Forms, files can be images. {% endcomment %}
+                    <img class="h-auto rounded" style="max-width: 300px;" src="{{value | asset_url}}" alt="{{property[1].name}}">
+                    <a target="_blank" href="{{value | asset_url}}" title="Download File {{value | asset_url}}">Download File</a>
+                {% else %}
+                  <a target="_blank" href="{{value | asset_url}}" title="Download File {{value | asset_url}}">Download File</a>
+                {% endif %}
+              {% when "image_array" %}
+                <div style="object-fit: cover; height: 3rem;" class="d-flex flex-wrap mb-n2 me-n2">
+                  {% for item in value %}
+                    <span class="me-2 mb-2">
+                      <img class="rounded" src="{{item | asset_url}}">
+                    </span>
+                  {% endfor %}
+                </div>
+              {% when "array_custom" or "input_checkbox" or "select_multi" or "array" or "datasource_multi" %}
+                <div class="d-flex flex-wrap -mb-2 -me-2">
+                  {% for item in value %}
+                    <span class="{% unless forloop.last %} mb-2 me-2 {% endunless %}"> {{item}} </span>
+                  {% endfor %}
+                </div>
+              {% when "date" %}
+                {% assign day = value | date: "%e" %}
+                {% assign daySuffix1st = day | matches: "\d?1\z" %}
+                {% assign daySuffix2nd = day | matches: "\d?2\z" %}
+                {% assign daySuffix3rd = day | matches: "\d?3\z" %}
+                {{day}}{% if daySuffix1st %}st{% elsif daySuffix2nd %}nd{% elsif daySuffix3rd %}rd{% else %}th{% endif %} {{value | date: "%b %Y"}}
+              {% when "boolean" %}
+                {% if value == true %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-success-400">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                  </svg>
+                {% else %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-danger-400">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                  </svg>
+                {% endif %}
+              {% when "textarea" %}
+                <div class="">
+                  {{value  | truncatewords: 20 | sanitize  }}
+                </div>
+              {% when "datasource" or "datasource_multi" %}
+                {% comment %} Note- this is an experimental feature, use with caution. You may find it has an adverse effect on performance if used on long lists using datasources. {% endcomment %}
+                {% if field_metadata.type == "datasource" %}
+                  {% assign ids = value | split: "," %}
+                {% else %}
+                  {% assign ids = value %}
+                {% endif %}
+                {% graphql g, table: field_metadata.datasource_id, ids: ids %}
+                  query g($table: String!) {
+                    records(
+                      per_page: 2000,
+                      filter: {
+                        table: {
+                          value: $table
+                        }
+                      }
+                    ) {
+                      results {
+                        name: property(name: "name")
+                      }
+                    }
+                  }
+                {% endgraphql %}
+                <div class="flex flex-wrap -mb-2 -me-2-">
+                  {% for item in g.records.results %}
+                    <span>{{item.name}}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                {{value}}
+              {% endcase %}
+            </dd>
+          </dl>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="py-4 text-center">
+      <a href="/" class="btn btn-primary">Return to Homepage</a>
+    </div>
+  </div>
+</section>
+
+{%-endraw-%}
