@@ -1,0 +1,57 @@
+{%- raw -%}
+
+{% comment %} ---Settings--- {% endcomment %}
+{% assign sign_up_url = "/sign-up" %}
+{% comment %}---End Settings--- {% endcomment %}
+
+<section>
+  <div class="page-header min-vh-75">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+          {% form html-class: "sg-form card card-plain mt-8" %}
+            <div class="card-header pb-0 text-left bg-transparent">
+              <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
+              <p class="mb-0">Enter your email and password to sign in</p>
+            </div>
+            <div class="card-body">
+              <div class="form-group sg-form-group mb-3">
+                <label for="{{ form_builder.fields.email.name }}">Email</label>
+                <input class="form-control sg-form-control" type="email" name="{{ form_builder.fields.email.name }}" id="{{ form_builder.fields.email.name }}" autocomplete="name" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+              </div>
+              <div class="form-group sg-form-group mb-3">
+                <label for="{{ form_builder.fields.password.name }}">Password</label>
+                <input class="form-control sg-form-control" type="password" name="{{ form_builder.fields.password.name }}" id="{{ form_builder.fields.password.name }}" autocomplete="current-password" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+              </div>
+              {% comment %} <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+              </div> {% endcomment %}
+              <div>
+                <a href="/system/recover-password" class="text-sm text-info text-gradient font-weight-bold">Lost Password?</a>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0" onclick="siteglide_login_process(this,'{{_redirect}}','Sorry, that email and password combination was not recognised.')">Sign in</button>
+              </div>
+            </div>
+            <div class="card-footer text-center pt-0 px-lg-2 px-1">
+              <p class="mb-4 text-sm mx-auto">
+                Don't have an account?
+                <a href="{{sign_up_url}}" class="text-info text-gradient font-weight-bold">Sign up</a>
+              </p>
+              <div class="form-error my-3 alert alert-danger text-white"></div>
+            </div>
+          {% endform %}
+        </div>
+        <div class="col-md-6">
+          <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+            <div class="bg-cover position-absolute fixed-top ms-auto h-100 z-index-0" style="background-image:url('https://demos.creative-tim.com/soft-ui-dashboard/assets/img/curved-images/curved6.jpg')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{%- endraw -%}
