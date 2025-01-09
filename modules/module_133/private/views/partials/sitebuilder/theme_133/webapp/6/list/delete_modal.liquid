@@ -1,0 +1,20 @@
+{%-raw-%}
+
+<div class="modal fade" id="deleteModal_{{sitebuilder_uniq_component_id}}_{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModal_label_{{sitebuilder_uniq_component_id}}_{{this.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModal_label_{{sitebuilder_uniq_component_id}}_{{this.id}}">Are you sure you want to delete this item?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" data-modal-toggle-custom="deleteModal_{{sitebuilder_uniq_component_id}}_{{this.id}}" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" data-modal-toggle-custom="deleteModal_{{sitebuilder_uniq_component_id}}_{{this.id}}">No, cancel</button>
+        <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal" data-modal-toggle-custom="deleteModal_{{sitebuilder_uniq_component_id}}_{{this.id}}" data-modal-toggle-custom="deleteModal_{{sitebuilder_uniq_component_id}}_{{this.id}}"  onclick="s_owned_webapp_delete('{{this.id}}', '{{context.authenticity_token}}', {{sitebuilder_uniq_component_id}}_delete_success, {{sitebuilder_uniq_component_id}}_delete_error);" onkeyup="if(event.keycode == 13) {s_owned_webapp_delete('{{this.id}}', '{{context.authenticity_token}}', {{sitebuilder_uniq_component_id}}_delete_success, {{sitebuilder_uniq_component_id}}_delete_error)}" >Yes, I'm sure</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+{%-endraw-%}

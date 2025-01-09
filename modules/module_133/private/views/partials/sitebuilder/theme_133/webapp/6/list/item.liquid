@@ -1,0 +1,121 @@
+{%-raw-%}
+
+{% function field_map = "modules/module_86/front_end/functions/v1/field_mapping", field_headings: field_headings, this: this %}
+{%- function detail_page_valid = "modules/module_86/front_end/functions/v1/detail_page_valid", fc_data: fc_data, full_slug: this.full_slug -%}
+
+<tr data-item-id="{{sitebuilder_uniq_component_id}}_{{this.id}}">
+  {% for field in field_headings %}
+    {% if field[0] contains "Filter" %}
+      {% continue %}
+    {% endif %}
+    {% assign field_metadata = table_config.custom_fields[field[1]] | default: table_config.system_fields[field[1]] %}
+    {% capture field_content %}
+      {% if field_map[field[0]] != blank %}
+        {% if field[1] == "release_date" or field[1] == "expiry_date" %}
+          {% comment %} For legacy reasons, these dates are integers in db {% endcomment %}
+          {% hash_assign field_metadata['type'] = 'date' %}
+        {% endif %}
+        {% case field_metadata.type %}
+        {% when "image" %}
+          <div>
+            <img class="rounded avatar avatar-xl" src="{{field_map[field[0]] | asset_url }}">
+          </div>
+        {% when "file" %}
+          <a class="btn btn-primary" target="_blank" href="{{field_map[field[0]] | asset_url}}" title="Download File {{field_map[field[0]] | asset_url}}">Download File</a> 
+        {% when "image_array" %}
+          <div class="flex flex-wrap -mb-2">
+            {% for item in field_map[field[0]] %}
+              <span class="me-2 mb-2"><img class="rounded avatar avatar-xl" src="{{item | asset_url }}"> </span>
+            {% endfor %}
+          </div>
+        {% when "array_custom" or "input_checkbox" or "select_multi" or "array" or "datasource_multi" %}
+          <div class="d-flex flex-wrap">
+            {% for item in field_map[field[0]] %}
+              <span class="text-xs me-2 mb-2 px-2 py-1 rounded"> {% if field[1] == "category_array" %}{{context.exports.categories.items[item].name}}{% else %}{{item}}{% endif %}</span>
+            {% endfor %}
+          </div>
+        {% when "date" %}
+          {% assign day = field_map[field[0]] | date: "%e" %}
+          {% assign daySuffix1st = day | matches: "\d?1\z" %}
+          {% assign daySuffix2nd = day | matches: "\d?2\z" %}
+          {% assign daySuffix3rd = day | matches: "\d?3\z" %}
+          {{day}}{% if daySuffix1st %}st{% elsif daySuffix2nd %}nd{% elsif daySuffix3rd %}rd{% else %}th{% endif %} {{field_map[field[0]] | date: "%b %Y"}}
+        {% when "boolean" %}
+          {% if field_map[field[0]] == true %}
+            <i class="fas fa-check-circle"></i>
+          {% else %}
+            <i class="fas fa-times-circle"></i>
+          {% endif %}
+        {% when "textarea" %}
+          <div>
+            {{ field_map[field[0]] | truncatewords: 20 | sanitize }}
+          </div>
+        {% when "datasource" or "datasource_multi" %}
+          {% comment %} Note- this is an experimental feature, use with caution. You may find it has an adverse effect on performance if used on long lists using datasources. {% endcomment %}
+          {% if field_metadata.type == "datasource" %}
+            {% assign ids = field_map[field[0]] | split: "," %}
+          {% else %}
+            {% assign ids = field_map[field[0]] %}
+          {% endif %}
+          {% graphql g, table: field_metadata.datasource_id, ids: ids %}
+            query g($table: String!) {
+              records(
+                per_page: 2000,
+                filter: {
+                  table: {
+                    value: $table
+                  }
+                }
+              ) {
+                results {
+                  name: property(name: "name")
+                }
+              }
+            }
+          {% endgraphql %}
+          <div class="d-flex flex-wrap">
+            {% for item in g.records.results %}
+              <span class="text-xs me-2 mb-2 px-2 py-1 rounded">{{item.name}}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{field_map[field[0]]}}
+        {% endcase %}
+      {% endif %}
+    {% endcapture %}
+    
+    {% if forloop.first %}
+      <th scope="row" class="px-4 py-3 text-xs" style="max-width: 32rem; min-width: 12rem;">
+        {{field_content | html_safe: raw_text: true }}
+      </th>
+    {% else %}
+      <td class="px-4 py-3 text-xs text-wrap" style="max-width: 32rem; min-width: 12rem;">
+        {{field_content | html_safe: raw_text: true }}
+      </td>
+    {% endif %}
+  {% endfor %}
+  <td class="px-4 py-3 flex items-center justify-end"> {% comment %} Adding a 'dropdown' class here breaks the table! {% endcomment %}
+    <a id="dropdown_{{sitebuilder_uniq_component_id}}_{{this.id}}-button" data-bs-toggle="dropdown" class="btn btn-icon-only">
+      <span class="btn-inner--icon">
+        <i class="fas fa-ellipsis-h"></i>
+      </span>
+    </a>
+    <ul class="dropdown-menu shadow-lg" aria-labelledby="dropdown_{{sitebuilder_uniq_component_id}}_{{this.id}}-button" style="z-index: 10000; position: fixed;">
+      {% if detail_page_valid %}
+        <li>
+          <a href="{{this.full_slug}}" class="dropdown-item">Show</a>
+        </li>
+        <li>
+          <a href="{{this.full_slug}}?edit=true" class="dropdown-item">Edit</a>
+        </li>
+      {% endif %}
+      <li>
+        {% comment %} <a href="#" class="dropdown-item">Delete</a> {% endcomment %}
+        {% include "webapp_delete", layout: layout %}
+      </li>
+    </ul>
+  </td>
+</tr>
+  
+
+{%-endraw-%}

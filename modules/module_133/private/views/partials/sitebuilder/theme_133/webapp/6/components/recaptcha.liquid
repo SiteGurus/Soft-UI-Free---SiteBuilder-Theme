@@ -1,0 +1,16 @@
+{%-raw-%}
+
+<div class="col-12  mb-3">
+  <div class="form-group">
+    
+    <div class="">
+      {% if captcha_type == "recaptcha" %}
+        {% include 'recaptcha' -%}
+      {% elsif captcha_type == "hcaptcha" %}
+        {% spam_protection 'hcaptcha' %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{%-endraw-%}
