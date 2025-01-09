@@ -1,0 +1,62 @@
+{%-raw-%}
+
+
+{% comment %}If inserted inside a WebApp layout, this will inherit the ID of that WebApp item, else, you can override this by passing in a delete_item_id parameter.{% endcomment %}
+{% assign delete_item_id = this.id %}
+
+<button id="deleteButton_{{sitebuilder_uniq_component_id}}_{{delete_item_id}}" data-bs-toggle="modal" data-bs-target="#deleteModal_{{sitebuilder_uniq_component_id}}_{{delete_item_id}}"  class="dropdown-item" type="button">
+  Delete
+</button>
+
+<script>
+  function {{sitebuilder_uniq_component_id}}_delete_success(id, name) {
+    var toast = `
+      <div id="{{sitebuilder_uniq_component_id}}_toast-success" class="position-absolute end-1 bottom-0 alert alert-success alert-dismissible fade show" role="alert" style="z-index: 1056;">
+        <span class="alert-icon text-white"><i class="fas fa-check"></i></i></span>
+        <span class="text-white">${name} has been deleted. {{delete_item_id}}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    `
+    var body = document.querySelector('body');
+    body.insertAdjacentHTML('beforeend', toast);
+    var deletedItem = document.querySelector(`[data-item-id="{{sitebuilder_uniq_component_id}}_${id}"]`);
+    if(deletedItem) {
+      
+      deletedItem.remove();
+    }
+    
+    window.setTimeout(
+      function() {
+        var el = document.querySelector('#{{sitebuilder_uniq_component_id}}_toast-success');
+        el.remove();
+      }, 5000
+    )
+
+  }
+  function {{sitebuilder_uniq_component_id}}_delete_error(error, status) {
+    var toast = `
+      <div id="{{sitebuilder_uniq_component_id}}_toast-danger" class="position-absolute end-1 bottom-0 alert alert-danger alert-dismissible fade show" role="alert" style="z-index: 1056;">
+        <span class="alert-icon text-white"><i class="fas fa-exclamation"></i></span>
+        <span class="text-white">${error}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    `
+    var body = document.querySelector('body');
+
+    if (!body.querySelector("#{{sitebuilder_uniq_component_id}}_toast-danger")) {
+      body.insertAdjacentHTML('beforeend', toast);
+      window.setTimeout(
+        function() {
+          var el = document.querySelector('#{{sitebuilder_uniq_component_id}}_toast-danger');
+          el.remove();
+        }, 5000
+      )
+    }
+  }
+</script>
+
+{%-endraw-%}

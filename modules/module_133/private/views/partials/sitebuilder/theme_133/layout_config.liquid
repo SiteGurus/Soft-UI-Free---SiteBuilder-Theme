@@ -1980,6 +1980,210 @@
         }
       },
       "sub_module": 1
+    },
+    "6": {
+      "name": "Default WebApp live-updating table",
+      "image": "https://res.cloudinary.com/sitegurus/image/upload/v1736423265/modules/module_133/layouts/tables/Screenshot_2025-01-09_at_19-27-20.png",
+      "dest": "layouts/webapps",
+      "files": [
+        {
+          "src": "list/wrapper",
+          "dest": "layouts/webapps"
+        },
+        {
+          "src": "list/item",
+          "dest": "layouts/webapps"
+        },
+        {
+          "src": "list/delete_modal",
+          "dest": "layouts/webapps"
+        },
+        {
+          "src": "delete_button",
+          "dest": "layouts/webapp_components/webapp_delete",
+          "install_type": "layout_is_liquid_file"
+        },
+        {
+          "src": "dynamic_wrapper",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "static_wrapper",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout",
+          "virtual": true
+        },
+        {
+          "src": "components/boolean",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/datasource_multi",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/datasource",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/date",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/file",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/image",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/hidden_fields",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/input_checkbox",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/input_radio",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/recaptcha",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/select_multi",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/select",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/string",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/textarea",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/subheading",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/heading",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/array_custom",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/folder",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/image_array",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/number_float",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        },
+        {
+          "src": "components/number_integer",
+          "dest": "layouts/webapps",
+          "install_type": "form_layout"
+        }
+      ],
+      "type": "list",
+      "tags": [
+        "table"
+      ],
+      "field_mapping": {
+        "Filter 1": {
+          "recommended_types": ["select", "select_multi", "input_checkbox", "input_radio", "array"]
+        },
+        "Filter 2": {
+          "recommended_types": ["select", "select_multi", "input_checkbox", "input_radio", "array"]
+        },
+        "Filter 3": {
+          "recommended_types": ["select", "select_multi", "input_checkbox", "input_radio", "array"]
+        },
+        "Column 1": {
+          "required": true,
+          "recommended_types": ["any"]
+        },
+        "Column 2": {
+          "required": true,
+          "recommended_types": ["any"]
+        },
+        "Column 3": {
+          "recommended_types": ["any"]
+        },
+        "Column 4": {
+          "recommended_types": ["any"]
+        },
+        "Column 5": {
+          "recommended_types": ["any"]
+        },
+        "Column 6": {
+          "recommended_types": ["any"]
+        },
+        "Column 7": {
+          "recommended_types": ["any"]
+        },
+        "Column 8": {
+          "recommended_types": ["any"]
+        },
+        "Column 9": {
+          "recommended_types": ["any"]
+        },
+        "Column 10": {
+          "recommended_types": ["any"]
+        },
+        "Column 11": {
+          "recommended_types": ["any"]
+        },
+        "Column 12": {
+          "recommended_types": ["any"]
+        },
+        "Column 13": {
+          "recommended_types": ["any"]
+        },
+        "Column 14": {
+          "recommended_types": ["any"]
+        },
+        "Column 15": {
+          "recommended_types": ["any"]
+        }
+      },
+      "sub_module": 4,
+      "live_updates": true
     }
   }
 }
