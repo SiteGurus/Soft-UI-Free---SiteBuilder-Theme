@@ -1,0 +1,54 @@
+{%-raw-%}
+
+<div class="col-12 mb-3">
+  <div class="form-group">
+    <label class="col-form-label" for="{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
+    <select data-plugin-choices {{attributes}} name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} id="{{field_id}}" class="{{validation}} form-select py-4 px-5" {{validation}}>
+      <option value="">--Please Select--</option>
+      {% for option in options %}
+        <option {% if value == option %}selected{% endif %} value="{{option}}">{{option}}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+{% if context.exports.module_133.choices_loaded != true %}
+  <script>
+    (function () {
+      if (
+        document.readyState === 'complete' 
+        || document.readyState === 'loaded' 
+        || document.readyState === 'interactive'
+      ) {
+        init();
+      } else {
+        //Set event listener or timeout.
+        document.addEventListener('DOMContentLoaded', init);
+      }
+      function init() {
+        const choices = document.querySelectorAll('[data-plugin-choices]');
+        choices.forEach(function(element) {
+          const instance = new Choices(element, {});
+        });
+      }
+    })();
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+  {% comment %} Note: If you have the pro license, you can remove this CSS and choices will have SoftUI themed styling instead of default. {% endcomment %}
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"
+  />
+  <style>
+    .choices__inner {
+      border-radius: 0.5rem;
+      background-color: white;
+    }
+    .choices__input {
+      background-color: transparent;
+    }
+  </style>
+  {% assign choices_loaded = true %}
+  {% export choices_loaded, namespace: "module_133" %}
+{% endif %}
+
+{%-endraw-%}
