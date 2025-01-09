@@ -8,7 +8,7 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
-0.5.1 - Released nth ... 2025
+0.5.1 - Released 9th January 2025
 - Various New Layouts
   - Secure Zones Layout 4 - Login Page (Login with Colorful Waves)
   - Secure Zones Layout 5 - Login Page (Login with Curved Background)
