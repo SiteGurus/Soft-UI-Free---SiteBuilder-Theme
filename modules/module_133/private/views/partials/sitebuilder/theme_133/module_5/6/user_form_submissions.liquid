@@ -1,0 +1,48 @@
+{%-raw-%}
+
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <h1 class="">My Form Submissions</h1>
+      <p class="">See when you've contacted us.</p>
+    </div>
+    <div class="row mt-5">
+      <div class="card shadow-xl">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Form</th>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">ID</th>
+                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for this in submissions -%}
+                <tr>
+                  <td>
+                    <div class="d-flex p-2">
+                      <h6 class="mb-0 text-md">{{ this.form_name }}</h6>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-md font-weight-bold mb-0">#{{ this.id }}</p>
+                  </td>
+                  <td>
+                    <p class="text-md font-weight-bold mb-0">{{this.created_at | date: "%d %b %Y %H:%M" }}
+                    </p>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{%-endraw-%}

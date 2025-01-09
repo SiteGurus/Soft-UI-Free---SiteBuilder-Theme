@@ -1,0 +1,193 @@
+{%-raw-%}
+
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------ Webapp Parent Category ------ {% endcomment %}
+{% comment %} Default (null) is to show all categories in the filter. Alternatively, pass in an id (in quotes e.g. '6') for a category which is the parent of WebApp categories to only show relevant categories. {% endcomment %}
+{% assign webapp_parent_category = null %}
+{% comment %}------Set filter default values from URL------
+Boolean, if true any sidebar filters will set their initial values from the URL on page load. Useful if returning to the list view from a filter in the detail page. Note we wouldn't normally recommend having more than one live update layout on the page with this setting set to true. If you are setting this value, you may remove the if statement, this is just to set a default.{% endcomment %}
+{% if _use_adv_search == 'true' or _use_search == 'true' %}
+  {% assign filters_values_from_URL = true %}
+{% endif %}
+{% comment %} --- End Settings --- {% endcomment %}
+{% function table_config = "modules/module_86/front_end/functions/v1/get_table_config", model: _model, id: id, field_headings: field_headings %}
+{% function public_key = "modules/module_86/front_end/functions/v1/live_update_params_encode", layout: layout, model: _model, creator_id: creator_id %}
+{% if params.sitebuilder_uniq_component_id %}
+  {% assign sitebuilder_uniq_component_id = params.sitebuilder_uniq_component_id %}
+{% else %}
+  {% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+{% endif %}
+
+
+
+<section id="{{sitebuilder_uniq_component_id}}_table" data-sg-live-update-section="{{sitebuilder_uniq_component_id}}" data-sg-live-update-key="{{public_key}}" {% if filters_values_from_URL == true %}data-sg-live-update-modify-history-enabled="true" data-sg-live-update-modify-history-include-hidden-fields="false" {% endif %}>
+  <div class="container py-5">
+    <div class="card border border-light">
+      <div class="table-responsive p-3"> {% comment %} table-responsive {% endcomment %}
+        <div class="row">
+          <div class="col-12 col-xl-6">
+            <form data-sg-live-update-controls="search" class="d-flex align-items-center">
+              <input type="hidden" name="sitebuilder_uniq_component_id" value="{{sitebuilder_uniq_component_id}}">
+              <label class="position-relative w-100">
+                <span class="sr-only">Search</span>
+                <div class="d-flex position-absolute top-0 bottom-0 left-0 align-items-center ps-3">
+                  <i class="fas fa-search"></i>
+                </div>
+                <input type="text" name="keyword" class="d-block p-2 ps-5 w-100 text-dark rounded border" placeholder="Search" required="">
+              </label>
+            </form>
+          </div>
+          <div class="col-12 col-xl-6">
+            <div class="d-flex justify-content-xl-end align-items-center flex-wrap gap-2">
+              <button id="addButton_{{sitebuilder_uniq_component_id}}" data-bs-toggle="modal" data-bs-target="#add_item_modal_{{sitebuilder_uniq_component_id}}" type="button" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>
+                Add item
+              </button>
+              {% for heading in field_headings %}
+                {% if heading[0] contains "Filter" %}
+                  {% if heading[1] == "category_array" %}
+                    <div class=""> {% comment %} Adding a 'dropdown' class here breaks the table! {% endcomment %}
+                      <button class="btn bg-gradient-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" id="categoryDropdown{{sitebuilder_uniq_component_id}}Button">
+                        <i class="fas fa-filter"></i> Categories
+                      </button>
+                      <ul class="dropdown-menu shadow-lg" data-sg-live-update-controls="category" id="categoryDropdown{{sitebuilder_uniq_component_id}}" aria-labelledby="categoryDropdown{{sitebuilder_uniq_component_id}}Button">
+                        {% for category in context.exports.categories.items %}
+                          {% if category[1].parent == webapp_parent_category or webapp_parent_category == blank %}
+                            <li class="d-flex align-items-center dropdown-item">
+                              <label class="w-100">
+                                <input type="checkbox" name="category" value="{{category[0]}}" class="">
+                                <span class="ms-2 text-sm">{{category[1].name}}</span>
+                              </label>
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% else %}
+                    {% if table_config.custom_fields[heading[1]].name != blank %}
+                      {% assign column_heading = table_config.custom_fields[heading[1]].name %}
+                      {% assign options = table_config.custom_fields[heading[1]].options | split: "," %}
+                    {% else %}
+                      {% assign column_heading = heading[1] | titleize %}
+                      {% assign options = table_config.system_fields[heading[1]].options | split: "," %}
+                    {% endif %}
+                    <div class=""> {% comment %} Adding a 'dropdown' class here breaks the table! {% endcomment %}
+                      <button class="btn bg-gradient-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" id="filter{{heading[0]}}{{sitebuilder_uniq_component_id}}Button">
+                        <i class="fas fa-filter"></i> {{column_heading}}
+                      </button>
+                      <ul class="dropdown-menu" data-sg-live-update-controls="{{column_heading}}" id="filter{{heading[0]}}{{sitebuilder_uniq_component_id}}" aria-labelledby="filter{{heading[0]}}{{sitebuilder_uniq_component_id}}Button">
+                        <input type="hidden" name="{{heading[1]}}_match_type" value="OR">
+                        {% for option in options %}
+                          <li class="d-flex align-items-center dropdown-item">
+                            <label class="w-100">
+                              <input type="checkbox" name="{{heading[1]}}" value="{{option}}" class="">
+                              <span class="ms-2 text-sm">{{option | titleize}}</span>
+                            </label>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+
+        <table class="table align-items-center mb-0">
+          <thead data-sg-live-update-controls="sort">
+            <tr>
+              {% for field in field_headings %}
+                {% if field[0] contains "Filter" %}
+                  {% continue %}
+                {% endif %}
+                {% if table_config.custom_fields[field[1]].name != blank %}
+                  {% assign column_heading = table_config.custom_fields[field[1]].name %}
+                  {% assign column_type = table_config.custom_fields[field[1]].type %}
+                {% else %}
+                  {% assign column_heading = field[1] | replace: "category_array", "Categories" | titleize %}
+                  {% assign column_type = table_config.system_fields[field[1]].type %}
+                {% endif %}
+                <th scope="col" class="text-uppercase text-dark text-xs font-weight-bolder text-start">
+                  <span>{{column_heading}}</span>
+                  {% case column_type %}
+                  {% when "string" or "input_text" or "input_radio" or "select" or "date" or "number_integer" or "number_float" or "boolean" or "integer" %}
+                  <button class="bg-transparent border-0" data-sg-live-update-sort-order="unsorted" data-sg-live-update-sort-type="{% unless field[1] == 'id' or field[1] == 'created_at' or field[1] == 'updated_at' or field[1] == 'deleted_at' or field[1] == 'external_id' %}properties.{% endunless %}{{field[1]}}" type="button">
+                    <span class="btn-inner--icon"><i class="fas fa-sort fa-lg"></i></span>
+                  </button>
+                  {% endcase %}
+                </th>
+              {% endfor %}
+              {% comment %} <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Employed</th> {% endcomment %}
+              <th scope="col" class="text-secondary opacity-7"><span class="sr-only visually-hidden">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody data-sg-live-update-component="table_rows">
+            {%- include 'modules/siteglide_system/get/get_items', item_layout: 'item' -%}
+          </tbody>
+        </table>
+        
+        <div class="border-top d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 p-4" aria-label="Table navigation">
+          {% comment %} For screenreaders, this section will announce when filters change the number of results. {% endcomment %}
+          <div aria-live="polite">
+            <div data-sg-live-update-component="total_results">
+              {% capture exports_key %}webapp_{{id}}{% endcapture %}
+              {% assign per_page = per_page | default: context.params.per_page | default: 20 %}
+              {% assign total_entries = context.exports[exports_key].data.result.total_entries %}
+              {% assign total_pages = total_entries | plus: 0.0 | divided_by: per_page | ceil %}
+              {% assign current_page = context.params.page | default: 1 %}
+              <span class="text-sm"> Showing Page {{current_page}} of {{total_pages}}</span>
+            </div>
+          </div>
+          <form class="d-flex flex-wrap gap-2 align-items-center" data-sg-live-update-controls="per_page">
+            <label for="rows" class="text-sm m-0">Rows per page</label>
+            <select name="per_page" id="rows" class="border text-sm rounded block py-1 px-2">
+              <option selected value="{{per_page}}">{{per_page}}</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </form>
+          <div>
+            {% include "modules/module_86/front_end/includes/v1/pagination", live_updates: 'true', lock_per_page: 'false' %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div data-sg-live-update-component="delete_modals">
+    {%- include 'modules/siteglide_system/get/get_items', item_layout: 'delete_modal' -%}
+  </div>
+</section>
+
+{% include 'webapp_form', id: id, layout: layout, enabled: 'true' %}
+{% if context.exports.sitebuilder.live_update_JS_loaded == blank %}
+  <script async src="{{'modules/module_86/js/v1-6/sitegurus_live_update_javascript_api.min.js' | asset_url }}"></script>
+  {% assign live_update_JS_loaded = true %}
+  {% export live_update_JS_loaded, namespace: "sitebuilder" %}
+{% endif %}
+
+<script>
+  (function () {
+    if(window.sgLiveUpdateInitiated === true) {
+      ready();
+    } else {
+      document.addEventListener('live_update_script_ready', ready);
+    }
+    function ready() {
+      //Access the first instance
+      var instance = window.sgLiveUpdateConfig['{{sitebuilder_uniq_component_id}}']
+      //Call method
+      instance.setSortHTML({
+        unsorted: '<span class="btn-inner--icon"><i class="fas fa-sort fa-lg"></i></span>', 
+        asc: '<span class="btn-inner--icon"><i class="fas fa-sort-up fa-lg"></i></span>', 
+        desc: '<span class="btn-inner--icon"><i class="fas fa-sort-down fa-lg"></i></span>'
+      })
+    }
+  })();
+</script>
+
+{%-endraw-%}

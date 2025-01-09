@@ -1,0 +1,66 @@
+{%-raw-%}
+
+{% function sitebuilder_settings = "modules/module_86/front_end/functions/v1/settings" %}
+
+{% if attributes contains 'data-sg-rich-text' %}
+  <div class="col-12">
+    <label class="col-form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
+    <div data-sg-rich-text-wrapper {{validation}} class="form-control {{validation}}">
+      <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} class="" type="text" {{validation}}>{{value}}</textarea>
+    </div>
+  </div>
+  {% if attributes contains 'data-sg-rich-text' %}
+    {% if context.exports.sitebuilder.rte == blank %}
+      <script src="https://cdn.tiny.cloud/1/{{sitebuilder_settings.properties.module_field_86_1}}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+      {% assign rte = true %}
+      {% export rte, namespace: "sitebuilder" %}
+    {% endif %}
+    <script>
+      (function(){
+        if (
+          document.readyState === 'complete' 
+          || document.readyState === 'loaded' 
+          || document.readyState === 'interactive'
+        ) {
+          init();
+        } else {
+          //Set event listener or timeout.
+          document.addEventListener('DOMContentLoaded', init);
+        }
+        function init() {
+          const textarea = document.querySelector('#{{form_html_id}}_{{field_id}}');
+          tinymce.init({
+            target: textarea,
+            plugins: 'fullscreen table link advlist lists wordcount advtable casechange charmap emoticons anchor codesample code visualblocks image media',
+            toolbar: 'code visualblocks | undo redo | blocks bold italic underline strikethrough | numlist bullist checklist | table | link anchor | alignleft aligncenter alignright alignjustify | fullscreen | insertfile image media | outdent indent | removeformat | charmap emoticons |  codesample',
+            menubar: false,
+            content_css: Array.from(document.querySelectorAll('link[href*=".css"]')).map(function(stylesheet) {
+              return stylesheet.getAttribute('href')
+            }),
+            content_css_cors: true,
+            skin: document.querySelector('html').classList.contains('dark') === true ? "oxide-dark" : 'oxide',
+            init_instance_callback: (editor) => {
+              if(!window.sgRichTextConfig) {
+                window.sgRichTextConfig = [];
+              }
+              window.sgRichTextConfig.push({
+                editor: editor,
+                textarea: textarea
+              })
+            }
+
+          });
+        }
+      })();
+    </script>
+  {% endif %}
+{% else %}
+  <div class="col-12  mb-3">
+    <div class="form-group">
+      <label class="col-form-label" for="{{form_html_id}}_{{field_id}}">{{label}}{% if validation contains "required" %} <span>*</span>{% endif %}</label>
+      <textarea {{attributes}} id="{{form_html_id}}_{{field_id}}" name="{{name}}" {% if label != blank %}data-sg-validation-label="{{label}}" data-sg-validation-id="{{field_id}}" {% endif %} class="form-control {{validation}}" type="text" {{validation}}>{{value}}</textarea>
+    </div>
+  </div>
+{% endif %}
+
+{%-endraw-%}

@@ -12,7 +12,7 @@
       
       <div class="d-flex flex-wrap text-dark">
         {% for category in this['category_array'] %}
-          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-xs p-1 rounded me-2 mb-1">
+          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-capitalize text-xs py-1 px-2 rounded me-2 mb-1">
             {{context.exports.categories.data[category].name  | replace: " ", "&nbsp;"}}
           </button>
         {% endfor %}
@@ -29,7 +29,7 @@
     </div>
 
     <div class="card-body pt-0 pb-4">
-      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-uppercase h4 font-weight-bold my-1">
+      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-capitalize h4 font-weight-bold my-1">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
           <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
         </svg>
@@ -50,7 +50,7 @@
       <div class="author align-items-center">
         {% if host.id != blank %}
           <div class="w-100 d-flex flex-wrap justify-content-between align-items-end">
-            <button data-sg-live-update-control-params="?module_field_12_4={{host.id}}&host_name={{host['Title'] | url_encode}}" data-sg-live-update-control-group="host" class="d-flex align-items-center text-sm btn btn-outline-dark border-0 m-0 p-0 bg-transparent">
+            <button data-sg-live-update-control-params="?module_field_12_4={{host.id}}&host_name={{host['Title'] | url_encode}}" data-sg-live-update-control-group="host" class="d-flex align-items-center text-sm btn btn-outline-dark text-capitalize border-0 m-0 p-0 bg-transparent">
               {% if host['Image'] != blank %}
                 <img src="{{host['Image'] | asset_url}}" alt="{{host['Image Alt']}}" class="avatar avatar-xs shadow rounded-circle me-1">
               {% endif %}
@@ -74,6 +74,6 @@
       </div>
     </div>
   </div>
-</article>
+</article>  
 
 {%- endraw -%}

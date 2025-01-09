@@ -1,0 +1,66 @@
+{%-raw-%}
+
+{% comment %} ---Settings--- {% endcomment %}
+{% assign sign_up_url = "/sign-up" %}
+{% comment %}---End Settings--- {% endcomment %}
+
+<section class="position-relative">
+  <div class="position-relative bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+            <h1 class="text-white">Welcome!</h1>
+            <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for
+              free.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="position-absolute start-0 end-0 bottom-0 w-100 overflow-hidden" style="transform: translateZ(0); height: 70px; top: auto;">
+      <svg class="bottom-0 overflow-hidden position-absolute " x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="2560 0 2560 100 0 100" style="fill: #FFF;"></polygon>
+      </svg>
+    </div>
+  </div><!-- Page content -->
+  <div class="container pb-5" style="margin-top: -10rem !important"><!-- Table -->
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-8">
+        <div class="card border border-soft shadow-lg py-5">
+          {% form html_class: "form needs-validation" %}
+            {% include "modules/module_86/form_layout_fields", collection: 'true', disable_fields: "Name" %}
+            <div class="card-header bg-transparent">
+              <div class="text-muted text-center mt-2"><small>Enter your email and password to sign in</small></div> 
+            </div>
+            <div class="card-body px-lg-5">              
+              <div class="form-group sg-form-group mb-3">
+                <label class="col-form-label" for="{{ form_builder.fields.email.name }}">Email</label>
+                <input class="form-control sg-form-control" type="email" name="{{ form_builder.fields.email.name }}" id="{{ form_builder.fields.email.name }}" autocomplete="name" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+              </div>
+              <div class="form-group sg-form-group mb-3">
+                <label class="col-form-label" for="{{ form_builder.fields.password.name }}">Password</label>
+                <input class="form-control sg-form-control" type="password" name="{{ form_builder.fields.password.name }}" id="{{ form_builder.fields.password.name }}" autocomplete="current-password" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+              </div>
+              <div>
+                <a href="/system/recover-password" class="text-sm text-dark link-primary font-weight-bold">Lost Password?</a>
+              </div>
+              <div class="my-2 text-sm text-danger form-error" role="alert">
+                <!-- Siteglide error message goes here -->
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn bg-gradient-primary my-4 w-100 w-sm-75" onclick="siteglide_login_process(this,'{{_redirect}}','Sorry, that email and password combination was not recognised.')">
+                  Sign in
+                </button>
+              </div>
+
+              <p class="text-sm text-center mt-3 mb-0">Don't have an account? <a href="{{sign_up_url}}" class="text-dark link-primary font-weight-bold">Sign up</a></p>
+
+            </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%-endraw-%}

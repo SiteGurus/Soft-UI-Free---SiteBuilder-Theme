@@ -1,0 +1,44 @@
+{%-raw-%}
+
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{% endcapture %}
+
+<style>
+  .pattern_{{sitebuilder_uniq_component_id}} {
+    position: absolute;
+    width: 100%;
+    background-image: url(https://demo.themesberg.com/impact-design-system/front/assets/img/patterns/wave.svg);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 1450px 160px;
+    height: 0;
+    padding: 0;
+    padding-bottom: 140px;
+    bottom: -10px;
+    transform: rotate(180deg);
+  }
+</style>
+<section class="position-relative pb-8 mb-6 bg-primary text-white" style="padding-top: 10rem; padding-bottom: 26rem !important;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 text-center">
+        <h1 class="display-2 mb-3 font-weight-bold text-white">Who is Impact for?</h1>
+        <p class="lead">Whether you're a programmer, designer, freelancer or need Impact for a whole team our pricing
+          just makes sense.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pattern_{{sitebuilder_uniq_component_id}}"></div>
+</section>
+
+<section class="position-relative pb-8 pt-0">
+  <div class="container" style="margin-top: -26rem !important;">
+    <div class="row justify-content-start">
+      {%- include 'modules/siteglide_system/get/get_items', item_layout: 'item' -%}
+    </div>
+    {%- if _show_pagination == 'false' and pagination_layout != blank and pagination_layout != "default" -%}
+      {%- include 'modules/siteglide_system/get/get_pagination', pagination_layout: _pagination_layout -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{%-endraw-%}

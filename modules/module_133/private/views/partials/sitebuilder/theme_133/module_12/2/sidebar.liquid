@@ -7,7 +7,7 @@
       <div>
         {% for category in context.exports.categories.data %}
           {% if category[1].parent == event_parent_category or event_parent_category == blank %}
-            <a class="btn btn-secondary btn-sm py-1 px-2 mb-2" href="{{events_list_page_url}}?category={{category[0]}}">{{category[1].name | replace: " ", "&nbsp;"}}</a>
+            <a class="btn btn-secondary btn-sm font-weight-bold text-capitalize py-1 px-2 mb-2" href="{{events_list_page_url}}?category={{category[0]}}">{{category[1].name | replace: " ", "&nbsp;"}}</a>
           {% endif %}
         {% endfor %}
       </div>

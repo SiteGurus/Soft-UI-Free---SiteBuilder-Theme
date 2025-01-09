@@ -15,7 +15,7 @@
       
       <div class="d-flex flex-wrap text-dark">
         {% for category in this['category_array'] %}
-          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-xs p-1 rounded me-2 mb-1">
+          <button type="button" data-sg-live-update-control-params="?category={{context.exports.categories.data[category].id}}" data-sg-live-update-control-group="category" class="btn btn-primary text-capitalize text-xs py-1 px-2 rounded me-2 mb-1">
             {{context.exports.categories.data[category].name  | replace: " ", "&nbsp;"}}
           </button>
         {% endfor %}
@@ -27,7 +27,7 @@
     </div>
 
     <div class="card-body pt-0 pb-4">
-      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-uppercase h4 font-weight-bold mb-3">
+      <a href="{{this.full_slug}}" class="card-title d-flex align-items-center gap-2 text-gradient text-primary text-capitalize h4 font-weight-bold mb-3">
         {{ this['Title'] }}
       </a>
       <span class="d-flex gap-2 align-items-center text-dark mb-3">
@@ -39,7 +39,7 @@
       <div class="author">
         {% if author.id != blank %}
           <div class="w-100 d-flex flex-wrap justify-content-between align-items-end">
-            <button data-sg-live-update-control-params="?module_field_3_4={{author.id}}&author_name={{author.properties.name | url_encode}}" data-sg-live-update-control-group="author" class="d-flex align-items-center text-sm btn btn-outline-dark border-0 m-0 p-0 bg-transparent">
+            <button data-sg-live-update-control-params="?module_field_3_4={{author.id}}&author_name={{author.properties.name | url_encode}}" data-sg-live-update-control-group="author" class="d-flex align-items-center text-sm btn btn-outline-dark text-capitalize border-0 m-0 p-0 bg-transparent">
               {% if author['Image'] != blank %}
                 <img src="{{author['Image'] | asset_url}}" alt="{{author['Image Alt']}}" class="avatar avatar-xs shadow rounded-circle me-1">
               {% endif %}
