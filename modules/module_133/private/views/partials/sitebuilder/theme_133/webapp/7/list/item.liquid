@@ -1,0 +1,59 @@
+{%-raw-%}
+
+{% function field_map = "modules/module_86/front_end/functions/v1/field_mapping", field_headings: field_headings, this: this %}
+
+<div class="d-flex col-12 col-lg-4">
+  <div class="flex-fill card shadow-lg py-4 mb-4">
+    <div class="card-header d-flex flex-column justify-content-center align-items-center text-center pb-0">
+      <div class="icon-lg d-flex align-items-center justify-content-center bg-gradient-primary rounded-circle mb-4">
+        {% if field_map['Main Icon'] != blank %}
+          <img class="avatar rounded-circle" src="{{ field_map['Main Icon'] | asset_url }}" alt="Card {{forloop.index}} {{field_map['Title']}} Icon">
+        {% else %}
+          <i class="fas fa-users fa-lg" style="color: #fff"></i>
+        {% endif %}
+      </div>
+      <h4 class="text-black">{{field_map['Title']}}</h4>
+      <p>{{field_map['Description Short']}}</p>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-end">
+      {% if field_map['Info Icon 1'] != blank or field_map['Info Text 1'] != blank %}
+        <div class="d-flex px-0 pt-0 pb-2 border-0">
+          <div class="icon me-3 d-flex align-items-center">
+            {% if field_map['Info Icon 1'] != blank %}
+              <img class="avatar-xs rounded-circle" src="{{ field_map['Info Icon 1'] | asset_url }}" alt="Card {{forloop.index}} Item 1 Icon">
+            {% else %}
+              <i class="far fa-check-circle fa-lg" style="color: #05a677;"></i>
+            {% endif %}
+          </div>
+          <div>{{ field_map['Info Text 1'] }}</div>
+        </div>
+      {% endif %}
+      {% if field_map['Info Icon 2'] != blank or field_map['Info Text 2'] != blank %}
+        <div class="d-flex px-0 pb-2 border-0">
+          <div class="icon me-3 d-flex align-items-center">
+            {% if field_map['Info Icon 2'] != blank %}
+              <img class="avatar-xs rounded-circle" src="{{ field_map['Info Icon 2'] | asset_url }}" alt="Card {{forloop.index}} Info Icon 2">
+            {% else %}
+              <i class="far fa-check-circle fa-lg" style="color: #05a677;"></i>
+            {% endif %}
+          </div>
+          <div>{{ field_map['Info Text 2'] }}</div>
+        </div>
+      {% endif %}
+      {% if field_map['Info Icon 3'] != blank or field_map['Info Text 3'] != blank %}
+        <div class="d-flex px-0 pb-2 border-0">
+          <div class="icon me-3 d-flex align-items-center">
+            {% if field_map['Info Icon 3'] != blank %}
+              <img class="avatar-xs rounded-circle" src="{{ field_map['Info Icon 3'] | asset_url }}" alt="Card {{forloop.index}} Info Icon 3">
+            {% else %}
+              <i class="far fa-check-circle fa-lg" style="color: #05a677;"></i>
+            {% endif %}
+          </div>
+          <div>{{ field_map['Info Text 3'] }}</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{%-endraw-%}
