@@ -8,6 +8,21 @@ Please make sure your contributions only contain content which is your own, or i
 
 ## Changelog
 
+0.5.1 - Released nth ... 2025
+- Various New Layouts
+  - Secure Zones Layout 4 - Login Page (Login with Colorful Waves)
+  - Secure Zones Layout 5 - Login Page (Login with Curved Background)
+  - Secure Zones Layout 6 - Form Submissions Table (Default form submissions table)
+  - Form Layout 8 - Register Page (Register Page with Banner)
+  - Form Layout 9 - Register Page (Register Page with Curved Background)
+  - WebApp Layout 6 - Live-updating WebApp Table (Default WebApp live-updating table)
+  - WebApp Layout 7 - Features Cards with Sub-Items (Features 2)
+- Updated Layouts: Minor text adjustments. Changed all uppercase  text  to only first letter capitalized for item names, authors, and categories 
+    - Blog Layout 2 - List (Default Blog Cards)
+    - Blog Layout 3 - Detail (Default Blog Article)
+    - Events Layout 1 - List (Default Events Cards)
+    - Events Layout 2 - Detail (Default Event Details)
+
 0.4.2 - Released 8th May 2024
 
 - Updated eCommerce Order Confirmation Layout to display the price the customer paid for product attributes, rather than the attribute's current cost.
