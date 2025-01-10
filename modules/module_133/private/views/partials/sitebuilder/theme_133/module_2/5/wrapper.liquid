@@ -1,0 +1,79 @@
+{%-raw-%}
+
+{% comment %} ---Settings--- {% endcomment %}
+{% comment %} ------Logo URL------ {% endcomment %}
+{% assign logo_url = "/" %}
+{% comment %} ---End Settings--- {% endcomment %}
+{% capture sitebuilder_uniq_component_id %}sitegurus_component_{% increment sitegurus_gen_uniq_component_id %}{%
+endcapture %}
+
+<style>
+  .pattern_{{sitebuilder_uniq_component_id}} {
+    position: absolute;
+    bottom: 0;
+    top: -10px;
+    width: 100%;
+    background-image: url(https://demo.themesberg.com/impact-design-system/front/assets/img/patterns/wave.svg);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 1450px 160px;
+    height: 0;
+    padding: 0;
+    padding-bottom: 140px;
+  } 
+</style>
+
+<footer class="d-flex position-relative section pt-6 pt-md-8 pt-lg-10 pb-3 bg-gradient-dark text-white overflow-hidden">
+  <div class="pattern_{{sitebuilder_uniq_component_id}}"></div>
+  <div class="pt-8 pt-md-0 container">
+    <div class="row">
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <a class="footer-brand mr-lg-5 d-flex" href="{{logo_url}}">
+          {% if context.exports.company_information.properties.logo != blank %}
+            <img src="{{context.exports.company_information.properties.logo | asset_url}}" height="35" class="mr-3" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}">
+          {% elsif context.exports.company_information.properties.logo_white != blank %}
+            <img src="{{context.exports.company_information.properties.logo_white | asset_url}}" height="35" class="mr-3" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}">
+          {% else %}
+            <img src="https://demo.themesberg.com/impact-design-system/front/assets/img/brand/light.svg" height="35" class="mr-3" alt="Logo for {{context.exports.company_information.properties.company_name | default: 'Soft UI Design System' }}">
+          {% endif %}
+        </a>
+        <p class="my-4 text-sm">Create, prototype, collaborate and turn your ideas into incredible products with the definitive platform for digital design.</p>
+        <div class="mb-4 mb-lg-0">
+          {% if context.exports.company_information.properties.facebook_account != blank %}
+            <a href="{{context.exports.company_information.properties.facebook_account}}" class="text-secondary link-primary me-xl-4 me-3">
+              <span class="text-lg fab fa-facebook"></span>
+            </a>
+          {% endif %}
+          {% if context.exports.company_information.properties.twitter_account != blank %}
+            <a href="{{context.exports.company_information.properties.twitter_account}}" class="text-secondary link-primary me-xl-4 me-3">
+              <span class="text-lg fab fa-twitter"></span>
+            </a>
+          {% endif %}
+          {% if context.exports.company_information.properties.instagram_account != blank %}
+            <a href="{{context.exports.company_information.properties.instagram_account}}"class="text-secondary link-primary me-xl-4 me-3">
+              <span class="text-lg fab fa-instagram"></span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="row">
+          {%- include 'modules/siteglide_menu/get/get_items', item_layout: 'item' -%}
+        </div>
+      </div>
+    </div>
+    <hr class="horizontal light my-4 my-lg-5">
+    <div class="row">
+      <div class="col pb-4 mb-md-0">
+        <div class="d-flex text-center justify-content-center align-items-center">
+          <p class="font-weight-normal mb-0">
+            © <a class="text-white link-primary" href="https://themesberg.com?ref=creativetim*"target="_blank">Themesberg</a> &amp;
+            <a class="text-white link-primary" href="https://creative-tim.com">Creative Tim</a> <script type="text/JavaScript">document.write(new Date().getFullYear());</script>. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{%-endraw-%}
